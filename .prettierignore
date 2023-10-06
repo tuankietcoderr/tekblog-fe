@@ -1,0 +1,8 @@
+node_modules/
+.eslintrc
+.eslintignore
+.gitignore
+package.json
+*.config.js
+*.json
+*.cjs
