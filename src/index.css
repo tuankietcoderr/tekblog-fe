@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+::-webkit-scrollbar {
+    width: 10px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+::-webkit-scrollbar-track:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
 @layer base {
     :root {
         --background: 0 0% 100%;
@@ -33,6 +51,10 @@
         --ring: 0 0% 3.9%;
 
         --radius: 0.5rem;
+    }
+
+    html {
+        @apply scroll-smooth;
     }
 
     .dark {

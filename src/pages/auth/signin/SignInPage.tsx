@@ -5,9 +5,12 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
-import { Link } from "react-router-dom"
-import ROUTE from "@/constants/route"
+import { Link, useNavigate } from "react-router-dom"
 import Logo from "@/components/logo"
+import AuthApiController from "@/api/auth"
+import { useToast } from "@/components/ui/use-toast"
+import { useUserContext } from "@/context/UserContext"
+import ROUTE from "@/constants/route"
 
 const formSchema = z.object({
     username: z
@@ -30,7 +33,26 @@ const SignInPage = () => {
         }
     })
 
-    const onSubmit = async (data: z.infer<typeof formSchema>) => {}
+    const navigation = useNavigate()
+    const { toast } = useToast()
+    const { setUser } = useUserContext()
+
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        const { username, password } = data
+        const {
+            data: { success, message, data: user }
+        } = await AuthApiController.signin({
+            username: username || "",
+            password: password || ""
+        })
+        if (success) {
+            navigation(ROUTE.BASE)
+            setUser(user)
+        }
+        toast({
+            description: message
+        })
+    }
 
     return (
         <div className='relative flex min-h-screen items-center justify-end bg-[url("/signin.svg")] bg-cover bg-no-repeat'>

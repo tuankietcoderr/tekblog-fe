@@ -14,6 +14,8 @@ import SettingProfile from "./pages/settings/profile/SettingProfile"
 import SignInPage from "./pages/auth/signin/SignInPage"
 import ForgotPasswordPage from "./pages/auth/forgot-password/ForgotPasswordPage"
 import RegisterPage from "./pages/auth/resigter/RegisterPage"
+import TagsPage from "./pages/tags/TagsPage"
+import AboutPage from "./pages/about/AboutPage"
 
 const router = createBrowserRouter([
     {
@@ -57,6 +59,10 @@ const router = createBrowserRouter([
                 element: <ProfilePage />
             },
             {
+                path: ROUTE.PROFILE.OTHERS,
+                element: <ProfilePage />
+            },
+            {
                 path: ROUTE.PROFILE.ARCHIVE,
                 element: <ArchivePage />
             },
@@ -75,6 +81,14 @@ const router = createBrowserRouter([
             {
                 path: ROUTE.SETTINGS.PROFILE,
                 element: <SettingProfile />
+            },
+            {
+                path: ROUTE.TAGS,
+                element: <TagsPage />
+            },
+            {
+                path: ROUTE.ABOUT,
+                element: <AboutPage />
             }
         ]
     }

@@ -10,6 +10,9 @@ import ROUTE from "@/constants/route"
 import Logo from "@/components/logo"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import MAJORS from "@/constants/major"
+import AuthApiController from "@/api/auth"
+import { useToast } from "@/components/ui/use-toast"
+import axios from "axios"
 
 const formSchema = z
     .object({
@@ -48,6 +51,7 @@ const RegisterPage = () => {
 
     const [step, setStep] = React.useState(1) // 2 step
     const navigation = useNavigate()
+    const { toast } = useToast()
 
     const handleOnClickNext = () => {
         form.trigger().then((isValid) => {
@@ -62,9 +66,21 @@ const RegisterPage = () => {
     }
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        if (form.formState.isValid) {
-            console.log(data)
-            navigation(ROUTE.AUTH.SIGIN)
+        try {
+            if (form.formState.isValid) {
+                console.log(data)
+                const {
+                    data: { success, message }
+                } = await AuthApiController.register(data as any)
+                if (success) {
+                    navigation(ROUTE.AUTH.SIGIN)
+                }
+                toast({
+                    description: message
+                })
+            }
+        } catch (err) {
+            console.log(err)
         }
     }
 

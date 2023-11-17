@@ -7,21 +7,24 @@ const ROUTE = {
         FORGOT_PASSWORD: "/forgot-password"
     },
     POST: {
-        BY_TAGS: "/post/tags?tag=", // /post/tags?tag=tag1
-        DETAIL: "/post/:post_id",
+        BY_TAGS: "/post/tag/:tagId", // /post/tags?tag=tag1
+        DETAIL: "/post/:postId",
         NEW: "/post/new",
-        EDIT: "post/new?post_id=" // /post/new?post_id=123
+        EDIT: "post/edit/:postId" // /post/new?post_id=123
     },
     PROFILE: {
         BASE: "/profile",
         ARCHIVE: "/profile/archive",
-        FOLLOW: "/profile/follow"
+        FOLLOW: "/profile/follow",
+        OTHERS: "/profile/:userId"
     },
     SEARCH: "/search",
     SETTINGS: {
         ACCOUNT: "/settings/account",
         PROFILE: "/settings/profile"
-    }
+    },
+    TAGS: "/tags",
+    ABOUT: "/about"
 }
 
 export default ROUTE

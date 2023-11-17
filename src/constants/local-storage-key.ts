@@ -1,0 +1,3 @@
+export const LOCAL_STORAGE_KEY = {
+    ACCESS_TOKEN: "TEKBLOG_ACCESS_TOKEN"
+}
