@@ -16,11 +16,13 @@ import ForgotPasswordPage from "./pages/auth/forgot-password/ForgotPasswordPage"
 import RegisterPage from "./pages/auth/resigter/RegisterPage"
 import TagsPage from "./pages/tags/TagsPage"
 import AboutPage from "./pages/about/AboutPage"
+import ErrorPage from "./pages/error/ErrorPage"
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <BasePage />,
+        errorElement: <ErrorPage />,
         children: [
             {
                 path: ROUTE.AUTH.SIGIN,

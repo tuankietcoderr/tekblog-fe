@@ -6,15 +6,17 @@ import usePagination from "@/hooks/usePagination"
 import useInfiniteScroll from "@/hooks/useInfiniteScroll"
 
 interface IPostContext {
-    posts: IPost[]
+    posts: IPost[] | undefined
     setPosts: React.Dispatch<React.SetStateAction<IPost[]>>
     LastElement: () => JSX.Element
+    loading: boolean
 }
 
 export const PostContext = createContext<IPostContext>({
-    posts: [],
+    posts: undefined,
     setPosts: () => {},
-    LastElement: () => <></>
+    LastElement: () => <></>,
+    loading: false
 })
 
 export const usePostContext = () => useContext(PostContext)
@@ -24,15 +26,17 @@ export const PostProvider = ({ children }: PropsWithChildren) => {
         data: posts,
         setData: setPosts,
         LastElement,
-        page
+        page,
+        loading
     } = useInfiniteScroll<IPost>({
-        fetcher: () => PostApiController.getAll({ limit: 5, page })
+        fetcher: () => PostApiController.getAll({ limit: 10, page })
     })
 
     const value = {
         posts,
         setPosts,
-        LastElement
+        LastElement,
+        loading
     }
     return <PostContext.Provider value={value}>{children}</PostContext.Provider>
 }

@@ -8,7 +8,7 @@ type Props<T> = {
 
 const usePagination = <T extends any>({ fetcher }: Props<T>) => {
     const [page, setPage] = useState(1)
-    const [data, setData] = useState<T[]>([])
+    const [data, setData] = useState<T[] | undefined>(undefined)
     const [pagination, setPagination] = useState<Pagination>(defaultPage)
     const [loading, setLoading] = useState(false)
     useEffect(() => {
@@ -26,6 +26,8 @@ const usePagination = <T extends any>({ fetcher }: Props<T>) => {
                         setData((prev) => [...prev, ..._data])
                     }
                     setPagination(rest)
+                } else {
+                    setData([])
                 }
             } catch (error) {
             } finally {

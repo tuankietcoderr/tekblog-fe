@@ -2,6 +2,7 @@ import { AxiosResponse } from "axios"
 import React, { useCallback, useEffect, useRef } from "react"
 import usePagination from "./usePagination"
 import { Loader2 } from "lucide-react"
+import Spinner from "@/components/Spinner"
 
 type Props<T> = {
     fetcher: () => Promise<AxiosResponse<SuccessfulResponseWithPagination<T[]>>>
@@ -25,12 +26,7 @@ const useInfiniteScroll = <T extends any>({ fetcher }: Props<T>) => {
         [loading]
     )
 
-    const LastElement = () =>
-        hasMore && (
-            <div className='grid place-items-center' ref={lastElementRef}>
-                <Loader2 className='animate-spin' />
-            </div>
-        )
+    const LastElement = () => hasMore && <Spinner ref={lastElementRef} />
 
     return { page, data, setData, loading, LastElement }
 }

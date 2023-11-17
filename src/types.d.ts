@@ -12,7 +12,7 @@ declare interface IReport {
 declare interface ITag {
     _id?: string
     title: string
-    score: number
+    score?: number
 }
 
 declare interface IPost {

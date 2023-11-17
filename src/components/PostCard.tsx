@@ -6,6 +6,7 @@ import ROUTE from "@/constants/route"
 import { useUserContext } from "@/context/UserContext"
 import { Bookmark } from "lucide-react"
 import PostApiController from "@/api/post"
+import { usePostContext } from "@/context/PostContext"
 
 type Props = {
     isHot?: boolean
@@ -19,6 +20,7 @@ const PostCard = ({ isHot = false, showThumbnail = false, showBookmark = true, p
     const authorObject = author as IUser
     const tagsObject = tags as ITag[]
     const { user } = useUserContext()
+    const { setPosts } = usePostContext()
     const [save, setSave] = React.useState(false)
     useEffect(() => {
         const isSaved = saved?.find((saved) => saved === user?._id)
@@ -32,6 +34,20 @@ const PostCard = ({ isHot = false, showThumbnail = false, showBookmark = true, p
         } = await PostApiController.save(post?._id)
         if (success) {
             setSave(!save)
+            setPosts((prev) => {
+                const newPosts = prev?.map((_post) => {
+                    if (post._id === _post?._id) {
+                        return {
+                            ..._post,
+                            saved: (save
+                                ? _post.saved?.filter((id) => id !== user?._id)
+                                : [..._post.saved, user?._id]) as string[]
+                        }
+                    }
+                    return _post
+                })
+                return newPosts
+            })
         }
     }
 

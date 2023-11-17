@@ -9,8 +9,8 @@ import SimplePostCard from "@/components/SimplePostCard"
 const RightSideBar = () => {
     const { tagsWithPosts } = useTagContext()
     return (
-        <div className='sticky top-[84px] flex flex-col gap-4 self-start'>
-            {tagsWithPosts.map((tagWithPosts) => (
+        <div className='scrollbar-none sticky top-[84px] flex max-h-[80vh] flex-col gap-4 self-start overflow-auto p-4'>
+            {tagsWithPosts?.map((tagWithPosts) => (
                 <div key={tagWithPosts._id} className='shadow-custom rounded-md bg-white py-4'>
                     <Link
                         to={`${ROUTE.POST.BY_TAGS.replace(":tagId", tagWithPosts._id)}`}
@@ -20,11 +20,7 @@ const RightSideBar = () => {
                         <ArrowRight size={24} className='transition-transform hover:scale-105' />
                     </Link>
                     <Separator />
-                    <div>
-                        {tagWithPosts.posts.map((post) => (
-                            <SimplePostCard {...post} key={post?._id} />
-                        ))}
-                    </div>
+                    <div>{tagWithPosts?.posts.map((post) => <SimplePostCard {...post} key={post?._id} />)}</div>
                 </div>
             ))}
         </div>

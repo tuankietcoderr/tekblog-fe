@@ -47,7 +47,9 @@ const MoreFromAuthor = ({ author }: Props) => {
                         {name}
                     </UserLink>
                 </p>
-                <ArrowRight size={24} cursor={"pointer"} />
+                <UserLink cmpId={_id}>
+                    <ArrowRight size={24} cursor={"pointer"} />
+                </UserLink>
             </div>
             <Separator />
             <div className=''>{posts?.map((post) => <SimplePostCard {...post} key={post?._id} />)}</div>

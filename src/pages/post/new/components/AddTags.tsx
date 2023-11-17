@@ -4,16 +4,41 @@ import { useTagContext } from "@/context/TagContext"
 import React, { useEffect } from "react"
 import { X } from "lucide-react"
 import { useFormContext } from "react-hook-form"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import TagApiControler from "@/api/tag"
+import { useToast } from "@/components/ui/use-toast"
 
 const AddTags = () => {
     const [_tags, setTags] = React.useState<string[]>([])
-    const { tags } = useTagContext()
+    const { tags, setTags: setGlobalTags } = useTagContext()
+    console.log({ tags })
     const unselectedTags = tags?.filter((tag) => !_tags?.includes(tag?._id))
     const { setValue } = useFormContext<IPost>()
+    const [addTag, setAddTag] = React.useState(false)
+    const { toast } = useToast()
 
     useEffect(() => {
         setValue("tags", _tags)
     }, [_tags])
+
+    const handleAddTag = async (tag: string) => {
+        if (tag === "") return
+        const {
+            data: { data: newTag, success, message }
+        } = await TagApiControler.create({
+            title: tag
+        })
+        if (success) {
+            setTags((prev) => [...prev, newTag?._id])
+            setGlobalTags((prev) => [...prev, newTag])
+            setAddTag(false)
+        } else {
+            toast({
+                description: message
+            })
+        }
+    }
 
     return (
         <div>
@@ -48,8 +73,38 @@ const AddTags = () => {
                         </SelectContent>
                     </Select>
                 )}
+
+                {addTag && (
+                    <div className='flex items-center gap-2'>
+                        <Input
+                            type='text'
+                            autoFocus
+                            placeholder='Enter tag name'
+                            className='h-6 w-40 rounded-md px-2'
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    handleAddTag(e.currentTarget.value)
+                                    e.currentTarget.value = ""
+                                }
+                            }}
+                        />
+                        <Button
+                            variant='outline'
+                            className='h-6 w-fit'
+                            onClick={() => {
+                                setAddTag(false)
+                            }}
+                        >
+                            Cancel
+                        </Button>
+                    </div>
+                )}
+                {!addTag && (
+                    <Button variant='outline' className='h-6 w-fit' type='button' onClick={() => setAddTag(true)}>
+                        Create tag
+                    </Button>
+                )}
             </div>
-            {_tags?.length === 0 && <p className='mt-2 font-semibold text-destructive'>No tags selected</p>}
         </div>
     )
 }

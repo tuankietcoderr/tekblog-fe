@@ -17,12 +17,12 @@ const LeftSideBar = () => {
     useEffect(() => {
         const isSaved = (saved as string[])?.includes(user?._id)
         setSave(isSaved)
-    }, [posts])
+    }, [posts, postId])
 
     useEffect(() => {
         const isLiked = (likes as string[])?.includes(user?._id)
         setLike(isLiked)
-    }, [posts])
+    }, [posts, postId])
 
     async function handleSavePost() {
         const {

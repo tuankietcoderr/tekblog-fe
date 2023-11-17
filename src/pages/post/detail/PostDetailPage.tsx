@@ -1,7 +1,7 @@
 import PostApiController from "@/api/post"
 import MDEditor from "@uiw/react-md-editor"
 import React, { useCallback, useEffect } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom"
 import LeftSideBar from "./components/LeftSideBar"
 import RightSideBar from "./components/RightSideBar"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -11,30 +11,69 @@ import DateUtils from "@/utils/date"
 import CommentSection from "./components/CommentSection"
 import RelatedPosts from "./components/RelatedPosts"
 import UserLink from "@/components/UserLink"
+import useFetchDetailData from "@/hooks/useFetchDetailData"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle
+} from "@/components/ui/alert-dialog"
 
 const PostDetailPage = () => {
     const { postId } = useParams<{
         postId: string
     }>()
-    const [post, setPost] = React.useState<IPost | undefined>(undefined)
     const { user } = useUserContext()
+
+    const { data: post, loading } = useFetchDetailData<IPost>({
+        fetcher: () => PostApiController.getById(postId),
+        deps: [postId]
+    })
+
+    const navigate = useNavigate()
+
     const authorObject = post?.author as IUser
     const tagsObject = post?.tags as ITag[]
-    useEffect(() => {
-        ;(async function () {
-            const {
-                data: { success, data: post }
-            } = await PostApiController.getById(postId)
-            if (success) {
-                setPost(post)
+
+    if (!loading) {
+        if (post) {
+            if (authorObject?._id !== user?._id && post?.isDraft) {
+                return (
+                    <AlertDialog defaultOpen>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Warning</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This post is draft and not visible to others except author. Please go back.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogAction onClick={() => navigate(-1)}>Go back</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                )
             }
-        })()
-    }, [postId])
+        }
+    }
 
     return (
         <div className='relative grid grid-cols-[2rem_auto_18rem] gap-5 self-start'>
             <LeftSideBar />
             <div className='flex flex-col gap-4'>
+                {authorObject?._id !== user?._id && post?.isDraft && (
+                    <Alert variant='destructive' className='shadow-custom bg-white'>
+                        {/* <ExclamationTriangleIcon className='h-4 w-4' /> */}
+                        <AlertTitle>Warning</AlertTitle>
+                        <AlertDescription>
+                            This post is still in draft mode. Please public it to make it visible to others.
+                        </AlertDescription>
+                    </Alert>
+                )}
                 <div className='shadow-custom flex flex-col gap-4 rounded-md bg-white'>
                     <div className=''>
                         <img

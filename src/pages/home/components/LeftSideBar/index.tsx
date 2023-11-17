@@ -4,7 +4,7 @@ import HotTags from "./HotTags"
 
 const LeftSideBar = () => {
     return (
-        <div className='sticky top-[84px] flex flex-col gap-4 self-start'>
+        <div className='sticky top-[84px] flex flex-col gap-4 self-start p-4'>
             <Navigation />
             <HotTags />
         </div>
