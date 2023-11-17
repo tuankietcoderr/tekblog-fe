@@ -1,6 +1,6 @@
 import PostApiController from "@/api/post"
 import MDEditor from "@uiw/react-md-editor"
-import React, { useCallback, useEffect } from "react"
+import React, { useCallback, useEffect, useRef } from "react"
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom"
 import LeftSideBar from "./components/LeftSideBar"
 import RightSideBar from "./components/RightSideBar"
@@ -61,12 +61,26 @@ const PostDetailPage = () => {
         }
     }
 
+    const contentRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        // if (contentRef.current) {
+        //     const headings1 = contentRef.current.querySelectorAll("h1")
+        //     headings1.forEach((heading) => {
+        //         const headings2 = heading.querySelectorAll("h2")
+        //         headings2.forEach((heading) => {
+        //             heading.classList.add("ml-4")
+        //         })
+        //     })
+        // }
+    }, [])
+
     return (
         <div className='relative grid grid-cols-[2rem_auto_18rem] gap-5 self-start'>
             <LeftSideBar />
-            <div className='flex flex-col gap-4'>
+            <div className='flex flex-col gap-4 overflow-auto shadow-custom'>
                 {authorObject?._id !== user?._id && post?.isDraft && (
-                    <Alert variant='destructive' className='shadow-custom bg-white'>
+                    <Alert variant='destructive' className='bg-white shadow-custom'>
                         {/* <ExclamationTriangleIcon className='h-4 w-4' /> */}
                         <AlertTitle>Warning</AlertTitle>
                         <AlertDescription>
@@ -74,12 +88,12 @@ const PostDetailPage = () => {
                         </AlertDescription>
                     </Alert>
                 )}
-                <div className='shadow-custom flex flex-col gap-4 rounded-md bg-white'>
+                <div className='flex flex-col gap-4 rounded-md bg-white shadow-custom'>
                     <div className='w-full'>
                         <img
                             src={post?.thumbnail}
                             alt={post?.title}
-                            className='h-[22rem] w-[10rem] rounded-t-md object-cover'
+                            className='h-[22rem] w-full rounded-t-md object-cover'
                         />
                     </div>
                     <div className='flex flex-col gap-4 p-4'>
@@ -118,8 +132,11 @@ const PostDetailPage = () => {
                                 </Link>
                             ))}
                         </div>
-                        <div>
-                            <MDEditor.Markdown source={post?.content} style={{ backgroundColor: "transparent" }} />
+                        <div className='w-full prose-ol:list-decimal prose-ul:list-disc' ref={contentRef}>
+                            <MDEditor.Markdown
+                                source={post?.content}
+                                style={{ backgroundColor: "transparent", width: "100%" }}
+                            />
                         </div>
                     </div>
                 </div>
