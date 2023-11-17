@@ -75,11 +75,11 @@ const PostDetailPage = () => {
                     </Alert>
                 )}
                 <div className='shadow-custom flex flex-col gap-4 rounded-md bg-white'>
-                    <div className=''>
+                    <div className='w-full'>
                         <img
                             src={post?.thumbnail}
                             alt={post?.title}
-                            className='h-[22rem] w-full rounded-t-md object-cover'
+                            className='h-[22rem] w-[10rem] rounded-t-md object-cover'
                         />
                     </div>
                     <div className='flex flex-col gap-4 p-4'>
