@@ -26,7 +26,7 @@ const RelatedPosts = () => {
     }, [postId])
 
     return (
-        <div className='shadow-custom flex flex-col gap-4 rounded-md bg-white p-4'>
+        <div className='mx-5 mb-5 flex flex-col gap-4 rounded-md bg-white p-4 shadow-custom'>
             <h2 className='text-xl font-bold'>Related Posts</h2>
             {posts?.map((post) => <SimpleAvatarPostCard {...post} key={post?._id} />)}
         </div>

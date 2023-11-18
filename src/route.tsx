@@ -14,9 +14,9 @@ import SettingProfile from "./pages/settings/profile/SettingProfile"
 import SignInPage from "./pages/auth/signin/SignInPage"
 import ForgotPasswordPage from "./pages/auth/forgot-password/ForgotPasswordPage"
 import RegisterPage from "./pages/auth/resigter/RegisterPage"
-import TagsPage from "./pages/tags/TagsPage"
 import AboutPage from "./pages/about/AboutPage"
 import ErrorPage from "./pages/error/ErrorPage"
+import { LOCAL_STORAGE_KEY } from "./constants/local-storage-key"
 
 const router = createBrowserRouter([
     {
@@ -50,7 +50,12 @@ const router = createBrowserRouter([
             },
             {
                 path: ROUTE.POST.NEW,
-                element: <CreateNewPostPage />
+                element: <CreateNewPostPage />,
+                handle: () => {
+                    if (!localStorage.getItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN)) {
+                        return ROUTE.AUTH.SIGIN
+                    }
+                }
             },
             {
                 path: ROUTE.POST.EDIT,
@@ -83,10 +88,6 @@ const router = createBrowserRouter([
             {
                 path: ROUTE.SETTINGS.PROFILE,
                 element: <SettingProfile />
-            },
-            {
-                path: ROUTE.TAGS,
-                element: <TagsPage />
             },
             {
                 path: ROUTE.ABOUT,

@@ -1,22 +1,15 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
 import React, { useEffect, useState } from "react"
-import { Flag } from "lucide-react"
-import DateUtils from "@/utils/date"
+import UserLink from "./UserLink"
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import { Button } from "./ui/button"
+import { Separator } from "./ui/separator"
 import { useUserContext } from "@/context/UserContext"
-import ROUTE from "@/constants/route"
 import { Link } from "react-router-dom"
-import UserLink from "@/components/UserLink"
+import ROUTE from "@/constants/route"
 import UserApiController from "@/api/user"
 
-type Props = {
-    author: IUser
-}
-
-const ProfileInfo = ({ author }: Props) => {
-    const { avatar, name, username, bio, major, createdAt, _id } = author ?? ({} as IUser)
+const PeopleCard = ({ _id, avatar, username, name, bio, followers, major }: IUser) => {
     const { user, setUser } = useUserContext()
-    const isMine = user?._id === _id
     const [follow, setFollow] = useState(false)
     useEffect(() => {
         const isFollowed = !!(user?.following as IUser[])?.find((u) => u?._id === _id)
@@ -97,43 +90,50 @@ const ProfileInfo = ({ author }: Props) => {
             })
         }
     }
-    const handleReport = () => {}
+
     return (
-        <div className='flex flex-col gap-3 rounded-md bg-white p-4 shadow-custom'>
-            <div className='flex items-center gap-4'>
-                <UserLink cmpId={_id}>
-                    <Avatar>
+        <div className='flex justify-between gap-4 rounded-md bg-white p-4 shadow-custom'>
+            <div className='flex gap-4'>
+                <UserLink cmpId={_id} className='self-center'>
+                    <Avatar className='h-16 w-16'>
                         <AvatarFallback>{name?.substring(0, 2)}</AvatarFallback>
                         <AvatarImage src={avatar} alt={username} />
                     </Avatar>
                 </UserLink>
-                <UserLink cmpId={_id} className='text-lg font-bold'>
-                    {name}
-                </UserLink>
-            </div>
-            {bio && <p>{bio}</p>}
-            {!isMine && (
-                <div className='flex items-center gap-3'>
-                    <Button className='w-full' onClick={onClickFollow} variant='outline'>
-                        {follow ? "Unfollow" : "Follow"}
-                    </Button>
-                    <Flag size={24} cursor={"pointer"} onClick={handleReport} />
+                <div className='flex flex-col gap-2'>
+                    <div className='flex items-center gap-2'>
+                        <UserLink cmpId={_id} className='text font-bold hover:text-blue-600'>
+                            {name}
+                        </UserLink>
+                        <Separator orientation='vertical' className='h-4' />
+                        <UserLink cmpId={_id} className='text-xs font-semibold hover:text-blue-600'>
+                            @{username}
+                        </UserLink>
+                    </div>
+                    <div className='flex flex-col gap-2'>
+                        <p className='text-xs'>
+                            <span className='font-semibold'>{followers?.length || 0}</span> followers
+                        </p>
+                        <p className='text-xs'>
+                            {bio} • {major}
+                        </p>
+                    </div>
                 </div>
-            )}
-            <div>
-                <p>
-                    <b>MAJOR</b>
-                </p>
-                <p>{major}</p>
             </div>
-            <div>
-                <p>
-                    <b>JOINED</b>
-                </p>
-                <p>{DateUtils.customFormat(createdAt, "LLL")}</p>
-            </div>
+            <Button
+                className='self-center'
+                variant='outline'
+                asChild={user?._id === _id}
+                onClick={() => {
+                    if (user?._id !== _id) {
+                        onClickFollow()
+                    }
+                }}
+            >
+                {user?._id === _id ? <Link to={ROUTE.PROFILE.BASE}>View profile</Link> : follow ? "Unfollow" : "Follow"}
+            </Button>
         </div>
     )
 }
 
-export default ProfileInfo
+export default PeopleCard

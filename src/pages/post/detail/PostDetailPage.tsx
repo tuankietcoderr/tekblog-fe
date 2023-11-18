@@ -76,11 +76,11 @@ const PostDetailPage = () => {
     }, [])
 
     return (
-        <div className='relative grid grid-cols-[2rem_auto_18rem] gap-5 self-start'>
+        <div className='relative grid grid-cols-[2rem_auto_18rem] self-start'>
             <LeftSideBar />
-            <div className='flex flex-col gap-4 overflow-auto shadow-custom'>
+            <div className='flex flex-col gap-4 overflow-auto'>
                 {authorObject?._id !== user?._id && post?.isDraft && (
-                    <Alert variant='destructive' className='bg-white shadow-custom'>
+                    <Alert variant='destructive' className='mx-5 bg-white shadow-custom'>
                         {/* <ExclamationTriangleIcon className='h-4 w-4' /> */}
                         <AlertTitle>Warning</AlertTitle>
                         <AlertDescription>
@@ -88,7 +88,7 @@ const PostDetailPage = () => {
                         </AlertDescription>
                     </Alert>
                 )}
-                <div className='flex flex-col gap-4 rounded-md bg-white shadow-custom'>
+                <div className='mx-5 flex flex-col gap-4 rounded-md bg-white shadow-custom'>
                     <div className='w-full'>
                         <img
                             src={post?.thumbnail}

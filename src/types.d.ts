@@ -78,6 +78,12 @@ declare enum ActiveStatus {
     REMOVED = "REMOVED"
 }
 
+declare enum SearchType {
+    POST = "post",
+    USER = "user",
+    TAG = "tag"
+}
+
 declare interface Pagination {
     hasNextPage: boolean
     hasPrevPage: boolean

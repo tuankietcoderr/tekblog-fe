@@ -13,6 +13,7 @@ import MAJORS from "@/constants/major"
 import AuthApiController from "@/api/auth"
 import { useToast } from "@/components/ui/use-toast"
 import axios from "axios"
+import { useAuthContext } from "@/context/AuthContext"
 
 const formSchema = z
     .object({
@@ -52,6 +53,7 @@ const RegisterPage = () => {
     const [step, setStep] = React.useState(1) // 2 step
     const navigation = useNavigate()
     const { toast } = useToast()
+    const { fallbackUrl } = useAuthContext()
 
     const handleOnClickNext = () => {
         form.trigger().then((isValid) => {
@@ -73,7 +75,7 @@ const RegisterPage = () => {
                     data: { success, message }
                 } = await AuthApiController.register(data as any)
                 if (success) {
-                    navigation(ROUTE.AUTH.SIGIN)
+                    navigation(fallbackUrl)
                 }
                 toast({
                     description: message

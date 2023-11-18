@@ -6,10 +6,11 @@ import Spinner from "@/components/Spinner"
 
 type Props<T> = {
     fetcher: () => Promise<AxiosResponse<SuccessfulResponseWithPagination<T[]>>>
+    deps?: any[]
 }
 
-const useInfiniteScroll = <T extends any>({ fetcher }: Props<T>) => {
-    const { page, setPage, data, setData, loading, hasMore } = usePagination<T>({ fetcher })
+const useInfiniteScroll = <T extends any>({ fetcher, deps = [] }: Props<T>) => {
+    const { page, setPage, data, setData, loading, hasMore } = usePagination<T>({ fetcher, deps })
     const observer = useRef<IntersectionObserver>(null)
 
     const lastElementRef = useCallback(

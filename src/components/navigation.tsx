@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from "react"
-import { Input } from "./ui/input"
-import { Button } from "./ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import { LOCAL_STORAGE_KEY } from "@/constants/local-storage-key"
 import ROUTE from "@/constants/route"
-import Logo from "./logo"
 import { useUserContext } from "@/context/UserContext"
+import { useEffect, useRef } from "react"
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import Logo from "./logo"
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import { Button } from "./ui/button"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -14,16 +14,20 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "./ui/dropdown-menu"
-import { LOCAL_STORAGE_KEY } from "@/constants/local-storage-key"
+import { Input } from "./ui/input"
+import { useAuthContext } from "@/context/AuthContext"
+import { SearchType } from "@/enum"
 
 const NavigationBar = () => {
-    const { pathname } = useLocation()
+    const { pathname, ...location } = useLocation()
     const { user, setUser } = useUserContext()
     const ignoreShowList = [ROUTE.AUTH.REGISTER, ROUTE.AUTH.SIGIN]
     const isRendered = !ignoreShowList.includes(pathname)
     const searchRef = useRef(null)
     const navigation = useNavigate()
-
+    const { onOpenDialog } = useAuthContext()
+    const searchParams = new URLSearchParams(location.search)
+    const search_type = (searchParams.get("type") as SearchType) || SearchType.POST
     useEffect(() => {
         window.addEventListener("keyup", (e) => {
             if (e.key === "/") {
@@ -32,11 +36,18 @@ const NavigationBar = () => {
         })
     }, [])
 
+    const onClickCreatePost = () => {
+        if (!onOpenDialog()) {
+            return
+        }
+        navigation(ROUTE.POST.NEW)
+    }
+
     const onSearch = () => {
         if (searchRef.current.value === "") {
             return
         }
-        navigation(`${ROUTE.SEARCH}?q=${searchRef.current?.value}`)
+        navigation(`${ROUTE.SEARCH}?q=${searchRef.current?.value}&type=${search_type}`)
         searchRef.current.value = ""
     }
 
@@ -65,8 +76,8 @@ const NavigationBar = () => {
                 </div>
             </div>
             <div className='flex items-center gap-2'>
-                <Button className='min-w-max' asChild>
-                    <Link to={ROUTE.POST.NEW}>Create post</Link>
+                <Button className='min-w-max' onClick={onClickCreatePost}>
+                    Create post
                 </Button>
                 {user ? (
                     <DropdownMenu>

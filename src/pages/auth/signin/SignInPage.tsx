@@ -1,6 +1,6 @@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import React from "react"
+import React, { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -11,6 +11,7 @@ import AuthApiController from "@/api/auth"
 import { useToast } from "@/components/ui/use-toast"
 import { useUserContext } from "@/context/UserContext"
 import ROUTE from "@/constants/route"
+import { useAuthContext } from "@/context/AuthContext"
 
 const formSchema = z.object({
     username: z
@@ -36,6 +37,7 @@ const SignInPage = () => {
     const navigation = useNavigate()
     const { toast } = useToast()
     const { setUser } = useUserContext()
+    const { fallbackUrl } = useAuthContext()
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         const { username, password } = data
@@ -46,7 +48,7 @@ const SignInPage = () => {
             password: password || ""
         })
         if (success) {
-            navigation(ROUTE.BASE)
+            navigation(fallbackUrl)
             setUser(user)
         }
         toast({

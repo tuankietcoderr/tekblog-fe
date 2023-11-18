@@ -10,7 +10,8 @@ class PostController implements IApi {
         SAVE: `${this.path}/:postId/save`,
         LIKE: `${this.path}/:postId/like`,
         USER: `${this.path}/user/:userId`,
-        RELATED: `${this.path}/:postId/related`
+        RELATED: `${this.path}/:postId/related`,
+        TAG: `${this.path}/tag/:tagId`
     }
     async getAll({ limit = 10, page = 1 }: Page): Promise<AxiosResponse<SuccessfulResponseWithPagination<IPost[]>>> {
         try {
@@ -42,6 +43,23 @@ class PostController implements IApi {
     async getRelatedPosts(postId: string): Promise<AxiosResponse<SuccessfulResponse<IPost[]>>> {
         try {
             const posts = await apiInstance.get(this.PATHS.RELATED.replace(":postId", postId))
+            return posts
+        } catch (error) {
+            return error.response
+        }
+    }
+
+    async getPostsByTag({
+        tagId,
+        page = 1,
+        limit = 10
+    }: {
+        tagId: string
+    } & Page): Promise<AxiosResponse<SuccessfulResponseWithPagination<IPost[]>>> {
+        try {
+            const posts = await apiInstance.get(this.PATHS.TAG.replace(":tagId", tagId), {
+                params: { page, limit }
+            })
             return posts
         } catch (error) {
             return error.response

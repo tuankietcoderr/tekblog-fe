@@ -6,7 +6,7 @@ import { X } from "lucide-react"
 import { useFormContext } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import TagApiControler from "@/api/tag"
+import TagApiController from "@/api/tag"
 import { useToast } from "@/components/ui/use-toast"
 
 const AddTags = () => {
@@ -26,7 +26,7 @@ const AddTags = () => {
         if (tag === "") return
         const {
             data: { data: newTag, success, message }
-        } = await TagApiControler.create({
+        } = await TagApiController.create({
             title: tag
         })
         if (success) {

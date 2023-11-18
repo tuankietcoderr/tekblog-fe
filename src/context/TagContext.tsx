@@ -1,6 +1,6 @@
 import { PropsWithChildren, createContext, useContext, useEffect, useState } from "react"
 import { defaultPage } from "."
-import TagApiControler from "@/api/tag"
+import TagApiController from "@/api/tag"
 import usePagination from "@/hooks/usePagination"
 import useFetchData from "@/hooks/useFetchData"
 
@@ -26,12 +26,11 @@ export const TagProvider = ({ children }: PropsWithChildren) => {
     const {
         data: tags,
         loading: tagsLoading,
-        setData: setTags,
-        page
-    } = usePagination<ITag>({ fetcher: () => TagApiControler.getAll({ limit: 10, page }) })
+        setData: setTags
+    } = useFetchData<ITag>({ fetcher: () => TagApiController.getAll() })
 
     const { data: tagsWithPosts, loading: tagsWithPostsLoading } = useFetchData<TagWithPosts>({
-        fetcher: () => TagApiControler.getTagsWithPosts()
+        fetcher: () => TagApiController.getTagsWithPosts()
     })
 
     const value = {

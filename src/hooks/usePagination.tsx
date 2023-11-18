@@ -4,9 +4,10 @@ import React, { useEffect, useMemo, useState } from "react"
 
 type Props<T> = {
     fetcher: () => Promise<AxiosResponse<SuccessfulResponseWithPagination<T[]>>>
+    deps?: any[]
 }
 
-const usePagination = <T extends any>({ fetcher }: Props<T>) => {
+const usePagination = <T extends any>({ fetcher, deps = [] }: Props<T>) => {
     const [page, setPage] = useState(1)
     const [data, setData] = useState<T[] | undefined>(undefined)
     const [pagination, setPagination] = useState<Pagination>(defaultPage)
@@ -34,7 +35,13 @@ const usePagination = <T extends any>({ fetcher }: Props<T>) => {
                 setLoading(false)
             }
         })()
-    }, [page])
+    }, [page, ...deps])
+
+    useEffect(() => {
+        if (page > 1) {
+            setPage(1)
+        }
+    }, deps)
 
     return { data, setData, page, setPage, pagination, loading, hasMore: pagination.hasNextPage }
 }

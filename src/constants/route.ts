@@ -23,7 +23,6 @@ const ROUTE = {
         ACCOUNT: "/settings/account",
         PROFILE: "/settings/profile"
     },
-    TAGS: "/tags",
     ABOUT: "/about"
 }
 

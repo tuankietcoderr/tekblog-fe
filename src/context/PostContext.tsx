@@ -10,13 +10,15 @@ interface IPostContext {
     setPosts: React.Dispatch<React.SetStateAction<IPost[]>>
     LastElement: () => JSX.Element
     loading: boolean
+    page: number
 }
 
 export const PostContext = createContext<IPostContext>({
     posts: undefined,
     setPosts: () => {},
     LastElement: () => <></>,
-    loading: false
+    loading: false,
+    page: 1
 })
 
 export const usePostContext = () => useContext(PostContext)
@@ -36,7 +38,8 @@ export const PostProvider = ({ children }: PropsWithChildren) => {
         posts,
         setPosts,
         LastElement,
-        loading
+        loading,
+        page
     }
     return <PostContext.Provider value={value}>{children}</PostContext.Provider>
 }

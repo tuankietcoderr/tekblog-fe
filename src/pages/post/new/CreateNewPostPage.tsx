@@ -14,6 +14,8 @@ import { useToast } from "@/components/ui/use-toast"
 import { usePostContext } from "@/context/PostContext"
 import { useNavigate } from "react-router-dom"
 import ROUTE from "@/constants/route"
+import { useUserContext } from "@/context/UserContext"
+import NeedAuthorizationPageLayout from "@/components/authorization/NeedAuthorizationPageLayout"
 
 const formSchema = z.object({
     title: z
@@ -68,6 +70,7 @@ const CreateNewPostPage = () => {
     const { toast } = useToast()
     const [loading, setLoading] = useState(false)
     const { setPosts } = usePostContext()
+    const { user } = useUserContext()
     const navigate = useNavigate()
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
@@ -95,74 +98,81 @@ const CreateNewPostPage = () => {
     }
 
     return (
-        <Form {...form}>
-            <form
-                onSubmit={handleSubmit(onSubmit)}
-                className='shadow-custom mx-auto flex w-full max-w-[736px] flex-col gap-4 rounded-md bg-white p-4 py-4'
-            >
-                <div className='flex flex-col gap-2'>
-                    {getFieldState("thumbnail").invalid ? (
-                        <p className='font-semibold text-destructive'>{errors.thumbnail?.message}</p>
-                    ) : (
-                        <img
-                            src={getValues("thumbnail")}
-                            alt='thumbnail'
-                            className='max-h-[300px] rounded-md object-cover'
-                        />
-                    )}
-                    <AddCoverImageDialog />
-                </div>
-                <FormField
-                    control={control}
-                    name='title'
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormControl>
-                                <Textarea
-                                    onInput={(event: any) => {
-                                        event.target.style.height = "auto"
-                                        event.target.style.height = event.target.scrollHeight + "px"
-                                    }}
-                                    placeholder='Title'
-                                    className='resize-none border-none px-0 text-5xl font-extrabold leading-tight shadow-none outline-none focus-visible:ring-0'
-                                    autoFocus
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage>{errors.title?.message}</FormMessage>
-                        </FormItem>
-                    )}
-                />
+        <NeedAuthorizationPageLayout>
+            <Form {...form}>
+                <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className='mx-auto flex w-full max-w-[736px] flex-col gap-4 rounded-md bg-white p-4 py-4 shadow-custom'
+                >
+                    <div className='flex flex-col gap-2'>
+                        {getFieldState("thumbnail").invalid ? (
+                            <p className='font-semibold text-destructive'>{errors.thumbnail?.message}</p>
+                        ) : (
+                            <img
+                                src={getValues("thumbnail")}
+                                alt='thumbnail'
+                                className='max-h-[300px] rounded-md object-cover'
+                            />
+                        )}
+                        <AddCoverImageDialog />
+                    </div>
+                    <FormField
+                        control={control}
+                        name='title'
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <Textarea
+                                        onInput={(event: any) => {
+                                            event.target.style.height = "auto"
+                                            event.target.style.height = event.target.scrollHeight + "px"
+                                        }}
+                                        placeholder='Title'
+                                        className='resize-none border-none px-0 text-5xl font-extrabold leading-tight shadow-none outline-none focus-visible:ring-0'
+                                        autoFocus
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage>{errors.title?.message}</FormMessage>
+                            </FormItem>
+                        )}
+                    />
 
-                <AddTags />
-                <FormField
-                    control={control}
-                    name='content'
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormControl>
-                                <MDEditor
-                                    preview='edit'
-                                    extraCommands={[commands.codeEdit, commands.codePreview]}
-                                    className='min-h-[400px] border-none shadow-none outline-none'
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage>{errors.content?.message}</FormMessage>
-                        </FormItem>
-                    )}
-                />
+                    <AddTags />
+                    <FormField
+                        control={control}
+                        name='content'
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormControl>
+                                    <MDEditor
+                                        preview='edit'
+                                        extraCommands={[commands.codeEdit, commands.codePreview]}
+                                        className='min-h-[400px] border-none shadow-none outline-none'
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage>{errors.content?.message}</FormMessage>
+                            </FormItem>
+                        )}
+                    />
 
-                <div className='flex justify-end gap-2'>
-                    <Button type='submit' onClick={() => setValue("isDraft", false)} disabled={!isValid}>
-                        Submit
-                    </Button>
-                    <Button type='submit' onClick={() => setValue("isDraft", true)} variant='ghost' disabled={!isValid}>
-                        Save draft
-                    </Button>
-                </div>
-            </form>
-        </Form>
+                    <div className='flex justify-end gap-2'>
+                        <Button type='submit' onClick={() => setValue("isDraft", false)} disabled={!isValid}>
+                            Submit
+                        </Button>
+                        <Button
+                            type='submit'
+                            onClick={() => setValue("isDraft", true)}
+                            variant='ghost'
+                            disabled={!isValid}
+                        >
+                            Save draft
+                        </Button>
+                    </div>
+                </form>
+            </Form>
+        </NeedAuthorizationPageLayout>
     )
 }
 

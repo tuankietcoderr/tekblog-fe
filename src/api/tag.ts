@@ -9,11 +9,9 @@ class TagController implements IApi {
         SOME: `${this.path}/some`
     }
 
-    async getAll({ limit = 10, page = 1 }: Page): Promise<AxiosResponse<SuccessfulResponseWithPagination<ITag[]>>> {
+    async getAll(): Promise<AxiosResponse<SuccessfulResponseWithPagination<ITag[]>>> {
         try {
-            const tagRes = await apiInstance.get(this.PATHS.ROOT, {
-                params: { limit, page }
-            })
+            const tagRes = await apiInstance.get(this.PATHS.ROOT)
             return tagRes
         } catch (error) {
             return error.response
@@ -39,6 +37,6 @@ class TagController implements IApi {
     }
 }
 
-const TagApiControler = new TagController()
+const TagApiController = new TagController()
 
-export default TagApiControler
+export default TagApiController

@@ -12,7 +12,7 @@ const Navigation = () => {
         {
             name: "Tags",
             icon: <Tag />,
-            path: ROUTE.TAGS
+            path: ROUTE.POST.BY_TAGS.replace(":tagId", "all")
         },
         {
             name: "About",
@@ -25,7 +25,7 @@ const Navigation = () => {
         path: string
     }[]
     return (
-        <div className='shadow-custom flex flex-col gap-1 rounded-md bg-white p-4'>
+        <div className='flex flex-col gap-1 rounded-md bg-white p-4 shadow-custom'>
             {navigations.map(({ icon, name, path }) => (
                 <Link
                     to={path}

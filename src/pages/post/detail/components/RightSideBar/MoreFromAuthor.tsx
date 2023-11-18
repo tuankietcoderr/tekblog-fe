@@ -15,8 +15,6 @@ type Props = {
 
 const MoreFromAuthor = ({ author }: Props) => {
     const { name, _id } = author || ({} as IUser)
-    const { user } = useUserContext()
-    const isMine = user?._id === _id
 
     const [posts, setPosts] = React.useState<IPost[]>([])
     const { postId } = useParams<{ postId: string }>()
@@ -39,7 +37,7 @@ const MoreFromAuthor = ({ author }: Props) => {
     }, [author, postId])
 
     return (
-        <div className='shadow-custom rounded-md bg-white'>
+        <div className='rounded-md bg-white shadow-custom'>
             <div className='flex items-center justify-between p-4'>
                 <p>
                     More from{" "}
@@ -52,7 +50,9 @@ const MoreFromAuthor = ({ author }: Props) => {
                 </UserLink>
             </div>
             <Separator />
-            <div className=''>{posts?.map((post) => <SimplePostCard {...post} key={post?._id} />)}</div>
+            {posts?.length > 0 && (
+                <div className=''>{posts?.map((post) => <SimplePostCard {...post} key={post?._id} />)}</div>
+            )}
         </div>
     )
 }

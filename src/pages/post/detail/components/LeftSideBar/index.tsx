@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { Heart, MessageCircle, Bookmark, Flag } from "lucide-react"
 import PostApiController from "@/api/post"
-import { useParams } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 import { useUserContext } from "@/context/UserContext"
 import { usePostContext } from "@/context/PostContext"
+import { useAuthContext } from "@/context/AuthContext"
 
 const LeftSideBar = () => {
     const { postId } = useParams<{ postId: string }>()
@@ -13,7 +14,8 @@ const LeftSideBar = () => {
     const { saved, likes, comments, _id } = post || ({} as IPost)
     const [save, setSave] = useState<boolean>(false)
     const [like, setLike] = useState<boolean>(false)
-
+    const { onOpenDialog } = useAuthContext()
+    const { pathname } = useLocation()
     useEffect(() => {
         const isSaved = (saved as string[])?.includes(user?._id)
         setSave(isSaved)
@@ -25,18 +27,50 @@ const LeftSideBar = () => {
     }, [posts, postId])
 
     async function handleSavePost() {
-        const {
-            data: { success }
-        } = await PostApiController.save(_id)
-        if (success) {
-            setSave(!save)
-            // setSaveCount((prev) => (save ? prev - 1 : prev + 1))
+        if (!onOpenDialog(pathname)) {
+            return
+        }
+        setPosts((prev) => {
+            const newPosts = prev?.map((post) => {
+                if (post._id === _id) {
+                    return {
+                        ...post,
+                        saved: (save
+                            ? post.saved?.filter((id) => id !== user?._id)
+                            : [...post.saved, user?._id]) as string[]
+                    }
+                }
+                return post
+            })
+            return newPosts
+        })
+        try {
+            const {
+                data: { success }
+            } = await PostApiController.save(_id)
+            if (!success) {
+                setPosts((prev) => {
+                    const newPosts = prev?.map((post) => {
+                        if (post._id === _id) {
+                            return {
+                                ...post,
+                                saved: (!save
+                                    ? post.saved?.filter((id) => id !== user?._id)
+                                    : [...post.saved, user?._id]) as string[]
+                            }
+                        }
+                        return post
+                    })
+                    return newPosts
+                })
+            }
+        } catch {
             setPosts((prev) => {
                 const newPosts = prev?.map((post) => {
                     if (post._id === _id) {
                         return {
                             ...post,
-                            saved: (save
+                            saved: (!save
                                 ? post.saved?.filter((id) => id !== user?._id)
                                 : [...post.saved, user?._id]) as string[]
                         }
@@ -49,17 +83,50 @@ const LeftSideBar = () => {
     }
 
     async function handleLikePost() {
-        const {
-            data: { success }
-        } = await PostApiController.like(_id)
-        if (success) {
-            setLike(!like)
+        if (!onOpenDialog(pathname)) {
+            return
+        }
+        setPosts((prev) => {
+            const newPosts = prev?.map((post) => {
+                if (post._id === _id) {
+                    return {
+                        ...post,
+                        likes: (like
+                            ? post.likes?.filter((id) => id !== user?._id)
+                            : [...post.likes, user?._id]) as string[]
+                    }
+                }
+                return post
+            })
+            return newPosts
+        })
+        try {
+            const {
+                data: { success }
+            } = await PostApiController.like(_id)
+            if (!success) {
+                setPosts((prev) => {
+                    const newPosts = prev?.map((post) => {
+                        if (post._id === _id) {
+                            return {
+                                ...post,
+                                likes: (!like
+                                    ? post.likes?.filter((id) => id !== user?._id)
+                                    : [...post.likes, user?._id]) as string[]
+                            }
+                        }
+                        return post
+                    })
+                    return newPosts
+                })
+            }
+        } catch {
             setPosts((prev) => {
                 const newPosts = prev?.map((post) => {
                     if (post._id === _id) {
                         return {
                             ...post,
-                            likes: (like
+                            likes: (!like
                                 ? post.likes?.filter((id) => id !== user?._id)
                                 : [...post.likes, user?._id]) as string[]
                         }

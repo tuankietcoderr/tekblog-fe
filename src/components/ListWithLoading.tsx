@@ -6,12 +6,20 @@ type Props<T extends any> = {
     data: T[]
     renderItem: (item: T, index: number) => JSX.Element
     emptyText?: string
+    contentContainerClassName?: string
+    listFooter?: React.ReactNode
 }
 
-const ListWithLoading = <T extends any>({ isLoading = false, data = [], renderItem, emptyText }: Props<T>) => {
-    console.log({ renderItem })
+const ListWithLoading = <T extends any>({
+    isLoading = false,
+    data = [],
+    renderItem,
+    emptyText,
+    contentContainerClassName,
+    listFooter
+}: Props<T>) => {
     return (
-        <>
+        <div className={contentContainerClassName}>
             {isLoading ? (
                 <Spinner />
             ) : data?.length > 0 ? (
@@ -19,7 +27,8 @@ const ListWithLoading = <T extends any>({ isLoading = false, data = [], renderIt
             ) : (
                 <p className='text-center text-gray-400'>{emptyText || "No data"}</p>
             )}
-        </>
+            {listFooter}
+        </div>
     )
 }
 
