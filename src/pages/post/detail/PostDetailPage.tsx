@@ -39,27 +39,27 @@ const PostDetailPage = () => {
     const authorObject = post?.author as IUser
     const tagsObject = post?.tags as ITag[]
 
-    if (!loading) {
-        if (post) {
-            if (authorObject?._id !== user?._id && post?.isDraft) {
-                return (
-                    <AlertDialog defaultOpen>
-                        <AlertDialogContent>
-                            <AlertDialogHeader>
-                                <AlertDialogTitle>Warning</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                    This post is draft and not visible to others except author. Please go back.
-                                </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                                <AlertDialogAction onClick={() => navigate(-1)}>Go back</AlertDialogAction>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog>
-                )
-            }
-        }
-    }
+    // if (!loading) {
+    //     if (post) {
+    //         if (authorObject?._id !== user?._id && post?.isDraft) {
+    //             return (
+    //                 <AlertDialog defaultOpen>
+    //                     <AlertDialogContent>
+    //                         <AlertDialogHeader>
+    //                             <AlertDialogTitle>Warning</AlertDialogTitle>
+    //                             <AlertDialogDescription>
+    //                                 This post is draft and not visible to others except author. Please go back.
+    //                             </AlertDialogDescription>
+    //                         </AlertDialogHeader>
+    //                         <AlertDialogFooter>
+    //                             <AlertDialogAction onClick={() => navigate(-1)}>Go back</AlertDialogAction>
+    //                         </AlertDialogFooter>
+    //                     </AlertDialogContent>
+    //                 </AlertDialog>
+    //             )
+    //         }
+    //     }
+    // }
 
     const contentRef = useRef<HTMLDivElement>(null)
 
@@ -79,64 +79,54 @@ const PostDetailPage = () => {
         <div className='relative grid grid-cols-[2rem_auto_18rem] self-start'>
             <LeftSideBar />
             <div className='flex flex-col gap-4 overflow-auto'>
-                {authorObject?._id !== user?._id && post?.isDraft && (
-                    <Alert variant='destructive' className='mx-5 bg-white shadow-custom'>
-                        {/* <ExclamationTriangleIcon className='h-4 w-4' /> */}
-                        <AlertTitle>Warning</AlertTitle>
-                        <AlertDescription>
-                            This post is still in draft mode. Please public it to make it visible to others.
-                        </AlertDescription>
-                    </Alert>
-                )}
-                <div className='mx-5 flex flex-col gap-4 rounded-md bg-white shadow-custom'>
+                <div className='mx-5 flex flex-col gap-4 rounded-md'>
+                    {post?.isDraft && (
+                        <Alert variant='destructive' className='w-full bg-white shadow-custom'>
+                            <AlertTitle>Warning</AlertTitle>
+                            <AlertDescription>This post is still in draft mode.</AlertDescription>
+                        </Alert>
+                    )}
                     <div className='w-full'>
                         <img
                             src={post?.thumbnail}
                             alt={post?.title}
                             className='h-[22rem] w-full rounded-t-md object-cover'
                         />
-                    </div>
-                    <div className='flex flex-col gap-4 p-4'>
-                        <div className='flex items-center gap-2'>
-                            <UserLink cmpId={authorObject?._id}>
-                                <Avatar className='h-8 w-8'>
-                                    <AvatarFallback>{authorObject?.name?.substring(0, 2) || "GE"}</AvatarFallback>
-                                    <AvatarImage src={authorObject?.avatar} alt={authorObject?.username || ""} />
-                                </Avatar>
-                            </UserLink>
-                            <div>
-                                <Link
-                                    to={`${
-                                        user?._id === authorObject?._id
-                                            ? ROUTE.PROFILE.BASE
-                                            : ROUTE.PROFILE.OTHERS.replace(":userId", authorObject?._id)
-                                    }`}
-                                    className='font-semibold hover:text-blue-600'
-                                >
-                                    {authorObject?.name || "Anonymous"}
-                                </Link>
-                                <p className='text-xs text-gray-400'>
-                                    {DateUtils.getAgos(post?.createdAt || new Date())}
-                                </p>
+                        <div className='flex flex-col gap-4 rounded-b-md bg-white p-4 shadow-custom'>
+                            <div className='flex items-center gap-2'>
+                                <UserLink cmpId={authorObject?._id}>
+                                    <Avatar className='h-8 w-8'>
+                                        <AvatarFallback>{authorObject?.name?.substring(0, 2) || "GE"}</AvatarFallback>
+                                        <AvatarImage src={authorObject?.avatar} alt={authorObject?.username || ""} />
+                                    </Avatar>
+                                </UserLink>
+                                <div>
+                                    <UserLink cmpId={authorObject?._id} className='font-semibold hover:text-blue-600'>
+                                        {authorObject?.name || "Anonymous"}
+                                    </UserLink>
+                                    <p className='text-xs text-gray-400'>
+                                        {DateUtils.getAgos(post?.createdAt || new Date())}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <h1 className='text-3xl font-extrabold'>{post?.title}</h1>
-                        <div className='flex flex-wrap gap-3'>
-                            {tagsObject?.map((tag) => (
-                                <Link
-                                    to={`${ROUTE.POST.BY_TAGS.replace(":tagId", tag?._id)}`}
-                                    key={tag?._id}
-                                    className='text-base text-gray-500 transition-colors hover:text-black'
-                                >
-                                    #{tag.title}
-                                </Link>
-                            ))}
-                        </div>
-                        <div className='w-full prose-ol:list-decimal prose-ul:list-disc' ref={contentRef}>
-                            <MDEditor.Markdown
-                                source={post?.content}
-                                style={{ backgroundColor: "transparent", width: "100%" }}
-                            />
+                            <h1 className='text-3xl font-extrabold'>{post?.title}</h1>
+                            <div className='flex flex-wrap gap-3'>
+                                {tagsObject?.map((tag) => (
+                                    <Link
+                                        to={`${ROUTE.POST.BY_TAGS.replace(":tagId", tag?._id)}`}
+                                        key={tag?._id}
+                                        className='text-base text-gray-500 transition-colors hover:text-black'
+                                    >
+                                        #{tag.title}
+                                    </Link>
+                                ))}
+                            </div>
+                            <div className='w-full prose-ol:list-decimal prose-ul:list-disc' ref={contentRef}>
+                                <MDEditor.Markdown
+                                    source={post?.content}
+                                    style={{ backgroundColor: "transparent", width: "100%" }}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>

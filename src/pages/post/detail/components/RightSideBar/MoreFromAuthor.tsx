@@ -24,7 +24,7 @@ const MoreFromAuthor = ({ author }: Props) => {
             ;(async function () {
                 const {
                     data: { success, data: posts, message }
-                } = await PostApiController.getUserPosts(_id)
+                } = await PostApiController.getUserPosts({ userId: _id })
                 if (success) {
                     setPosts(posts.filter((p) => p._id !== postId).slice(0, 5))
                 } else {

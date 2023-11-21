@@ -11,7 +11,8 @@ class PostController implements IApi {
         LIKE: `${this.path}/:postId/like`,
         USER: `${this.path}/user/:userId`,
         RELATED: `${this.path}/:postId/related`,
-        TAG: `${this.path}/tag/:tagId`
+        TAG: `${this.path}/tag/:tagId`,
+        ARCHIVED: `${this.path}/archived`
     }
     async getAll({ limit = 10, page = 1 }: Page): Promise<AxiosResponse<SuccessfulResponseWithPagination<IPost[]>>> {
         try {
@@ -31,9 +32,18 @@ class PostController implements IApi {
         }
     }
 
-    async getUserPosts(userId?: string): Promise<AxiosResponse<SuccessfulResponseWithPagination<IPost[]>>> {
+    async getUserPosts({
+        userId,
+        page = 1,
+        limit = 10,
+        isDraft = false
+    }: { userId?: string; isDraft?: boolean } & Page): Promise<
+        AxiosResponse<SuccessfulResponseWithPagination<IPost[]>>
+    > {
         try {
-            const posts = await apiInstance.get(this.PATHS.USER.replace(":userId", userId || ""))
+            const posts = await apiInstance.get(this.PATHS.USER.replace(":userId", ""), {
+                params: { page, limit, user_id: userId, isDraft }
+            })
             return posts
         } catch (error) {
             return error.response
@@ -66,6 +76,21 @@ class PostController implements IApi {
         }
     }
 
+    async getArchived({
+        type = "saved",
+        page = 1,
+        limit = 10
+    }: {
+        type: "saved" | "likes" | string
+    } & Page) {
+        try {
+            const posts = await apiInstance.get(this.PATHS.ARCHIVED, { params: { page, limit, type } })
+            return posts
+        } catch (error) {
+            return error.response
+        }
+    }
+
     async create(post: IPost): Promise<AxiosResponse<SuccessfulResponse<IPost>>> {
         try {
             const createdPost = await apiInstance.post(this.PATHS.ROOT, post)
@@ -87,6 +112,24 @@ class PostController implements IApi {
     async like(postId: string): Promise<AxiosResponse<SuccessfulResponse<IPost>>> {
         try {
             const post = await apiInstance.put(this.PATHS.LIKE.replace(":postId", postId))
+            return post
+        } catch (error) {
+            return error.response
+        }
+    }
+
+    async update(postId: string, data: IPost): Promise<AxiosResponse<SuccessfulResponse<IPost>>> {
+        try {
+            const post = await apiInstance.put(this.PATHS.ID.replace(":postId", postId), data)
+            return post
+        } catch (error) {
+            return error.response
+        }
+    }
+
+    async delete(postId: string): Promise<AxiosResponse<SuccessfulResponse<IPost>>> {
+        try {
+            const post = await apiInstance.delete(this.PATHS.ID.replace(":postId", postId))
             return post
         } catch (error) {
             return error.response

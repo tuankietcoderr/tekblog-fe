@@ -10,7 +10,8 @@ const ROUTE = {
         BY_TAGS: "/post/tag/:tagId", // /post/tags?tag=tag1
         DETAIL: "/post/:postId",
         NEW: "/post/new",
-        EDIT: "post/edit/:postId" // /post/new?post_id=123
+        EDIT: "/post/edit/:postId", // /post/new?post_id=123
+        DRAFT: "/post/draft"
     },
     PROFILE: {
         BASE: "/profile",

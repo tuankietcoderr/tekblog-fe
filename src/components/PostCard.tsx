@@ -4,20 +4,20 @@ import DateUtils from "@/utils/date"
 import { Link } from "react-router-dom"
 import ROUTE from "@/constants/route"
 import { useUserContext } from "@/context/UserContext"
-import { Bookmark } from "lucide-react"
+import { Bookmark, PenLine } from "lucide-react"
 import PostApiController from "@/api/post"
 import { usePostContext } from "@/context/PostContext"
 import { useAuthContext } from "@/context/AuthContext"
 import UserLink from "./UserLink"
 
 type Props = {
-    isHot?: boolean
     showThumbnail?: boolean
     showBookmark?: boolean
     post: IPost
+    showEdit?: boolean
 }
 
-const PostCard = ({ isHot = false, showThumbnail = false, showBookmark = true, post }: Props) => {
+const PostCard = ({ showThumbnail = false, showBookmark = true, showEdit = false, post }: Props) => {
     const { thumbnail, author, title, createdAt, tags, likes, comments, saved, _id } = post
     const authorObject = author as IUser
     const tagsObject = tags as ITag[]
@@ -110,7 +110,7 @@ const PostCard = ({ isHot = false, showThumbnail = false, showBookmark = true, p
                             <p className='text-xs text-gray-400'>{DateUtils.getAgos(createdAt)}</p>
                         </div>
                     </div>
-                    {isHot && <p className='font-semibold text-destructive'>Hot 🔥</p>}
+                    {post?.isDraft && <p className='font-semibold text-destructive'>Draft</p>}
                 </div>
                 <Link
                     to={ROUTE.POST.DETAIL.replace(":postId", post?._id)}
@@ -140,14 +140,21 @@ const PostCard = ({ isHot = false, showThumbnail = false, showBookmark = true, p
                             <b>{comments?.length || 0}</b> comments
                         </p>
                     </div>
-                    {showBookmark && (
-                        <Bookmark
-                            fill={save ? "black" : "transparent"}
-                            size={24}
-                            onClick={handleSavePost}
-                            cursor={"pointer"}
-                        />
-                    )}
+                    <div className='flex gap-2'>
+                        {user && user?._id !== authorObject?._id && showBookmark && (
+                            <Bookmark
+                                fill={save ? "black" : "transparent"}
+                                size={24}
+                                onClick={handleSavePost}
+                                cursor={"pointer"}
+                            />
+                        )}
+                        {user && user?._id === authorObject?._id && showEdit && (
+                            <Link to={ROUTE.POST.EDIT.replace(":postId", _id)}>
+                                <PenLine />
+                            </Link>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

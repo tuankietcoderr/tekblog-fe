@@ -17,6 +17,7 @@ import RegisterPage from "./pages/auth/resigter/RegisterPage"
 import AboutPage from "./pages/about/AboutPage"
 import ErrorPage from "./pages/error/ErrorPage"
 import { LOCAL_STORAGE_KEY } from "./constants/local-storage-key"
+import DraftPage from "./pages/post/draft/DraftPage"
 
 const router = createBrowserRouter([
     {
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
             {
                 path: ROUTE.POST.EDIT,
                 element: <CreateNewPostPage />
+            },
+            {
+                path: ROUTE.POST.DRAFT,
+                element: <DraftPage />
             },
             {
                 path: ROUTE.PROFILE.BASE,

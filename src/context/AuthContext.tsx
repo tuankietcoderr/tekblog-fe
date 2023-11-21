@@ -18,11 +18,13 @@ import ROUTE from "@/constants/route"
 interface IAuthContext {
     onOpenDialog: (fallbackUrl?: string) => boolean
     fallbackUrl: string
+    setFallbackUrl: React.Dispatch<React.SetStateAction<string>>
 }
 
 export const AuthContext = createContext<IAuthContext>({
     onOpenDialog: () => false,
-    fallbackUrl: ROUTE.BASE
+    fallbackUrl: ROUTE.BASE,
+    setFallbackUrl: () => {}
 })
 
 export const useAuthContext = () => useContext(AuthContext)
@@ -48,7 +50,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
     const value = {
         onOpenDialog,
-        fallbackUrl
+        fallbackUrl,
+        setFallbackUrl
     }
     return (
         <AuthContext.Provider value={value}>

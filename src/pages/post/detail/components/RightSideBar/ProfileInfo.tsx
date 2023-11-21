@@ -5,15 +5,17 @@ import { Flag } from "lucide-react"
 import DateUtils from "@/utils/date"
 import { useUserContext } from "@/context/UserContext"
 import ROUTE from "@/constants/route"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import UserLink from "@/components/UserLink"
 import UserApiController from "@/api/user"
+import { useAuthContext } from "@/context/AuthContext"
 
 type Props = {
     author: IUser
 }
 
 const ProfileInfo = ({ author }: Props) => {
+    const { pathname } = useLocation()
     const { avatar, name, username, bio, major, createdAt, _id } = author ?? ({} as IUser)
     const { user, setUser } = useUserContext()
     const isMine = user?._id === _id
@@ -21,9 +23,13 @@ const ProfileInfo = ({ author }: Props) => {
     useEffect(() => {
         const isFollowed = !!(user?.following as IUser[])?.find((u) => u?._id === _id)
         setFollow(isFollowed)
-    }, [user?.following])
+    }, [user?.following, author])
+    const { onOpenDialog } = useAuthContext()
 
     const onClickFollow = async () => {
+        if (!onOpenDialog(pathname)) {
+            return
+        }
         setUser((prev) => {
             if (follow) {
                 return {

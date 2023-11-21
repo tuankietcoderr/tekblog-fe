@@ -3,9 +3,10 @@ import { useEffect, useState } from "react"
 
 type Props<T> = {
     fetcher: () => Promise<AxiosResponse<SuccessfulResponse<T[]>>>
+    deps?: any[]
 }
 
-const useFetchData = <T extends any>({ fetcher }: Props<T>) => {
+const useFetchData = <T extends any>({ fetcher, deps = [] }: Props<T>) => {
     const [data, setData] = useState<T[] | undefined>(undefined)
     const [loading, setLoading] = useState(false)
     useEffect(() => {
@@ -25,7 +26,7 @@ const useFetchData = <T extends any>({ fetcher }: Props<T>) => {
                 setLoading(false)
             }
         })()
-    }, [])
+    }, deps)
 
     return { data, setData, loading }
 }

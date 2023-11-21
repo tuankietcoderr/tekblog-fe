@@ -5,36 +5,39 @@ import React, { useEffect, useMemo, useState } from "react"
 type Props<T> = {
     fetcher: () => Promise<AxiosResponse<SuccessfulResponseWithPagination<T[]>>>
     deps?: any[]
+    canFetch?: boolean
 }
 
-const usePagination = <T extends any>({ fetcher, deps = [] }: Props<T>) => {
+const usePagination = <T extends any>({ fetcher, deps = [], canFetch = true }: Props<T>) => {
     const [page, setPage] = useState(1)
     const [data, setData] = useState<T[] | undefined>(undefined)
     const [pagination, setPagination] = useState<Pagination>(defaultPage)
     const [loading, setLoading] = useState(false)
     useEffect(() => {
-        if (page > pagination.totalPages) return
-        ;(async function () {
-            setLoading(true)
-            try {
-                const {
-                    data: { success, data: _data, message, ...rest }
-                } = await fetcher()
-                if (success) {
-                    if (page === 1) {
-                        setData(_data)
+        if (canFetch) {
+            if (page > pagination.totalPages) return
+            ;(async function () {
+                setLoading(true)
+                try {
+                    const {
+                        data: { success, data: _data, message, ...rest }
+                    } = await fetcher()
+                    if (success) {
+                        if (page === 1) {
+                            setData(_data)
+                        } else {
+                            setData((prev) => [...prev, ..._data])
+                        }
+                        setPagination(rest)
                     } else {
-                        setData((prev) => [...prev, ..._data])
+                        setData([])
                     }
-                    setPagination(rest)
-                } else {
-                    setData([])
+                } catch (error) {
+                } finally {
+                    setLoading(false)
                 }
-            } catch (error) {
-            } finally {
-                setLoading(false)
-            }
-        })()
+            })()
+        }
     }, [page, ...deps])
 
     useEffect(() => {
@@ -43,7 +46,9 @@ const usePagination = <T extends any>({ fetcher, deps = [] }: Props<T>) => {
         }
     }, deps)
 
-    return { data, setData, page, setPage, pagination, loading, hasMore: pagination.hasNextPage }
+    const memoizedData = useMemo(() => data, [data])
+
+    return { data: memoizedData, setData, page, setPage, pagination, loading, hasMore: pagination.hasNextPage }
 }
 
 export default usePagination

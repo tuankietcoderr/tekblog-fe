@@ -4,19 +4,26 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { Button } from "./ui/button"
 import { Separator } from "./ui/separator"
 import { useUserContext } from "@/context/UserContext"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import ROUTE from "@/constants/route"
 import UserApiController from "@/api/user"
+import { useAuthContext } from "@/context/AuthContext"
 
 const PeopleCard = ({ _id, avatar, username, name, bio, followers, major }: IUser) => {
     const { user, setUser } = useUserContext()
     const [follow, setFollow] = useState(false)
+    const [followCount, setFollowCount] = useState(followers?.length || 0)
+    const { onOpenDialog } = useAuthContext()
+    const { pathname, search } = useLocation()
     useEffect(() => {
         const isFollowed = !!(user?.following as IUser[])?.find((u) => u?._id === _id)
         setFollow(isFollowed)
     }, [user?.following])
 
     const onClickFollow = async () => {
+        if (!onOpenDialog(pathname.concat(search))) {
+            return
+        }
         setUser((prev) => {
             if (follow) {
                 return {
@@ -88,6 +95,8 @@ const PeopleCard = ({ _id, avatar, username, name, bio, followers, major }: IUse
                     }
                 }
             })
+        } finally {
+            setFollowCount((prev) => prev + (follow ? -1 : 1))
         }
     }
 
@@ -112,7 +121,7 @@ const PeopleCard = ({ _id, avatar, username, name, bio, followers, major }: IUse
                     </div>
                     <div className='flex flex-col gap-2'>
                         <p className='text-xs'>
-                            <span className='font-semibold'>{followers?.length || 0}</span> followers
+                            <span className='font-semibold'>{followCount}</span> followers
                         </p>
                         <p className='text-xs'>
                             {bio} • {major}

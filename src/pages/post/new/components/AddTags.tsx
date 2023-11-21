@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useTagContext } from "@/context/TagContext"
-import React, { useEffect } from "react"
+import React, { memo, useEffect } from "react"
 import { X } from "lucide-react"
 import { useFormContext } from "react-hook-form"
 import { Button } from "@/components/ui/button"
@@ -9,19 +9,17 @@ import { Input } from "@/components/ui/input"
 import TagApiController from "@/api/tag"
 import { useToast } from "@/components/ui/use-toast"
 
-const AddTags = () => {
-    const [_tags, setTags] = React.useState<string[]>([])
+type Props = {
+    tags: string[]
+    setTags: React.Dispatch<React.SetStateAction<string[]>>
+}
+
+const AddTags = ({ tags: _tags, setTags }: Props) => {
     const { tags, setTags: setGlobalTags } = useTagContext()
-    console.log({ tags })
     const unselectedTags = tags?.filter((tag) => !_tags?.includes(tag?._id))
-    const { setValue } = useFormContext<IPost>()
     const [addTag, setAddTag] = React.useState(false)
     const { toast } = useToast()
-
-    useEffect(() => {
-        setValue("tags", _tags)
-    }, [_tags])
-
+    console.log(_tags)
     const handleAddTag = async (tag: string) => {
         if (tag === "") return
         const {
@@ -51,7 +49,7 @@ const AddTags = () => {
                         <p className='text-primary-foreground'>{tags?.find((tag) => tag?._id === tagId)?.title}</p>
                         <X
                             onClick={() => {
-                                setTags(_tags.filter((tag) => tag !== tagId))
+                                setTags((prev) => prev.filter((tag) => tag !== tagId))
                             }}
                             size={16}
                             cursor={"pointer"}
@@ -109,4 +107,4 @@ const AddTags = () => {
     )
 }
 
-export default AddTags
+export default memo(AddTags)

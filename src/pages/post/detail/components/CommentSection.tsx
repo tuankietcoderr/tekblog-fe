@@ -1,5 +1,6 @@
 import CommentApiController from "@/api/comment"
 import ListWithLoading from "@/components/ListWithLoading"
+import Spinner from "@/components/Spinner"
 import UserLink from "@/components/UserLink"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -8,13 +9,14 @@ import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/components/ui/use-toast"
 import ROUTE from "@/constants/route"
 import { defaultPage } from "@/context"
+import { useAuthContext } from "@/context/AuthContext"
 import { usePostContext } from "@/context/PostContext"
 import { useUserContext } from "@/context/UserContext"
 import usePagination from "@/hooks/usePagination"
 import DateUtils from "@/utils/date"
 import MDEditor, { codeEdit, codePreview, commands } from "@uiw/react-md-editor"
 import React, { useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link, useLocation, useParams } from "react-router-dom"
 
 const CommentSection = () => {
     const { user } = useUserContext()
@@ -32,6 +34,8 @@ const CommentSection = () => {
         loading
     } = usePagination<IComment>({ fetcher: () => CommentApiController.getByPostId({ postId, page }) })
     const { toast } = useToast()
+    const { setFallbackUrl } = useAuthContext()
+    const { pathname } = useLocation()
 
     const onCancel = () => {
         setComment("")
@@ -122,14 +126,14 @@ const CommentSection = () => {
                     </div>
                 </div>
             ) : (
-                <Button asChild variant='link' className='flex self-center'>
+                <Button asChild variant='link' className='flex self-center' onClick={() => setFallbackUrl(pathname)}>
                     <Link to={ROUTE.AUTH.SIGIN}>Login to comment</Link>
                 </Button>
             )}
             <Separator className='mt-4' />
             <ListWithLoading<IComment>
                 data={comments}
-                isLoading={loading}
+                isLoading={loading && page === 1}
                 renderItem={(comment) => {
                     const author = comment?.author as IUser
                     return (
@@ -155,6 +159,7 @@ const CommentSection = () => {
                 }}
                 emptyText="There's no comment yet"
                 contentContainerClassName='mt-4'
+                listFooter={loading && <Spinner />}
             />
 
             {page < pagination.totalPages && (
