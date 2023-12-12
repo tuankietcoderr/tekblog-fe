@@ -6,18 +6,19 @@ class AuthController implements IApi {
     readonly path: string = "/auth"
     private readonly PATHS = {
         SIGN_IN: `${this.path}/signin`,
-        REGISTER: `${this.path}/signup`
+        REGISTER: `${this.path}/signup`,
+        FORGOT_PASSWORD: `${this.path}/forgot-password`
     }
 
     async signin({
-        username,
+        usernameOrEmail,
         password
     }: {
-        username: string
+        usernameOrEmail: string
         password: string
     }): Promise<AxiosResponse<SuccessfulResponse<IUser>>> {
         try {
-            const userRes = await apiInstance.post(this.PATHS.SIGN_IN, { username, password })
+            const userRes = await apiInstance.post(this.PATHS.SIGN_IN, { usernameOrEmail, password })
             const {
                 data: { accessToken }
             } = userRes
@@ -32,6 +33,17 @@ class AuthController implements IApi {
         try {
             const userRes = await apiInstance.post(this.PATHS.REGISTER, data)
             return userRes
+        } catch (error) {
+            return error.response
+        }
+    }
+
+    async forgotPassword(usernameOrEmail: string): Promise<AxiosResponse<SuccessfulResponse>> {
+        try {
+            const res = await apiInstance.get(this.PATHS.FORGOT_PASSWORD, {
+                params: { usernameOrEmail }
+            })
+            return res
         } catch (error) {
             return error.response
         }

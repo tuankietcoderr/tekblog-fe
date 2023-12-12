@@ -13,11 +13,12 @@ const PostByTagsPage = () => {
 
     const { page, data, loading, LastElement } = useInfiniteScroll<IPost>({
         fetcher: () => PostApiController.getPostsByTag({ tagId, page }),
-        deps: [tagId]
+        deps: [tagId],
+        canFetch: tagId !== "all"
     })
 
     return (
-        <div className='grid grid-cols-[12rem_auto] gap-5'>
+        <div className='grid grid-cols-[14rem_auto] gap-5'>
             <Tags />
             {tagId !== "all" ? (
                 <ListWithLoading<IPost>

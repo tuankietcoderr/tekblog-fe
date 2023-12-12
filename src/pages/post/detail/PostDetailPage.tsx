@@ -121,7 +121,7 @@ const PostDetailPage = () => {
                                     </Link>
                                 ))}
                             </div>
-                            <div className='w-full prose-ol:list-decimal prose-ul:list-disc' ref={contentRef}>
+                            <div className='prose w-full max-w-none' ref={contentRef}>
                                 <MDEditor.Markdown
                                     source={post?.content}
                                     style={{ backgroundColor: "transparent", width: "100%" }}

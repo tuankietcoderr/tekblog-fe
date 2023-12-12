@@ -1,23 +1,22 @@
 import { createBrowserRouter } from "react-router-dom"
-import BasePage from "./pages/base/BasePage"
+import { LOCAL_STORAGE_KEY } from "./constants/local-storage-key"
 import ROUTE from "./constants/route"
+import AboutPage from "./pages/about/AboutPage"
+import ForgotPasswordPage from "./pages/auth/forgot-password/ForgotPasswordPage"
+import RegisterPage from "./pages/auth/resigter/RegisterPage"
+import SignInPage from "./pages/auth/signin/SignInPage"
+import BasePage from "./pages/base/BasePage"
+import ErrorPage from "./pages/error/ErrorPage"
 import HomePage from "./pages/home/HomePage"
 import PostByTagsPage from "./pages/post/by-tags/PostByTagsPage"
 import PostDetailPage from "./pages/post/detail/PostDetailPage"
+import DraftPage from "./pages/post/draft/DraftPage"
 import CreateNewPostPage from "./pages/post/new/CreateNewPostPage"
 import ProfilePage from "./pages/profile/ProfilePage"
 import ArchivePage from "./pages/profile/archive/ArchivePage"
 import FollowPage from "./pages/profile/follow/FollowPage"
 import SearchPage from "./pages/search/SearchPage"
-import SettingAccount from "./pages/settings/account/SettingAccount"
-import SettingProfile from "./pages/settings/profile/SettingProfile"
-import SignInPage from "./pages/auth/signin/SignInPage"
-import ForgotPasswordPage from "./pages/auth/forgot-password/ForgotPasswordPage"
-import RegisterPage from "./pages/auth/resigter/RegisterPage"
-import AboutPage from "./pages/about/AboutPage"
-import ErrorPage from "./pages/error/ErrorPage"
-import { LOCAL_STORAGE_KEY } from "./constants/local-storage-key"
-import DraftPage from "./pages/post/draft/DraftPage"
+import SettingPage from "./pages/settings/SettingPage"
 
 const router = createBrowserRouter([
     {
@@ -87,12 +86,8 @@ const router = createBrowserRouter([
                 element: <SearchPage />
             },
             {
-                path: ROUTE.SETTINGS.ACCOUNT,
-                element: <SettingAccount />
-            },
-            {
-                path: ROUTE.SETTINGS.PROFILE,
-                element: <SettingProfile />
+                path: ROUTE.SETTINGS,
+                element: <SettingPage />
             },
             {
                 path: ROUTE.ABOUT,

@@ -7,17 +7,13 @@ import useFetchData from "@/hooks/useFetchData"
 interface ITagContext {
     tags: ITag[] | undefined
     setTags: React.Dispatch<React.SetStateAction<ITag[]>>
-    tagsWithPosts?: TagWithPosts[]
     tagsLoading: boolean
-    tagsWithPostsLoading: boolean
 }
 
 export const TagContext = createContext<ITagContext>({
     tags: undefined,
     setTags: () => {},
-    tagsWithPosts: [],
-    tagsLoading: false,
-    tagsWithPostsLoading: false
+    tagsLoading: false
 })
 
 export const useTagContext = () => useContext(TagContext)
@@ -29,16 +25,10 @@ export const TagProvider = ({ children }: PropsWithChildren) => {
         setData: setTags
     } = useFetchData<ITag>({ fetcher: () => TagApiController.getAll() })
 
-    const { data: tagsWithPosts, loading: tagsWithPostsLoading } = useFetchData<TagWithPosts>({
-        fetcher: () => TagApiController.getTagsWithPosts()
-    })
-
     const value = {
         tags,
         setTags,
-        tagsWithPosts,
-        tagsLoading,
-        tagsWithPostsLoading
+        tagsLoading
     }
     return <TagContext.Provider value={value}>{children}</TagContext.Provider>
 }

@@ -5,11 +5,11 @@ import { useTagContext } from "@/context/TagContext"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 
-const HotTags = () => {
+const LeftSideBar = () => {
     const { tags, tagsLoading } = useTagContext()
     const top10Tags = tags?.slice(0, 10)
     return (
-        <div className='flex flex-col gap-3 rounded-md bg-white p-4 shadow-custom'>
+        <div className='sticky top-16 flex flex-col gap-3 self-start rounded-md bg-white p-4 shadow-custom'>
             <h3 className='text-lg font-semibold'>Hot tags</h3>
             <ListWithLoading<ITag>
                 data={top10Tags}
@@ -30,4 +30,4 @@ const HotTags = () => {
     )
 }
 
-export default HotTags
+export default LeftSideBar

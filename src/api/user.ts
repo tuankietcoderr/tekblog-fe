@@ -54,6 +54,27 @@ class UserController implements IApi {
             return error.response
         }
     }
+
+    async updateProfile(data: IUser): Promise<AxiosResponse<SuccessfulResponse<IUser>>> {
+        try {
+            const userRes = await apiInstance.put(this.PATHS.ROOT, data)
+            return userRes
+        } catch (error) {
+            return error.response
+        }
+    }
+
+    async changePassword(data: {
+        oldPassword: string
+        newPassword: string
+    }): Promise<AxiosResponse<SuccessfulResponse>> {
+        try {
+            const userRes = await apiInstance.put(`${this.path}/change-password`, data)
+            return userRes
+        } catch (error) {
+            return error.response
+        }
+    }
 }
 
 const UserApiController = new UserController()

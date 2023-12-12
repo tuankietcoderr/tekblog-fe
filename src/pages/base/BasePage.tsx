@@ -1,4 +1,5 @@
 import ScrollToTop from "@/components/ScrollToTop"
+import Footer from "@/components/footer"
 import NavigationBar from "@/components/navigation"
 import ROUTE from "@/constants/route"
 import { AuthProvider } from "@/context/AuthContext"
@@ -8,7 +9,7 @@ import { Outlet, useLocation } from "react-router-dom"
 
 const BasePage = () => {
     const { pathname } = useLocation()
-    const ignoreShowList = [ROUTE.AUTH.REGISTER, ROUTE.AUTH.SIGIN]
+    const ignoreShowList = [ROUTE.AUTH.REGISTER, ROUTE.AUTH.SIGIN, ROUTE.AUTH.FORGOT_PASSWORD]
     const isRendered = !ignoreShowList.includes(pathname)
 
     return (
@@ -20,6 +21,7 @@ const BasePage = () => {
                     <Outlet />
                 </div>
             </div>
+            <Footer />
         </AuthProvider>
     )
 }

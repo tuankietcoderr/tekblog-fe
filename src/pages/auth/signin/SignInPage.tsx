@@ -14,11 +14,7 @@ import ROUTE from "@/constants/route"
 import { useAuthContext } from "@/context/AuthContext"
 
 const formSchema = z.object({
-    username: z
-        .string()
-        .min(3, { message: "Username must be at least 3 characters long" })
-        .max(20, { message: "Username must be at most 20 characters long" })
-        .refine((data) => new RegExp("^\\w[\\w.]{2,18}\\w$").test(data), "Invalid username"),
+    usernameOrEmail: z.string().min(3, { message: "Username or email must be at least 3 characters long" }),
     password: z
         .string()
         .min(8, { message: "Password must be at least 8 characters long" })
@@ -29,7 +25,7 @@ const SignInPage = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            username: "",
+            usernameOrEmail: "",
             password: ""
         }
     })
@@ -40,11 +36,11 @@ const SignInPage = () => {
     const { fallbackUrl } = useAuthContext()
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        const { username, password } = data
+        const { usernameOrEmail, password } = data
         const {
             data: { success, message, data: user }
         } = await AuthApiController.signin({
-            username: username || "",
+            usernameOrEmail: usernameOrEmail || "",
             password: password || ""
         })
         if (success) {
@@ -57,9 +53,9 @@ const SignInPage = () => {
     }
 
     return (
-        <div className='relative flex min-h-screen items-center justify-end bg-[url("/signin.svg")] bg-cover bg-no-repeat'>
+        <div className='relative flex min-h-screen items-center justify-start bg-[url("/signin.svg")] bg-cover bg-fixed bg-no-repeat'>
             {/* <div className='absolute inset-0 bg-gradient-to-r from-white/40 to-white/20' /> */}
-            <div className='mx-[10%] flex max-w-[390px] flex-col items-stretch gap-14 rounded-md border border-white bg-white/25 p-8 backdrop-blur-sm'>
+            <div className='mx-[10%] flex max-w-[390px] flex-col items-stretch gap-6 rounded-md border border-white bg-white/25 p-8 backdrop-blur-sm'>
                 <div className='flex flex-col items-center gap-4'>
                     <Logo />
                     <h2 className='text-3xl font-bold'>Welcome back</h2>
@@ -69,14 +65,14 @@ const SignInPage = () => {
                     <form className='flex flex-col gap-5' onSubmit={form.handleSubmit(onSubmit)}>
                         <FormField
                             control={form.control}
-                            name='username'
+                            name='usernameOrEmail'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className='text-sm font-semibold'>Username</FormLabel>
+                                    <FormLabel className='text-sm font-semibold'>Username or email</FormLabel>
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            placeholder='Enter your username'
+                                            placeholder='Enter your username or email'
                                             className='bg-white'
                                             autoFocus
                                         />
@@ -120,6 +116,9 @@ const SignInPage = () => {
                         </p>
                     </form>
                 </Form>
+                <Link to={ROUTE.BASE} className='text-center text-sm text-gray-500 underline'>
+                    Back to home page
+                </Link>
             </div>
         </div>
     )

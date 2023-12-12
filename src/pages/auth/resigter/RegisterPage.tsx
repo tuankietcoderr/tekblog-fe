@@ -89,7 +89,7 @@ const RegisterPage = () => {
     return (
         <div className='relative flex min-h-screen items-center justify-start bg-[url("/register.png")] bg-cover bg-fixed bg-no-repeat'>
             {/* <div className='absolute inset-0 bg-gradient-to-r from-white/40 to-white/20' /> */}
-            <div className='mx-[10%] flex max-w-[390px] flex-col items-stretch gap-6 rounded-md border border-white bg-white/25 p-8 backdrop-blur-sm'>
+            <div className='mx-[10%] my-8 flex max-w-[390px] flex-col items-stretch gap-6 rounded-md border border-white bg-white/25 p-8 backdrop-blur-sm'>
                 <div className='flex flex-col items-center gap-4'>
                     <Logo />
                     <h2 className='text-3xl font-bold'>Welcome to TekBlog!</h2>
@@ -219,6 +219,7 @@ const RegisterPage = () => {
                                             <FormControl>
                                                 <Input
                                                     {...field}
+                                                    autoComplete='off'
                                                     placeholder='I love...'
                                                     className='bg-white'
                                                     type='text'
@@ -248,6 +249,9 @@ const RegisterPage = () => {
                         </p>
                     </form>
                 </Form>
+                <Link to={ROUTE.BASE} className='text-center text-sm text-gray-500 underline'>
+                    Back to home page
+                </Link>
             </div>
         </div>
     )
