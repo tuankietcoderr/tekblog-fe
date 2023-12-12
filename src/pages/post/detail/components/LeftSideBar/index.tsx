@@ -5,6 +5,8 @@ import { useLocation, useParams } from "react-router-dom"
 import { useUserContext } from "@/context/UserContext"
 import { usePostContext } from "@/context/PostContext"
 import { useAuthContext } from "@/context/AuthContext"
+import ReportDialog from "@/components/report-dialog"
+import { ObjectType } from "@/enum"
 
 const LeftSideBar = () => {
     const { postId } = useParams<{ postId: string }>()
@@ -138,6 +140,16 @@ const LeftSideBar = () => {
         }
     }
 
+    const [isOpen, setIsOpen] = useState<boolean>(false)
+
+    function handleReportPost() {
+        if (!onOpenDialog(pathname)) {
+            return
+        }
+
+        setIsOpen(true)
+    }
+
     const actions = [
         {
             icon: <Heart fill={like ? "black" : "transparent"} cursor={"pointer"} onClick={handleLikePost} />,
@@ -156,7 +168,7 @@ const LeftSideBar = () => {
             count: saved?.length || 0
         },
         {
-            icon: <Flag cursor={"pointer"} />
+            icon: <Flag cursor={"pointer"} onClick={handleReportPost} />
         }
     ] as {
         icon: React.ReactNode
@@ -171,6 +183,7 @@ const LeftSideBar = () => {
                     {action.count && <span>{action.count}</span>}
                 </div>
             ))}
+            {postId && <ReportDialog isOpen={isOpen} setIsOpen={setIsOpen} objectId={postId} type={ObjectType.POST} />}
         </div>
     )
 }

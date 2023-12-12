@@ -8,10 +8,10 @@ import { Button } from "@/components/ui/button"
 import { Link, useNavigate } from "react-router-dom"
 import Logo from "@/components/logo"
 import AuthApiController from "@/api/auth"
-import { useToast } from "@/components/ui/use-toast"
 import { useUserContext } from "@/context/UserContext"
 import ROUTE from "@/constants/route"
 import { useAuthContext } from "@/context/AuthContext"
+import apiToast from "@/utils/toast"
 
 const formSchema = z.object({
     usernameOrEmail: z.string().min(3, { message: "Username or email must be at least 3 characters long" }),
@@ -31,24 +31,35 @@ const SignInPage = () => {
     })
 
     const navigation = useNavigate()
-    const { toast } = useToast()
     const { setUser } = useUserContext()
     const { fallbackUrl } = useAuthContext()
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         const { usernameOrEmail, password } = data
-        const {
-            data: { success, message, data: user }
-        } = await AuthApiController.signin({
-            usernameOrEmail: usernameOrEmail || "",
-            password: password || ""
-        })
-        if (success) {
-            navigation(fallbackUrl)
-            setUser(user)
-        }
-        toast({
-            description: message
+        // const {
+        //     data: { success, message, data: user }
+        // } = await AuthApiController.signin({
+        //     usernameOrEmail: usernameOrEmail || "",
+        //     password: password || ""
+        // })
+        // if (success) {
+        //     navigation(fallbackUrl)
+        //     setUser(user)
+        // }
+        // toast({
+        //     description: message
+        // })
+
+        apiToast<IUser>({
+            promise: AuthApiController.signin({
+                usernameOrEmail: usernameOrEmail || "",
+                password: password || ""
+            }),
+            onSuccess: (data) => {
+                navigation(fallbackUrl)
+                setUser(data)
+            },
+            loadingText: "Signing in..."
         })
     }
 

@@ -17,7 +17,7 @@ const BasePage = () => {
             <div className='min-h-screen bg-gray-50'>
                 <NavigationBar />
                 <ScrollToTop />
-                <div className={cn(isRendered ? "mx-[8%] py-[2rem]" : "")}>
+                <div className={cn(isRendered ? "mx-[10%] py-[2rem]" : "")}>
                     <Outlet />
                 </div>
             </div>

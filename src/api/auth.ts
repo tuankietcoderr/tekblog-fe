@@ -25,7 +25,7 @@ class AuthController implements IApi {
             localStorage.setItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN, accessToken)
             return userRes
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 
@@ -34,7 +34,7 @@ class AuthController implements IApi {
             const userRes = await apiInstance.post(this.PATHS.REGISTER, data)
             return userRes
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 
@@ -45,7 +45,7 @@ class AuthController implements IApi {
             })
             return res
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 }

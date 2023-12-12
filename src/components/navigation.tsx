@@ -17,9 +17,9 @@ import {
 import { Input } from "./ui/input"
 import { useAuthContext } from "@/context/AuthContext"
 import { SearchType } from "@/enum"
-import { HomeIcon, Info, LucideProps, Tag } from "lucide-react"
-import { Separator } from "./ui/separator"
+import { HomeIcon, Info, LucideProps, Search, Tag } from "lucide-react"
 import { cn } from "@/lib/utils"
+import toast from "react-hot-toast"
 
 const NavigationBar = () => {
     const { pathname, ...location } = useLocation()
@@ -31,13 +31,6 @@ const NavigationBar = () => {
     const { onOpenDialog } = useAuthContext()
     const searchParams = new URLSearchParams(location.search)
     const search_type = (searchParams.get("type") as SearchType) || SearchType.POST
-    useEffect(() => {
-        window.addEventListener("keyup", (e) => {
-            if (e.key === "/") {
-                searchRef.current?.focus()
-            }
-        })
-    }, [])
 
     const onClickCreatePost = () => {
         if (!onOpenDialog()) {
@@ -48,7 +41,7 @@ const NavigationBar = () => {
 
     const onSearch = () => {
         if (searchRef.current.value === "") {
-            return
+            return toast.error("Please enter a search term")
         }
         navigation(`${ROUTE.SEARCH}?q=${searchRef.current?.value}&type=${search_type}`)
         searchRef.current.value = ""
@@ -85,22 +78,25 @@ const NavigationBar = () => {
     }
 
     return isRendered ? (
-        <div className='sticky top-0 z-[99] flex items-center justify-between gap-4 bg-white px-[5%] py-1 shadow-md'>
+        <div className='sticky top-0 z-[99] flex items-center justify-between gap-4 bg-white px-[10%] py-1 shadow-md'>
             <div className='flex items-center gap-3'>
                 <Logo className='h-[36px] w-[36px]' />
-                <div className='flex w-60 items-center gap-2'>
+                <div className='flex items-center gap-2'>
                     <div className='relative w-full'>
                         <Input
                             placeholder='coding, programming,...'
-                            className='bg-transparent'
+                            className='w-60 bg-transparent'
                             ref={searchRef}
                             onKeyUp={(e) => e.key === "Enter" && onSearch()}
                         />
-                        <kbd className='pointer-events-none absolute bottom-2 right-2 top-2 inline-flex select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100'>
-                            <span className='text-xs'>/</span>
-                        </kbd>
+                        <button
+                            className='absolute bottom-1 right-0 top-1 grid cursor-pointer place-items-center px-3 text-muted-foreground transition-colors hover:text-foreground'
+                            onClick={onSearch}
+                            title='Search'
+                        >
+                            <Search size={16} />
+                        </button>
                     </div>
-                    {/* <Button onClick={onSearch}>Search</Button> */}
                 </div>
             </div>
             <div className='flex gap-2'>

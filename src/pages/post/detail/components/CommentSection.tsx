@@ -6,7 +6,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Textarea } from "@/components/ui/textarea"
-import { useToast } from "@/components/ui/use-toast"
 import ROUTE from "@/constants/route"
 import { defaultPage } from "@/context"
 import { useAuthContext } from "@/context/AuthContext"
@@ -14,8 +13,10 @@ import { usePostContext } from "@/context/PostContext"
 import { useUserContext } from "@/context/UserContext"
 import usePagination from "@/hooks/usePagination"
 import DateUtils from "@/utils/date"
+import apiToast from "@/utils/toast"
 import MDEditor, { codeEdit, codePreview, commands } from "@uiw/react-md-editor"
 import React, { useEffect, useState } from "react"
+import toast from "react-hot-toast"
 import { Link, useLocation, useParams } from "react-router-dom"
 
 const CommentSection = () => {
@@ -33,7 +34,6 @@ const CommentSection = () => {
         pagination,
         loading
     } = usePagination<IComment>({ fetcher: () => CommentApiController.getByPostId({ postId, page }) })
-    const { toast } = useToast()
     const { setFallbackUrl } = useAuthContext()
     const { pathname } = useLocation()
 
@@ -43,7 +43,7 @@ const CommentSection = () => {
     }
 
     const onSubmit = async () => {
-        if (comment === "") return toast({ description: "Comment cannot be empty" })
+        if (comment === "") return toast.error("Comment cannot be empty")
         const newComment = {
             content: comment,
             post: postId
@@ -51,38 +51,37 @@ const CommentSection = () => {
 
         setCommenting(true)
 
-        const {
-            data: { data: newC, message, success }
-        } = await CommentApiController.create(newComment)
-        if (success) {
-            setCommenting(false)
-            setComment("")
-            setFocusing(false)
-            setData((prev) => [
-                {
-                    ...newC,
-                    author: user
-                },
-                ...prev
-            ])
-            setPosts((prev) => {
-                const newPosts = prev?.map((post) => {
-                    if (post._id === postId) {
-                        return {
-                            ...post,
-                            comments: [...post.comments, newC._id] as string[]
+        apiToast({
+            promise: CommentApiController.create(newComment),
+            onSuccess: (data) => {
+                setCommenting(false)
+                setComment("")
+                setFocusing(false)
+                setData((prev) => [
+                    {
+                        ...data,
+                        author: user
+                    },
+                    ...prev
+                ])
+                setPosts((prev) => {
+                    const newPosts = prev?.map((post) => {
+                        if (post._id === postId) {
+                            return {
+                                ...post,
+                                comments: [...post.comments, data._id] as string[]
+                            }
                         }
-                    }
-                    return post
+                        return post
+                    })
+                    return newPosts
                 })
-                return newPosts
-            })
-        } else {
-            setCommenting(false)
-            toast({
-                description: message || "Something went wrong"
-            })
-        }
+            },
+            onFail: () => {
+                setCommenting(false)
+            },
+            loadingText: "Commenting..."
+        })
     }
 
     return (

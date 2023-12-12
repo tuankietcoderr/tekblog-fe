@@ -3,10 +3,10 @@ declare interface IReport {
     content: string
     objectType: ObjectType
     object: string | IUser | IPost | IComment
-    refPath: string
-    reporter: string | IUser
-    createdAt: Date
-    updatedAt: Date
+    refPath?: string
+    reporter?: string | IUser
+    createdAt?: Date
+    updatedAt?: Date
 }
 
 declare interface ITag {

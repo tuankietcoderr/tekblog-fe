@@ -2,16 +2,13 @@ import UserApiController from "@/api/user"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useToast } from "@/components/ui/use-toast"
-import MAJORS from "@/constants/major"
 import { useUserContext } from "@/context/UserContext"
 import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
-import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import AccountEmail from "./AccountEmail"
+import apiToast from "@/utils/toast"
 
 const formSchema = z
     .object({
@@ -44,28 +41,14 @@ const SettingAccount = () => {
         }
     })
 
-    const { toast } = useToast()
-    const [loading, setLoading] = useState(false)
-
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        setLoading(true)
-        try {
-            const {
-                data: { message, success }
-            } = await UserApiController.changePassword(data as any)
-            toast({
-                description: message
-            })
-            if (success) {
+        apiToast({
+            promise: UserApiController.changePassword(data as any),
+            onSuccess: () => {
                 form.reset()
-            }
-        } catch (err) {
-            toast({
-                description: err.message
-            })
-        } finally {
-            setLoading(false)
-        }
+            },
+            loadingText: "Changing password..."
+        })
     }
 
     return (
@@ -138,8 +121,8 @@ const SettingAccount = () => {
                             )}
                         />
 
-                        <Button type='submit' className={cn("self-start", loading && "opacity-60")} disabled={loading}>
-                            {loading ? "Loading..." : "Set new password"}
+                        <Button type='submit' className={cn("self-start")}>
+                            Set new password
                         </Button>
                     </form>
                 </Form>

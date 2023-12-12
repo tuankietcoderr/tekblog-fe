@@ -9,6 +9,7 @@ import { Link, useLocation } from "react-router-dom"
 import UserLink from "@/components/UserLink"
 import UserApiController from "@/api/user"
 import { useAuthContext } from "@/context/AuthContext"
+import ReportDialog from "@/components/report-dialog"
 
 type Props = {
     author: IUser
@@ -103,7 +104,13 @@ const ProfileInfo = ({ author }: Props) => {
             })
         }
     }
-    const handleReport = () => {}
+
+    const [isOpen, setIsOpen] = useState(false)
+
+    const handleReport = () => {
+        setIsOpen(true)
+    }
+
     return (
         <div className='flex flex-col gap-3 rounded-md bg-white p-4 shadow-custom'>
             <div className='flex items-center gap-4'>
@@ -138,6 +145,7 @@ const ProfileInfo = ({ author }: Props) => {
                 </p>
                 <p>{DateUtils.customFormat(createdAt, "LLL")}</p>
             </div>
+            <ReportDialog isOpen={isOpen} setIsOpen={setIsOpen} objectId={author?._id} />
         </div>
     )
 }

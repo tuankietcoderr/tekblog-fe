@@ -1,9 +1,9 @@
 import { RouterProvider } from "react-router-dom"
-import { Toaster } from "./components/ui/toaster"
 import { PostProvider } from "./context/PostContext"
 import { TagProvider } from "./context/TagContext"
 import { UserProvider } from "./context/UserContext"
 import router from "./route"
+import { Toaster } from "react-hot-toast"
 
 function App() {
     return (
@@ -11,7 +11,12 @@ function App() {
             <PostProvider>
                 <TagProvider>
                     <RouterProvider router={router} />
-                    <Toaster />
+                    <Toaster
+                        position='bottom-center'
+                        toastOptions={{
+                            duration: 2000
+                        }}
+                    />
                 </TagProvider>
             </PostProvider>
         </UserProvider>

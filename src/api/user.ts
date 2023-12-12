@@ -14,7 +14,7 @@ class UserController implements IApi {
             const userRes = await apiInstance.get(this.PATHS.ROOT)
             return userRes
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 
@@ -23,7 +23,7 @@ class UserController implements IApi {
             const followRes = await apiInstance.put(this.PATHS.FOLLOW.replace(":userId", userId))
             return followRes
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 
@@ -32,7 +32,7 @@ class UserController implements IApi {
             const userRes = await apiInstance.get(this.PATHS.ID.replace(":userId", userId))
             return userRes
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 
@@ -51,7 +51,7 @@ class UserController implements IApi {
             })
             return userRes
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 
@@ -60,7 +60,7 @@ class UserController implements IApi {
             const userRes = await apiInstance.put(this.PATHS.ROOT, data)
             return userRes
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 
@@ -72,7 +72,7 @@ class UserController implements IApi {
             const userRes = await apiInstance.put(`${this.path}/change-password`, data)
             return userRes
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 }

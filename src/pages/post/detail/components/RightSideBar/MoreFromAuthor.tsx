@@ -1,13 +1,11 @@
-import ROUTE from "@/constants/route"
-import { useUserContext } from "@/context/UserContext"
-import React, { useEffect } from "react"
-import { Link, useParams } from "react-router-dom"
-import { ArrowRight } from "lucide-react"
-import { Separator } from "@/components/ui/separator"
 import PostApiController from "@/api/post"
 import SimplePostCard from "@/components/SimplePostCard"
-import { useToast } from "@/components/ui/use-toast"
 import UserLink from "@/components/UserLink"
+import { Separator } from "@/components/ui/separator"
+import { ArrowRight } from "lucide-react"
+import React, { useEffect } from "react"
+import toast from "react-hot-toast"
+import { useParams } from "react-router-dom"
 
 type Props = {
     author: IUser
@@ -18,7 +16,6 @@ const MoreFromAuthor = ({ author }: Props) => {
 
     const [posts, setPosts] = React.useState<IPost[]>([])
     const { postId } = useParams<{ postId: string }>()
-    const { toast } = useToast()
     useEffect(() => {
         if (author?._id && postId) {
             ;(async function () {
@@ -28,9 +25,7 @@ const MoreFromAuthor = ({ author }: Props) => {
                 if (success) {
                     setPosts(posts.filter((p) => p._id !== postId).slice(0, 5))
                 } else {
-                    toast({
-                        description: message || "Something went wrong"
-                    })
+                    toast.error(message || "Something went wrong")
                 }
             })()
         }

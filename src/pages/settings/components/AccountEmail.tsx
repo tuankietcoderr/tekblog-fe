@@ -1,23 +1,21 @@
 import VerifyApiController from "@/api/verify"
 import { Button } from "@/components/ui/button"
-import { useToast } from "@/components/ui/use-toast"
 import { useUserContext } from "@/context/UserContext"
 import { cn } from "@/lib/utils"
+import apiToast from "@/utils/toast"
 import React, { useState } from "react"
+import toast from "react-hot-toast"
 
 const AccountEmail = () => {
     const { user } = useUserContext()
-    const { toast } = useToast()
-    const [loading, setLoading] = useState(false)
     const onSendVerificationEmail = async () => {
-        setLoading(true)
-        const {
-            data: { message, success }
-        } = await VerifyApiController.sendVerifyEmail()
-        toast({
-            description: message
+        apiToast({
+            promise: VerifyApiController.sendVerifyEmail(),
+            onSuccess: (message) => {
+                toast.success(message)
+            },
+            loadingText: "Sending verification email..."
         })
-        setLoading(false)
     }
     return (
         <div className='flex flex-col gap-4 rounded-md bg-white p-4 shadow-custom'>
@@ -28,13 +26,8 @@ const AccountEmail = () => {
                 {user?.isEmailVerified ? (
                     <p className='text-sm font-semibold text-green-500'>Verified</p>
                 ) : (
-                    <Button
-                        onClick={onSendVerificationEmail}
-                        variant='outline'
-                        disabled={loading}
-                        className={cn(loading && "opacity-50")}
-                    >
-                        {loading ? "Sending..." : "Send verification email"}
+                    <Button onClick={onSendVerificationEmail} variant='outline'>
+                        Send verification email
                     </Button>
                 )}
             </div>

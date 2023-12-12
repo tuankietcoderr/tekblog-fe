@@ -15,7 +15,7 @@ const Tags = () => {
     const { tags, tagsLoading } = useTagContext()
     return (
         <div className='self-start rounded-md bg-white p-4 shadow-custom'>
-            <h2 className='mb-2 text-lg font-bold'>All tags</h2>
+            <h2 className='mb-3 text-lg font-semibold'>All tags</h2>
             <ListWithLoading<ITag>
                 data={tags}
                 isLoading={tagsLoading}
@@ -32,7 +32,7 @@ const Tags = () => {
                     </Link>
                 )}
                 emptyText='No tags found'
-                contentContainerClassName='flex flex-col gap-3'
+                contentContainerClassName='flex flex-col gap-2'
             />
         </div>
     )

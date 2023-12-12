@@ -1,7 +1,7 @@
 import PostApiController from "@/api/post"
 import SimpleAvatarPostCard from "@/components/SimpleAvatarPostCard"
-import { useToast } from "@/components/ui/use-toast"
 import React, { useEffect, useState } from "react"
+import toast from "react-hot-toast"
 import { useParams } from "react-router-dom"
 
 const RelatedPosts = () => {
@@ -9,7 +9,6 @@ const RelatedPosts = () => {
         postId: string
     }>()
     const [posts, setPosts] = useState<IPost[]>([])
-    const { toast } = useToast()
     useEffect(() => {
         ;(async function () {
             const {
@@ -18,9 +17,7 @@ const RelatedPosts = () => {
             if (success) {
                 setPosts(posts.filter((p) => p._id !== postId).slice(0, 5))
             } else {
-                toast({
-                    description: message || "Something went wrong"
-                })
+                toast.error(message || "Something went wrong")
             }
         })()
     }, [postId])

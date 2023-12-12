@@ -14,7 +14,7 @@ class TagController implements IApi {
             const tagRes = await apiInstance.get(this.PATHS.ROOT)
             return tagRes
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 
@@ -23,7 +23,7 @@ class TagController implements IApi {
             const tagRes = await apiInstance.get(this.PATHS.SOME)
             return tagRes
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 
@@ -32,7 +32,7 @@ class TagController implements IApi {
             const tagRes = await apiInstance.post(this.PATHS.ROOT, tag)
             return tagRes
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 }

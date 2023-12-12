@@ -34,46 +34,10 @@ const PostDetailPage = () => {
         deps: [postId]
     })
 
-    const navigate = useNavigate()
-
     const authorObject = post?.author as IUser
     const tagsObject = post?.tags as ITag[]
 
-    // if (!loading) {
-    //     if (post) {
-    //         if (authorObject?._id !== user?._id && post?.isDraft) {
-    //             return (
-    //                 <AlertDialog defaultOpen>
-    //                     <AlertDialogContent>
-    //                         <AlertDialogHeader>
-    //                             <AlertDialogTitle>Warning</AlertDialogTitle>
-    //                             <AlertDialogDescription>
-    //                                 This post is draft and not visible to others except author. Please go back.
-    //                             </AlertDialogDescription>
-    //                         </AlertDialogHeader>
-    //                         <AlertDialogFooter>
-    //                             <AlertDialogAction onClick={() => navigate(-1)}>Go back</AlertDialogAction>
-    //                         </AlertDialogFooter>
-    //                     </AlertDialogContent>
-    //                 </AlertDialog>
-    //             )
-    //         }
-    //     }
-    // }
-
     const contentRef = useRef<HTMLDivElement>(null)
-
-    useEffect(() => {
-        // if (contentRef.current) {
-        //     const headings1 = contentRef.current.querySelectorAll("h1")
-        //     headings1.forEach((heading) => {
-        //         const headings2 = heading.querySelectorAll("h2")
-        //         headings2.forEach((heading) => {
-        //             heading.classList.add("ml-4")
-        //         })
-        //     })
-        // }
-    }, [])
 
     return (
         <div className='relative grid grid-cols-[2rem_auto_18rem] self-start'>

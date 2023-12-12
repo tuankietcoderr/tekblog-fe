@@ -29,7 +29,7 @@ class SearchController implements IApi {
             })
             return response
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 }

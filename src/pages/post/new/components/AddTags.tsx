@@ -7,7 +7,7 @@ import { useFormContext } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import TagApiController from "@/api/tag"
-import { useToast } from "@/components/ui/use-toast"
+import apiToast from "@/utils/toast"
 
 type Props = {
     tags: string[]
@@ -18,24 +18,18 @@ const AddTags = ({ tags: _tags, setTags }: Props) => {
     const { tags, setTags: setGlobalTags } = useTagContext()
     const unselectedTags = tags?.filter((tag) => !_tags?.includes(tag?._id))
     const [addTag, setAddTag] = React.useState(false)
-    const { toast } = useToast()
-    console.log(_tags)
     const handleAddTag = async (tag: string) => {
         if (tag === "") return
-        const {
-            data: { data: newTag, success, message }
-        } = await TagApiController.create({
-            title: tag
+        apiToast({
+            promise: TagApiController.create({
+                title: tag
+            }),
+            onSuccess: (data) => {
+                setTags((prev) => [...prev, data?._id])
+                setGlobalTags((prev) => [...prev, data])
+                setAddTag(false)
+            }
         })
-        if (success) {
-            setTags((prev) => [...prev, newTag?._id])
-            setGlobalTags((prev) => [...prev, newTag])
-            setAddTag(false)
-        } else {
-            toast({
-                description: message
-            })
-        }
     }
 
     return (

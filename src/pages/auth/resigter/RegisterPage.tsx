@@ -11,9 +11,8 @@ import Logo from "@/components/logo"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import MAJORS from "@/constants/major"
 import AuthApiController from "@/api/auth"
-import { useToast } from "@/components/ui/use-toast"
-import axios from "axios"
 import { useAuthContext } from "@/context/AuthContext"
+import toast from "react-hot-toast"
 
 const formSchema = z
     .object({
@@ -52,7 +51,6 @@ const RegisterPage = () => {
 
     const [step, setStep] = React.useState(1) // 2 step
     const navigation = useNavigate()
-    const { toast } = useToast()
     const { fallbackUrl } = useAuthContext()
 
     const handleOnClickNext = () => {
@@ -70,19 +68,19 @@ const RegisterPage = () => {
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         try {
             if (form.formState.isValid) {
-                console.log(data)
-                const {
-                    data: { success, message }
-                } = await AuthApiController.register(data as any)
-                if (success) {
-                    navigation(fallbackUrl)
-                }
-                toast({
-                    description: message
+                toast.promise(AuthApiController.register(data as any), {
+                    loading: "Registering...",
+                    success: ({ data: { success, message } }) => {
+                        if (success) {
+                            navigation(fallbackUrl)
+                        }
+                        return message
+                    },
+                    error: ({ data: { message } }) => message
                 })
             }
         } catch (err) {
-            console.log(err)
+            toast.error("Something went wrong")
         }
     }
 

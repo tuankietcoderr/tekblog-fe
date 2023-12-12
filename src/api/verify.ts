@@ -17,7 +17,7 @@ class VerifyController implements IApi {
             })
             return verifyRes
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 
@@ -26,7 +26,7 @@ class VerifyController implements IApi {
             const verifyRes = await apiInstance.post(this.PATHS.SEND)
             return verifyRes
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 }

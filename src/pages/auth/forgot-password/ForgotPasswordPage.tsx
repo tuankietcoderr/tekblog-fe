@@ -8,38 +8,32 @@ import { Button } from "@/components/ui/button"
 import { Link, useNavigate } from "react-router-dom"
 import Logo from "@/components/logo"
 import AuthApiController from "@/api/auth"
-import { useToast } from "@/components/ui/use-toast"
 import { useUserContext } from "@/context/UserContext"
 import ROUTE from "@/constants/route"
 import { useAuthContext } from "@/context/AuthContext"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
+import apiToast from "@/utils/toast"
+import toast from "react-hot-toast"
 
 const ForgotPasswordPage = () => {
     const navigation = useNavigate()
-    const { toast } = useToast()
     const [usernameOrEmail, setUsernameOrEmail] = React.useState("")
-    const [loading, setLoading] = React.useState(false)
     const [success, setSuccess] = React.useState(false)
 
     const handleOnClickSend = async () => {
         if (!usernameOrEmail) {
-            toast({
-                description: "Please enter your username or email"
-            })
+            toast.error("Please enter your username or email")
             return
         }
-        setLoading(true)
-        const {
-            data: { success, message }
-        } = await AuthApiController.forgotPassword(usernameOrEmail)
-        toast({
-            description: message
+
+        apiToast({
+            promise: AuthApiController.forgotPassword(usernameOrEmail),
+            onSuccess: () => {
+                setSuccess(true)
+            },
+            loadingText: "Sending..."
         })
-        if (success) {
-            setSuccess(true)
-        }
-        setLoading(false)
     }
 
     return (
@@ -71,13 +65,7 @@ const ForgotPasswordPage = () => {
                                 <Button onClick={() => navigation(-1)} variant='secondary' className='bg-white'>
                                     Cancel
                                 </Button>
-                                <Button
-                                    onClick={handleOnClickSend}
-                                    disabled={loading}
-                                    className={cn(loading && "opacity-50")}
-                                >
-                                    {loading ? "Sending..." : "Send"}
-                                </Button>
+                                <Button onClick={handleOnClickSend}>Send</Button>
                             </div>
                         </>
                     ) : (

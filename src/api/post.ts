@@ -19,7 +19,7 @@ class PostController implements IApi {
             const posts = await apiInstance.get(this.PATHS.ROOT, { params: { limit, page } })
             return posts
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 
@@ -28,7 +28,7 @@ class PostController implements IApi {
             const post = await apiInstance.get(this.PATHS.ID.replace(":postId", postId))
             return post
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 
@@ -46,7 +46,7 @@ class PostController implements IApi {
             })
             return posts
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 
@@ -55,7 +55,7 @@ class PostController implements IApi {
             const posts = await apiInstance.get(this.PATHS.RELATED.replace(":postId", postId))
             return posts
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 
@@ -72,7 +72,7 @@ class PostController implements IApi {
             })
             return posts
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 
@@ -87,7 +87,7 @@ class PostController implements IApi {
             const posts = await apiInstance.get(this.PATHS.ARCHIVED, { params: { page, limit, type } })
             return posts
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 
@@ -96,7 +96,7 @@ class PostController implements IApi {
             const createdPost = await apiInstance.post(this.PATHS.ROOT, post)
             return createdPost
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 
@@ -105,7 +105,7 @@ class PostController implements IApi {
             const post = await apiInstance.put(this.PATHS.SAVE.replace(":postId", postId))
             return post
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 
@@ -114,7 +114,7 @@ class PostController implements IApi {
             const post = await apiInstance.put(this.PATHS.LIKE.replace(":postId", postId))
             return post
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 
@@ -123,7 +123,7 @@ class PostController implements IApi {
             const post = await apiInstance.put(this.PATHS.ID.replace(":postId", postId), data)
             return post
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 
@@ -132,7 +132,7 @@ class PostController implements IApi {
             const post = await apiInstance.delete(this.PATHS.ID.replace(":postId", postId))
             return post
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 }

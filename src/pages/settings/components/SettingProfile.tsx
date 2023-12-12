@@ -3,13 +3,14 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useToast } from "@/components/ui/use-toast"
 import MAJORS from "@/constants/major"
 import { useUserContext } from "@/context/UserContext"
 import { cn } from "@/lib/utils"
+import apiToast from "@/utils/toast"
 import { zodResolver } from "@hookform/resolvers/zod"
-import React, { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
+import toast from "react-hot-toast"
 import { z } from "zod"
 
 const formSchema = z.object({
@@ -57,25 +58,11 @@ const SettingProfile = () => {
         }
     }, [user])
 
-    const { toast } = useToast()
-    const [loading, setLoading] = useState(false)
-
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        setLoading(true)
-        try {
-            const {
-                data: { message }
-            } = await UserApiController.updateProfile(data as any)
-            toast({
-                description: message
-            })
-        } catch (err) {
-            toast({
-                description: err.message
-            })
-        } finally {
-            setLoading(false)
-        }
+        apiToast({
+            promise: UserApiController.updateProfile(data as any),
+            loadingText: "Updating..."
+        })
     }
 
     return (
@@ -189,8 +176,8 @@ const SettingProfile = () => {
                             </FormItem>
                         )}
                     />
-                    <Button type='submit' className={cn("self-start", loading && "opacity-60")} disabled={loading}>
-                        {loading ? "Loading..." : "Submit"}
+                    <Button type='submit' className={cn("self-start")}>
+                        Submit
                     </Button>
                 </form>
             </Form>

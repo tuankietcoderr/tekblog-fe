@@ -12,7 +12,7 @@ class CommentController implements IApi {
             const comment = await apiInstance.post(this.PATHS.POST.replace(":postId", data.post as string), data)
             return comment
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 
@@ -27,7 +27,7 @@ class CommentController implements IApi {
             })
             return comments
         } catch (error) {
-            return error.response
+            throw error.response
         }
     }
 }
