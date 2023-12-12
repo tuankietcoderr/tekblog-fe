@@ -11,9 +11,6 @@ const AccountEmail = () => {
     const onSendVerificationEmail = async () => {
         apiToast({
             promise: VerifyApiController.sendVerifyEmail(),
-            onSuccess: (message) => {
-                toast.success(message)
-            },
             loadingText: "Sending verification email..."
         })
     }
