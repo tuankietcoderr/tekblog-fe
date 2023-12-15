@@ -100,7 +100,13 @@ class PostController implements IApi {
         }
     }
 
-    async save(postId: string): Promise<AxiosResponse<SuccessfulResponse<IPost>>> {
+    async save(postId: string): Promise<
+        AxiosResponse<
+            SuccessfulResponse<{
+                save: boolean
+            }>
+        >
+    > {
         try {
             const post = await apiInstance.put(this.PATHS.SAVE.replace(":postId", postId))
             return post

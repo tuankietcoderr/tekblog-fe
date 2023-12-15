@@ -1,4 +1,5 @@
 const MAJORS = [
+    "Software Engineering",
     "Computer Science",
     "Computer Engineering",
     "Electrical Engineering",

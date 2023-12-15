@@ -152,23 +152,37 @@ const LeftSideBar = () => {
 
     const actions = [
         {
-            icon: <Heart fill={like ? "black" : "transparent"} cursor={"pointer"} onClick={handleLikePost} />,
+            icon: (
+                <Heart
+                    fill={like ? "black" : "transparent"}
+                    className='hover:fill-black'
+                    cursor={"pointer"}
+                    onClick={handleLikePost}
+                />
+            ),
             count: likes?.length || 0
         },
         {
             icon: (
                 <a href='#comments'>
-                    <MessageCircle cursor={"pointer"} />
+                    <MessageCircle className='hover:fill-black' cursor={"pointer"} />
                 </a>
             ),
             count: comments?.length || 0
         },
         {
-            icon: <Bookmark fill={save ? "black" : "transparent"} cursor={"pointer"} onClick={handleSavePost} />,
+            icon: (
+                <Bookmark
+                    fill={save ? "black" : "transparent"}
+                    className='hover:fill-black'
+                    cursor={"pointer"}
+                    onClick={handleSavePost}
+                />
+            ),
             count: saved?.length || 0
         },
         {
-            icon: <Flag cursor={"pointer"} onClick={handleReportPost} />
+            icon: <Flag cursor={"pointer"} className='hover:fill-black' onClick={handleReportPost} />
         }
     ] as {
         icon: React.ReactNode

@@ -32,7 +32,7 @@ const formSchema = z.object({
 })
 
 const SettingProfile = () => {
-    const { user } = useUserContext()
+    const { user, setUser } = useUserContext()
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -61,7 +61,13 @@ const SettingProfile = () => {
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         apiToast({
             promise: UserApiController.updateProfile(data as any),
-            loadingText: "Updating..."
+            loadingText: "Updating...",
+            onSuccess: (data) => {
+                setUser((prev) => ({
+                    ...prev,
+                    ...data
+                }))
+            }
         })
     }
 

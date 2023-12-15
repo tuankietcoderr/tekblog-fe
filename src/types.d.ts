@@ -54,8 +54,6 @@ declare interface IUser {
     isEmailVerified: boolean
     followers: string[] | IUser[]
     following: string[] | IUser[]
-    likedPosts: string[] | IPost[]
-    savedPosts: string[] | IPost[]
     createdAt: Date
     updatedAt: Date
 }

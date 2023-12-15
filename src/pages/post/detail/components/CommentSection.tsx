@@ -18,6 +18,7 @@ import MDEditor, { codeEdit, codePreview, commands } from "@uiw/react-md-editor"
 import React, { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { Link, useLocation, useParams } from "react-router-dom"
+import CommentItem from "./CommentItem"
 
 const CommentSection = () => {
     const { user } = useUserContext()
@@ -33,7 +34,10 @@ const CommentSection = () => {
         setData,
         pagination,
         loading
-    } = usePagination<IComment>({ fetcher: () => CommentApiController.getByPostId({ postId, page }) })
+    } = usePagination<IComment>({
+        fetcher: () => CommentApiController.getByPostId({ postId, page }),
+        deps: [postId]
+    })
     const { setFallbackUrl } = useAuthContext()
     const { pathname } = useLocation()
 
@@ -92,7 +96,7 @@ const CommentSection = () => {
                     <div className='my-4 flex gap-2'>
                         <Avatar>
                             <AvatarFallback>{user?.name?.substring(0, 2)}</AvatarFallback>
-                            <AvatarImage src={user?.avatar} alt={user?.username} />
+                            <AvatarImage src={user?.avatar} alt={user?.username} className='object-cover' />
                         </Avatar>
                         <div onFocus={() => setFocusing(true)} className='w-full'>
                             {focusing ? (
@@ -133,29 +137,7 @@ const CommentSection = () => {
             <ListWithLoading<IComment>
                 data={comments}
                 isLoading={loading && page === 1}
-                renderItem={(comment) => {
-                    const author = comment?.author as IUser
-                    return (
-                        <div className='my-4 flex gap-2' key={comment?._id}>
-                            <UserLink cmpId={author?._id} className='mt-2'>
-                                <Avatar>
-                                    <AvatarFallback>{author?.name?.substring(0, 2)}</AvatarFallback>
-                                    <AvatarImage src={author?.avatar} alt={author?.username} />
-                                </Avatar>
-                            </UserLink>
-                            <div className='flex w-full flex-col gap-2 rounded-md border border-border p-4'>
-                                <p>
-                                    <UserLink cmpId={author?._id} className='font-semibold'>
-                                        {author?.name}
-                                    </UserLink>{" "}
-                                    <span>•</span>{" "}
-                                    <span className='text-xs'>{DateUtils.getAgos(comment?.createdAt)}</span>
-                                </p>
-                                <MDEditor.Markdown source={comment.content} />
-                            </div>
-                        </div>
-                    )
-                }}
+                renderItem={(comment) => <CommentItem comment={comment} key={comment?._id} />}
                 emptyText="There's no comment yet"
                 contentContainerClassName='mt-4'
                 listFooter={loading && <Spinner />}

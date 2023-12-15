@@ -13,6 +13,8 @@ import MAJORS from "@/constants/major"
 import AuthApiController from "@/api/auth"
 import { useAuthContext } from "@/context/AuthContext"
 import toast from "react-hot-toast"
+import { useUserContext } from "@/context/UserContext"
+import apiToast from "@/utils/toast"
 
 const formSchema = z
     .object({
@@ -45,9 +47,14 @@ const RegisterPage = () => {
         defaultValues: {
             username: "",
             password: "",
-            confirmPassword: ""
+            confirmPassword: "",
+            bio: "",
+            major: "",
+            name: "",
+            email: ""
         }
     })
+    const { setUser } = useUserContext()
 
     const [step, setStep] = React.useState(1) // 2 step
     const navigation = useNavigate()
@@ -68,15 +75,13 @@ const RegisterPage = () => {
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         try {
             if (form.formState.isValid) {
-                toast.promise(AuthApiController.register(data as any), {
-                    loading: "Registering...",
-                    success: ({ data: { success, message } }) => {
-                        if (success) {
-                            navigation(fallbackUrl)
-                        }
-                        return message
+                apiToast<IUser>({
+                    promise: AuthApiController.register(data as any),
+                    onSuccess: (data) => {
+                        navigation(fallbackUrl)
+                        setUser(data)
                     },
-                    error: ({ data: { message } }) => message
+                    loadingText: "Signing in..."
                 })
             }
         } catch (err) {
@@ -95,140 +100,133 @@ const RegisterPage = () => {
                 </div>
                 <Form {...form}>
                     <form className='flex flex-col gap-3' onSubmit={form.handleSubmit(onSubmit)}>
-                        {step === 1 ? (
-                            <>
-                                <FormField
-                                    control={form.control}
-                                    name='name'
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className='text-sm font-semibold'>Full name</FormLabel>
+                        <div className={step === 1 ? "flex flex-col gap-3" : "hidden"}>
+                            <FormField
+                                control={form.control}
+                                name='name'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className='text-sm font-semibold'>Full name</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                placeholder='Tek de Blog'
+                                                className='bg-white'
+                                                autoFocus
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='email'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className='text-sm font-semibold'>Email</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} placeholder='example@gmail.com' className='bg-white' />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='username'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className='text-sm font-semibold'>Username</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} placeholder='tekblog' className='bg-white' />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='password'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className='text-sm font-semibold'>Password</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                placeholder='12345678aA@'
+                                                type='password'
+                                                className='bg-white'
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='confirmPassword'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className='text-sm font-semibold'>Confirm password</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                placeholder='12345678aA@'
+                                                type='password'
+                                                className='bg-white'
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <div className={step === 2 ? "flex flex-col gap-3" : "hidden"}>
+                            <FormField
+                                control={form.control}
+                                name='major'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className='text-sm font-semibold'>Major</FormLabel>
+                                        <Select onValueChange={field.onChange}>
                                             <FormControl>
-                                                <Input
-                                                    {...field}
-                                                    placeholder='Tek de Blog'
-                                                    className='bg-white'
-                                                    autoFocus
-                                                />
+                                                <SelectTrigger className='bg-white'>
+                                                    <SelectValue placeholder='Choose your major' />
+                                                </SelectTrigger>
                                             </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name='email'
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className='text-sm font-semibold'>Email</FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    {...field}
-                                                    placeholder='example@gmail.com'
-                                                    className='bg-white'
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name='username'
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className='text-sm font-semibold'>Username</FormLabel>
-                                            <FormControl>
-                                                <Input {...field} placeholder='tekblog' className='bg-white' />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name='password'
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className='text-sm font-semibold'>Password</FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    {...field}
-                                                    placeholder='12345678aA@'
-                                                    type='password'
-                                                    className='bg-white'
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name='confirmPassword'
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className='text-sm font-semibold'>Confirm password</FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    {...field}
-                                                    placeholder='12345678aA@'
-                                                    type='password'
-                                                    className='bg-white'
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </>
-                        ) : (
-                            <>
-                                <FormField
-                                    control={form.control}
-                                    name='major'
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className='text-sm font-semibold'>Major</FormLabel>
-                                            <FormControl>
-                                                <Select onValueChange={field.onChange}>
-                                                    <SelectTrigger className='bg-white'>
-                                                        <SelectValue placeholder='Choose your major' />
-                                                    </SelectTrigger>
-                                                    <SelectContent position='item-aligned'>
-                                                        {MAJORS.map((major) => (
-                                                            <SelectItem key={major} value={major}>
-                                                                {major}
-                                                            </SelectItem>
-                                                        ))}
-                                                    </SelectContent>
-                                                </Select>
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name='bio'
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className='text-sm font-semibold'>Bio (optional)</FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    {...field}
-                                                    autoComplete='off'
-                                                    placeholder='I love...'
-                                                    className='bg-white'
-                                                    type='text'
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </>
-                        )}
+                                            <SelectContent position='item-aligned'>
+                                                {MAJORS.map((major) => (
+                                                    <SelectItem key={major} value={major}>
+                                                        {major}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='bio'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className='text-sm font-semibold'>Bio (optional)</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                autoComplete='off'
+                                                placeholder='I love...'
+                                                className='bg-white'
+                                                type='text'
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
                         {step === 1 && <Button onClick={handleOnClickNext}>Next</Button>}
                         {step === 2 && <Button type='submit'>Finish</Button>}
                         {step === 2 && (

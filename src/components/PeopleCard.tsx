@@ -106,7 +106,7 @@ const PeopleCard = ({ _id, avatar, username, name, bio, followers, major }: IUse
                 <UserLink cmpId={_id} className='self-center'>
                     <Avatar className='h-16 w-16'>
                         <AvatarFallback>{name?.substring(0, 2)}</AvatarFallback>
-                        <AvatarImage src={avatar} alt={username} />
+                        <AvatarImage src={avatar} alt={username} className='object-cover' />
                     </Avatar>
                 </UserLink>
                 <div className='flex flex-col gap-2'>

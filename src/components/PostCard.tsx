@@ -22,44 +22,39 @@ const PostCard = ({ showThumbnail = false, showBookmark = true, showEdit = false
     const authorObject = author as IUser
     const tagsObject = tags as ITag[]
     const { user } = useUserContext()
-    const { setPosts } = usePostContext()
+    const { posts, setPosts } = usePostContext()
     const [save, setSave] = React.useState(false)
     const { onOpenDialog } = useAuthContext()
     useEffect(() => {
         const isSaved = saved?.find((saved) => saved === user?._id)
         if (isSaved) {
             setSave(true)
+        } else {
+            setSave(false)
         }
+    }, [saved])
+
+    useEffect(() => {
         if (!user) {
             setSave(false)
         }
-    }, [saved, user])
+    }, [user])
+
     async function handleSavePost() {
-        setPosts((prev) => {
-            const newPosts = prev?.map((post) => {
-                if (post._id === _id) {
-                    return {
-                        ...post,
-                        saved: (save
-                            ? post.saved?.filter((id) => id !== user?._id)
-                            : [...post.saved, user?._id]) as string[]
-                    }
-                }
-                return post
-            })
-            return newPosts
-        })
         try {
             const {
-                data: { success }
+                data: {
+                    success,
+                    data: { save: _save }
+                }
             } = await PostApiController.save(_id)
-            if (!success) {
+            if (success) {
                 setPosts((prev) => {
                     const newPosts = prev?.map((post) => {
                         if (post._id === _id) {
                             return {
                                 ...post,
-                                saved: (!save
+                                saved: (!_save
                                     ? post.saved?.filter((id) => id !== user?._id)
                                     : [...post.saved, user?._id]) as string[]
                             }
@@ -69,22 +64,7 @@ const PostCard = ({ showThumbnail = false, showBookmark = true, showEdit = false
                     return newPosts
                 })
             }
-        } catch {
-            setPosts((prev) => {
-                const newPosts = prev?.map((post) => {
-                    if (post._id === _id) {
-                        return {
-                            ...post,
-                            saved: (!save
-                                ? post.saved?.filter((id) => id !== user?._id)
-                                : [...post.saved, user?._id]) as string[]
-                        }
-                    }
-                    return post
-                })
-                return newPosts
-            })
-        }
+        } catch {}
     }
 
     return (
@@ -100,7 +80,11 @@ const PostCard = ({ showThumbnail = false, showBookmark = true, showEdit = false
                         <UserLink cmpId={authorObject?._id}>
                             <Avatar className='h-8 w-8'>
                                 <AvatarFallback>{authorObject?.name?.substring(0, 2)}</AvatarFallback>
-                                <AvatarImage src={authorObject?.avatar} alt={authorObject?.username} />
+                                <AvatarImage
+                                    src={authorObject?.avatar}
+                                    alt={authorObject?.username}
+                                    className='object-cover'
+                                />
                             </Avatar>
                         </UserLink>
                         <div>
@@ -146,6 +130,7 @@ const PostCard = ({ showThumbnail = false, showBookmark = true, showEdit = false
                                 fill={save ? "black" : "transparent"}
                                 size={24}
                                 onClick={handleSavePost}
+                                className='hover:fill-black'
                                 cursor={"pointer"}
                             />
                         )}

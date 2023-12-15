@@ -32,6 +32,10 @@ class AuthController implements IApi {
     async register(data: Partial<IUser>): Promise<AxiosResponse<SuccessfulResponse<IUser>>> {
         try {
             const userRes = await apiInstance.post(this.PATHS.REGISTER, data)
+            const {
+                data: { accessToken }
+            } = userRes
+            localStorage.setItem(LOCAL_STORAGE_KEY.ACCESS_TOKEN, accessToken)
             return userRes
         } catch (error) {
             throw error.response

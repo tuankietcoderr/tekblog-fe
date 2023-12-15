@@ -10,6 +10,7 @@ import UserLink from "@/components/UserLink"
 import UserApiController from "@/api/user"
 import { useAuthContext } from "@/context/AuthContext"
 import ReportDialog from "@/components/report-dialog"
+import { useFollowContext } from "@/context/FollowContext"
 
 type Props = {
     author: IUser
@@ -20,88 +21,34 @@ const ProfileInfo = ({ author }: Props) => {
     const { avatar, name, username, bio, major, createdAt, _id } = author ?? ({} as IUser)
     const { user, setUser } = useUserContext()
     const isMine = user?._id === _id
-    const [follow, setFollow] = useState(false)
-    useEffect(() => {
-        const isFollowed = !!(user?.following as IUser[])?.find((u) => u?._id === _id)
-        setFollow(isFollowed)
-    }, [user?.following, author])
+
+    const { isFollow, setIsFollow } = useFollowContext()
     const { onOpenDialog } = useAuthContext()
 
     const onClickFollow = async () => {
         if (!onOpenDialog(pathname)) {
             return
         }
-        setUser((prev) => {
-            if (follow) {
-                return {
-                    ...prev,
-                    following: prev.following.filter((id: IUser) => id._id !== _id) as IUser[]
-                }
-            } else {
-                return {
-                    ...prev,
-                    following: [
-                        ...prev.following,
-                        {
-                            avatar,
-                            name,
-                            username,
-                            _id
-                        }
-                    ] as IUser[]
-                }
-            }
-        })
-
+        const sFollow = isFollow
+        // setIsFollow(!isFollow)
         try {
             const {
                 data: { success }
             } = await UserApiController.follow(_id)
             if (!success) {
+                // setIsFollow(sFollow)
+            } else {
                 setUser((prev) => {
-                    if (!follow) {
-                        return {
-                            ...prev,
-                            following: prev.following.filter((id: IUser) => id._id !== _id) as IUser[]
-                        }
-                    } else {
-                        return {
-                            ...prev,
-                            following: [
-                                ...prev.following,
-                                {
-                                    avatar,
-                                    name,
-                                    username,
-                                    _id
-                                }
-                            ] as IUser[]
-                        }
+                    return {
+                        ...prev,
+                        following: (sFollow
+                            ? prev?.following?.filter((id) => id !== _id)
+                            : [...prev?.following, _id]) as string[]
                     }
                 })
             }
-        } catch {
-            setUser((prev) => {
-                if (!follow) {
-                    return {
-                        ...prev,
-                        following: prev.following.filter((id: IUser) => id._id !== _id) as IUser[]
-                    }
-                } else {
-                    return {
-                        ...prev,
-                        following: [
-                            ...prev.following,
-                            {
-                                avatar,
-                                name,
-                                username,
-                                _id
-                            }
-                        ] as IUser[]
-                    }
-                }
-            })
+        } catch (error) {
+            // setIsFollow(sFollow)
         }
     }
 
@@ -117,7 +64,7 @@ const ProfileInfo = ({ author }: Props) => {
                 <UserLink cmpId={_id}>
                     <Avatar>
                         <AvatarFallback>{name?.substring(0, 2)}</AvatarFallback>
-                        <AvatarImage src={avatar} alt={username} />
+                        <AvatarImage src={avatar} alt={username} className='object-cover' />
                     </Avatar>
                 </UserLink>
                 <UserLink cmpId={_id} className='text-lg font-bold'>
@@ -128,7 +75,7 @@ const ProfileInfo = ({ author }: Props) => {
             {!isMine && (
                 <div className='flex items-center gap-3'>
                     <Button className='w-full' onClick={onClickFollow} variant='outline'>
-                        {follow ? "Unfollow" : "Follow"}
+                        {isFollow ? "Unfollow" : "Follow"}
                     </Button>
                     <Flag size={24} cursor={"pointer"} onClick={handleReport} />
                 </div>

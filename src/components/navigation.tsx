@@ -126,7 +126,7 @@ const NavigationBar = () => {
                     <DropdownMenu>
                         <DropdownMenuTrigger>
                             <Avatar className='h-8 w-8 md:h-10 md:w-10'>
-                                <AvatarImage src={user?.avatar} alt={user?.name} />
+                                <AvatarImage src={user?.avatar} alt={user?.name} className='object-cover' />
                                 <AvatarFallback className='bg-primary text-primary-foreground'>
                                     {user?.name?.substring(0, 2) || "GE"}
                                 </AvatarFallback>

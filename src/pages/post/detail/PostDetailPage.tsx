@@ -61,7 +61,11 @@ const PostDetailPage = () => {
                                 <UserLink cmpId={authorObject?._id}>
                                     <Avatar className='h-8 w-8'>
                                         <AvatarFallback>{authorObject?.name?.substring(0, 2) || "GE"}</AvatarFallback>
-                                        <AvatarImage src={authorObject?.avatar} alt={authorObject?.username || ""} />
+                                        <AvatarImage
+                                            src={authorObject?.avatar}
+                                            alt={authorObject?.username || ""}
+                                            className='object-cover'
+                                        />
                                     </Avatar>
                                 </UserLink>
                                 <div>
