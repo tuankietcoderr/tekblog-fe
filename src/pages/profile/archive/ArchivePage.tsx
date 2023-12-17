@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import ROUTE from "@/constants/route"
 import useInfiniteScroll from "@/hooks/useInfiniteScroll"
 import { Link, useLocation } from "react-router-dom"
+import LeftSideBar from "./components/LeftSideBar"
 
 const ArchivePage = () => {
     const { search } = useLocation()
@@ -17,31 +18,16 @@ const ArchivePage = () => {
     })
 
     return (
-        <div>
-            <Tabs defaultValue={search_type}>
-                <TabsList>
-                    <TabsTrigger value='likes' asChild>
-                        <Link to={ROUTE.PROFILE.ARCHIVE.concat("?type=likes")} replace>
-                            Likes
-                        </Link>
-                    </TabsTrigger>
-                    <TabsTrigger value='saved' asChild>
-                        <Link to={ROUTE.PROFILE.ARCHIVE.concat("?type=saved")} replace>
-                            Saved
-                        </Link>
-                    </TabsTrigger>
-                </TabsList>
-                <TabsContent value={search_type}>
-                    <ListWithLoading
-                        data={data}
-                        isLoading={loading && page === 1}
-                        renderItem={(item) => <PostCard post={item} key={item._id} />}
-                        emptyText='No posts found'
-                        contentContainerClassName='flex flex-col gap-3'
-                        listFooter={<LastElement />}
-                    />
-                </TabsContent>
-            </Tabs>
+        <div className='grid grid-cols-[14rem_auto] gap-5'>
+            <LeftSideBar />
+            <ListWithLoading
+                data={data}
+                isLoading={loading && page === 1}
+                renderItem={(item) => <PostCard post={item} key={item._id} />}
+                emptyText='No posts found'
+                contentContainerClassName='flex flex-col gap-3'
+                listFooter={<LastElement />}
+            />
         </div>
     )
 }

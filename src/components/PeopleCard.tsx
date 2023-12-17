@@ -15,8 +15,9 @@ const PeopleCard = ({ _id, avatar, username, name, bio, followers, major }: IUse
     const [followCount, setFollowCount] = useState(followers?.length || 0)
     const { onOpenDialog } = useAuthContext()
     const { pathname, search } = useLocation()
+    console.log({ user })
     useEffect(() => {
-        const isFollowed = !!(user?.following as IUser[])?.find((u) => u?._id === _id)
+        const isFollowed = !!(user?.following as string[])?.find((u) => u === _id)
         setFollow(isFollowed)
     }, [user?.following])
 
@@ -28,20 +29,12 @@ const PeopleCard = ({ _id, avatar, username, name, bio, followers, major }: IUse
             if (follow) {
                 return {
                     ...prev,
-                    following: prev.following.filter((id: IUser) => id._id !== _id) as IUser[]
+                    following: prev.following.filter((id: string) => id !== _id) as string[]
                 }
             } else {
                 return {
                     ...prev,
-                    following: [
-                        ...prev.following,
-                        {
-                            avatar,
-                            name,
-                            username,
-                            _id
-                        }
-                    ] as IUser[]
+                    following: [...prev.following, _id] as string[]
                 }
             }
         })
@@ -55,20 +48,12 @@ const PeopleCard = ({ _id, avatar, username, name, bio, followers, major }: IUse
                     if (!follow) {
                         return {
                             ...prev,
-                            following: prev.following.filter((id: IUser) => id._id !== _id) as IUser[]
+                            following: prev.following.filter((id) => id !== _id) as string[]
                         }
                     } else {
                         return {
                             ...prev,
-                            following: [
-                                ...prev.following,
-                                {
-                                    avatar,
-                                    name,
-                                    username,
-                                    _id
-                                }
-                            ] as IUser[]
+                            following: [...prev.following, _id] as string[]
                         }
                     }
                 })
@@ -78,20 +63,12 @@ const PeopleCard = ({ _id, avatar, username, name, bio, followers, major }: IUse
                 if (!follow) {
                     return {
                         ...prev,
-                        following: prev.following.filter((id: IUser) => id._id !== _id) as IUser[]
+                        following: prev.following.filter((id: string) => id !== _id) as string[]
                     }
                 } else {
                     return {
                         ...prev,
-                        following: [
-                            ...prev.following,
-                            {
-                                avatar,
-                                name,
-                                username,
-                                _id
-                            }
-                        ] as IUser[]
+                        following: [...prev.following, _id] as string[]
                     }
                 }
             })

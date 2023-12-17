@@ -10,6 +10,7 @@ import useFetchData from "@/hooks/useFetchData"
 import useFetchDetailData from "@/hooks/useFetchDetailData"
 import useInfiniteScroll from "@/hooks/useInfiniteScroll"
 import { Link, useLocation } from "react-router-dom"
+import LeftSideBar from "./components/LeftSideBar"
 
 const FollowPage = () => {
     const { search } = useLocation()
@@ -31,30 +32,15 @@ const FollowPage = () => {
     })
 
     return (
-        <div>
-            <Tabs defaultValue={search_type}>
-                <TabsList>
-                    <TabsTrigger value='followers' asChild>
-                        <Link to={ROUTE.PROFILE.FOLLOW.concat(`?type=followers&userId=${search_userId}`)} replace>
-                            Followers
-                        </Link>
-                    </TabsTrigger>
-                    <TabsTrigger value='following' asChild>
-                        <Link to={ROUTE.PROFILE.FOLLOW.concat(`?type=following&userId=${search_userId}`)} replace>
-                            Following
-                        </Link>
-                    </TabsTrigger>
-                </TabsList>
-                <TabsContent value={search_type}>
-                    <ListWithLoading
-                        data={data}
-                        isLoading={loading}
-                        renderItem={(item) => <PeopleCard {...item} key={item._id} />}
-                        emptyText='No follow found'
-                        contentContainerClassName='flex flex-col gap-3'
-                    />
-                </TabsContent>
-            </Tabs>
+        <div className='grid grid-cols-[14rem_auto] gap-5'>
+            <LeftSideBar />
+            <ListWithLoading
+                data={data}
+                isLoading={loading}
+                renderItem={(item) => <PeopleCard {...item} key={item._id} />}
+                emptyText='No follow found'
+                contentContainerClassName='flex flex-col gap-3'
+            />
         </div>
     )
 }
