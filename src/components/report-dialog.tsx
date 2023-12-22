@@ -20,6 +20,7 @@ import { Textarea } from "./ui/textarea"
 import apiToast from "@/utils/toast"
 import ReportApiController from "@/api/report"
 import { ObjectType } from "@/enum"
+import { DialogClose } from "@radix-ui/react-dialog"
 
 type Props = {
     isOpen: boolean
@@ -98,9 +99,12 @@ const ReportDialog = ({ isOpen = false, setIsOpen = () => {}, type = ObjectType.
                                 </FormItem>
                             )}
                         />
-                        <Button type='submit' className='self-end'>
-                            Send
-                        </Button>
+                        <div className='flex space-x-2 self-end'>
+                            <DialogClose asChild>
+                                <Button variant='ghost'>Cancel</Button>
+                            </DialogClose>
+                            <Button type='submit'>Send</Button>
+                        </div>
                     </form>
                 </Form>
             </DialogContent>

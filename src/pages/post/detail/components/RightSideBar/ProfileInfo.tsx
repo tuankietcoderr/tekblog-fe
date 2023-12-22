@@ -55,6 +55,9 @@ const ProfileInfo = ({ author }: Props) => {
     const [isOpen, setIsOpen] = useState(false)
 
     const handleReport = () => {
+        if (!onOpenDialog(pathname)) {
+            return
+        }
         setIsOpen(true)
     }
 

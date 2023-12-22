@@ -64,20 +64,20 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
                     </DialogHeader>
                     <DialogFooter>
                         <Button
-                            onClick={() => {
-                                navigate(ROUTE.AUTH.SIGIN)
-                                setOpen(false)
-                            }}
-                        >
-                            Signin
-                        </Button>
-                        <Button
                             variant='ghost'
                             onClick={() => {
                                 setOpen(false)
                             }}
                         >
                             Cancel
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                navigate(ROUTE.AUTH.SIGIN)
+                                setOpen(false)
+                            }}
+                        >
+                            Signin
                         </Button>
                     </DialogFooter>
                 </DialogContent>

@@ -40,14 +40,14 @@ const ProfilePage = () => {
                 <div className='sticky top-[84px] flex max-h-[80vh] flex-col gap-5 self-start overflow-auto px-4 py-2 scrollbar-none'>
                     <ProfileInfo author={author} />
                     {user && (userId === user?._id || userId === undefined) && (
-                        <Button className='border-none bg-white shadow-custom' variant='outline' asChild>
-                            <Link to={ROUTE.PROFILE.ARCHIVE.concat("?type=likes")}>Archive</Link>
-                        </Button>
-                    )}
-                    {user && (userId === user?._id || userId === undefined) && (
-                        <Button className='border-none bg-white shadow-custom' variant='outline' asChild>
-                            <Link to={ROUTE.POST.DRAFT}>Draft</Link>
-                        </Button>
+                        <div className='flex flex-col space-y-2 rounded-md bg-white p-4 shadow-custom'>
+                            <Button variant='outline' asChild>
+                                <Link to={ROUTE.PROFILE.ARCHIVE.concat("?type=likes")}>Archive</Link>
+                            </Button>
+                            <Button variant='outline' asChild>
+                                <Link to={ROUTE.POST.DRAFT}>Draft</Link>
+                            </Button>
+                        </div>
                     )}
 
                     <Followers />
