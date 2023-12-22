@@ -118,14 +118,14 @@ const CommentSection = () => {
                         </div>
                     </div>
                     <div className='flex w-full justify-end gap-4'>
-                        <Button disabled={comment === ""} onClick={onSubmit}>
-                            {commenting ? "Commenting..." : "Comment"}
-                        </Button>
                         {focusing && (
                             <Button variant='ghost' onClick={onCancel}>
                                 Cancel
                             </Button>
                         )}
+                        <Button disabled={comment === ""} onClick={onSubmit}>
+                            {commenting ? "Commenting..." : "Comment"}
+                        </Button>
                     </div>
                 </div>
             ) : (
