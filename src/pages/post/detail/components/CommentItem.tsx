@@ -33,8 +33,8 @@ const CommentItem = ({ comment, setComment }: Props) => {
         const {
             data: { success, message, data }
         } = await CommentApiController.update(comment._id, newComment)
+        toast.dismiss()
         if (success) {
-            toast.dismiss()
             setComment((prev) =>
                 prev.map((c) =>
                     c._id === comment._id
