@@ -137,7 +137,7 @@ const CommentSection = () => {
             <ListWithLoading<IComment>
                 data={comments}
                 isLoading={loading && page === 1}
-                renderItem={(comment) => <CommentItem comment={comment} key={comment?._id} />}
+                renderItem={(comment) => <CommentItem setComment={setData} comment={comment} key={comment?._id} />}
                 emptyText="There's no comment yet"
                 contentContainerClassName='mt-4'
                 listFooter={loading && <Spinner />}

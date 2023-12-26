@@ -30,6 +30,24 @@ class CommentController implements IApi {
             throw error.response
         }
     }
+
+    async update(id: string, content: string): Promise<AxiosResponse<SuccessfulResponse<IComment>>> {
+        try {
+            const comment = await apiInstance.put(`${this.PATHS.ROOT}/${id}`, { content })
+            return comment
+        } catch (error) {
+            throw error.response
+        }
+    }
+
+    async delete(id: string): Promise<AxiosResponse<SuccessfulResponse<IComment>>> {
+        try {
+            const comment = await apiInstance.delete(`${this.PATHS.ROOT}/${id}`)
+            return comment
+        } catch (error) {
+            throw error.response
+        }
+    }
 }
 
 const CommentApiController = new CommentController()
