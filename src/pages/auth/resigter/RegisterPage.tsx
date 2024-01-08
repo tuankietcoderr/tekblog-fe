@@ -91,7 +91,7 @@ const RegisterPage = () => {
     return (
         <div className='relative flex min-h-screen items-center justify-start bg-[url("/register.jpg")] bg-cover bg-fixed bg-no-repeat'>
             <div className='hide absolute inset-0 bg-background opacity-90 dark:block' />
-            <div className='mx-[1rem] my-8 flex max-w-[390px] flex-col items-stretch gap-6 rounded-md border border-foreground bg-background/25 p-4 backdrop-blur-sm dark:bg-background md:mx-[10%] md:p-8'>
+            <div className='mx-[1rem] my-8 flex w-full flex-col items-stretch gap-6 rounded-md border border-foreground bg-background/25 p-4 backdrop-blur-sm dark:bg-background md:mx-[10%] md:max-w-[390px] md:p-8'>
                 <div className='flex flex-col items-center gap-4'>
                     <Logo />
                     <h2 className='text-center text-3xl font-bold'>Welcome to TekBlog!</h2>
