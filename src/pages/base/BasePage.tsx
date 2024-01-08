@@ -14,10 +14,10 @@ const BasePage = () => {
 
     return (
         <AuthProvider>
-            <div className='min-h-screen bg-gray-50'>
+            <div className='min-h-screen bg-gray-50 dark:bg-[hsl(240,10%,3.9%)]'>
                 <NavigationBar />
                 <ScrollToTop />
-                <div className={cn(isRendered ? "mx-[10%] py-[2rem]" : "")}>
+                <div className={cn(isRendered ? "mx-[1rem] py-[2rem] md:mx-[10%]" : "")}>
                     <Outlet />
                 </div>
             </div>

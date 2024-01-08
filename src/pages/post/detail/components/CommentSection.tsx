@@ -89,12 +89,12 @@ const CommentSection = () => {
     }
 
     return (
-        <div className='mx-5 rounded-md bg-white p-4 shadow-custom' id='comments'>
+        <div className='rounded-md border bg-background p-4 shadow-custom' id='comments'>
             <h2 className='text-lg font-bold'>Comments</h2>
             {user ? (
                 <div>
-                    <div className='my-4 flex gap-2'>
-                        <Avatar>
+                    <div className='my-4 flex flex-col gap-2 md:flex-row'>
+                        <Avatar className='hidden md:block'>
                             <AvatarFallback>{user?.name?.substring(0, 2)}</AvatarFallback>
                             <AvatarImage src={user?.avatar} alt={user?.username} className='object-cover' />
                         </Avatar>

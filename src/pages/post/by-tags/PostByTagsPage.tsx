@@ -18,7 +18,7 @@ const PostByTagsPage = () => {
     })
 
     return (
-        <div className='grid grid-cols-[14rem_auto] gap-5'>
+        <div className='grid grid-cols-1 gap-5 md:grid-cols-[14rem_auto]'>
             <Tags />
             {tagId !== "all" ? (
                 <ListWithLoading<IPost>

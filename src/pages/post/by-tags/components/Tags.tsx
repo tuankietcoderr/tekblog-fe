@@ -14,7 +14,7 @@ const Tags = () => {
     }>()
     const { tags, tagsLoading } = useTagContext()
     return (
-        <div className='self-start rounded-md bg-white p-4 shadow-custom'>
+        <div className='self-start rounded-md border border-border bg-background p-4 shadow-custom'>
             <h2 className='mb-3 text-lg font-semibold'>All tags</h2>
             <ListWithLoading<ITag>
                 data={tags}
@@ -24,8 +24,8 @@ const Tags = () => {
                         to={ROUTE.POST.BY_TAGS.replace(":tagId", tag?._id)}
                         key={tag?._id}
                         className={cn(
-                            "text-base text-gray-500 transition-colors hover:text-black",
-                            tag?._id === tagId && "font-semibold text-black"
+                            "text-base text-gray-500 transition-colors hover:text-foreground",
+                            tag?._id === tagId && "font-semibold text-foreground"
                         )}
                     >
                         #{tag.title} <span className='text-xs'>({tag.score} pts)</span>

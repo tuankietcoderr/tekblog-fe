@@ -6,10 +6,10 @@ const TagCard = ({ title, score, _id }: ITag) => {
     return (
         <Link
             to={ROUTE.POST.BY_TAGS.replace(":tagId", _id)}
-            className='flex items-center justify-between gap-3 rounded-md bg-white p-3 shadow-custom'
+            className='flex items-center justify-between gap-3 rounded-md border bg-background p-3 shadow-custom'
         >
             <div className='flex items-center gap-3'>
-                <div className='grid h-10 w-10 cursor-default place-items-center rounded-md bg-slate-100 text-2xl font-bold'>
+                <div className='grid h-10 w-10 cursor-default place-items-center rounded-md bg-slate-100 text-2xl font-bold dark:bg-slate-700'>
                     #
                 </div>
                 <p className='text-xl font-bold'>{title}</p>

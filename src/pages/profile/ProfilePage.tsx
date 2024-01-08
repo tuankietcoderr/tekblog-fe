@@ -36,11 +36,11 @@ const ProfilePage = () => {
 
     return (
         <FollowProvider author={author}>
-            <div className='grid grid-cols-[18rem_auto]'>
-                <div className='sticky top-[84px] flex max-h-[80vh] flex-col gap-5 self-start overflow-auto px-4 py-2 scrollbar-none'>
+            <div className='grid grid-cols-1 md:grid-cols-[18rem_auto]'>
+                <div className='top-[84px] flex flex-col gap-5 self-start px-1 py-2 md:sticky md:max-h-[80vh] md:overflow-auto md:px-4 md:scrollbar-none'>
                     <ProfileInfo author={author} />
                     {user && (userId === user?._id || userId === undefined) && (
-                        <div className='flex flex-col space-y-2 rounded-md bg-white p-4 shadow-custom'>
+                        <div className='flex flex-col space-y-2 rounded-md border bg-background p-4 shadow-custom'>
                             <Button variant='outline' asChild>
                                 <Link to={ROUTE.PROFILE.ARCHIVE.concat("?type=likes")}>Archive</Link>
                             </Button>
@@ -53,7 +53,7 @@ const ProfilePage = () => {
                     <Followers />
                     <Following />
                 </div>
-                <div className='mt-2'>
+                <div className='mt-4 md:mt-2'>
                     <UserPosts />
                 </div>
             </div>

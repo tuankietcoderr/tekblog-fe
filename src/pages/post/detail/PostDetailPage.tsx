@@ -40,12 +40,12 @@ const PostDetailPage = () => {
     const contentRef = useRef<HTMLDivElement>(null)
 
     return (
-        <div className='relative grid grid-cols-[2rem_auto_18rem] self-start'>
-            <LeftSideBar />
-            <div className='flex flex-col gap-4 overflow-auto'>
-                <div className='mx-5 flex flex-col gap-4 rounded-md'>
+        <div className='relative grid grid-cols-1 gap-4 self-start md:grid-cols-[18rem_auto_2rem]'>
+            <RightSideBar author={post?.author as IUser} />
+            <div className='order-2 flex flex-col gap-4 overflow-auto md:order-1'>
+                <div className='flex flex-col gap-4 rounded-md border'>
                     {post?.isDraft && (
-                        <Alert variant='destructive' className='w-full bg-white shadow-custom'>
+                        <Alert variant='destructive' className='w-full bg-background shadow-custom'>
                             <AlertTitle>Warning</AlertTitle>
                             <AlertDescription>This post is still in draft mode.</AlertDescription>
                         </Alert>
@@ -54,9 +54,9 @@ const PostDetailPage = () => {
                         <img
                             src={post?.thumbnail}
                             alt={post?.title}
-                            className='h-[22rem] w-full rounded-t-md object-cover'
+                            className='h-[10rem] w-full rounded-t-md object-cover md:h-[22rem]'
                         />
-                        <div className='flex flex-col gap-4 rounded-b-md bg-white p-4 shadow-custom'>
+                        <div className='flex flex-col gap-4 rounded-b-md bg-background p-4 shadow-custom'>
                             <div className='flex items-center gap-2'>
                                 <UserLink cmpId={authorObject?._id}>
                                     <Avatar className='h-8 w-8'>
@@ -73,7 +73,7 @@ const PostDetailPage = () => {
                                         {authorObject?.name || "Anonymous"}
                                     </UserLink>
                                     <p className='text-xs text-gray-400'>
-                                        {DateUtils.getAgos(post?.createdAt || new Date())}
+                                        {DateUtils.customFormat(post?.createdAt!, "hh:mm A, DD/MM/YYYY")}
                                     </p>
                                 </div>
                             </div>
@@ -83,7 +83,7 @@ const PostDetailPage = () => {
                                     <Link
                                         to={`${ROUTE.POST.BY_TAGS.replace(":tagId", tag?._id)}`}
                                         key={tag?._id}
-                                        className='text-base text-gray-500 transition-colors hover:text-black'
+                                        className='text-base text-gray-500 transition-colors hover:text-foreground'
                                     >
                                         #{tag.title}
                                     </Link>
@@ -93,6 +93,7 @@ const PostDetailPage = () => {
                                 <MDEditor.Markdown
                                     source={post?.content}
                                     style={{ backgroundColor: "transparent", width: "100%" }}
+                                    className='text-foreground'
                                 />
                             </div>
                         </div>
@@ -101,7 +102,7 @@ const PostDetailPage = () => {
                 <CommentSection />
                 <RelatedPosts />
             </div>
-            <RightSideBar author={post?.author as IUser} />
+            <LeftSideBar />
         </div>
     )
 }

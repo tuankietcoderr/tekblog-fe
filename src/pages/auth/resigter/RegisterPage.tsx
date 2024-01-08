@@ -89,13 +89,15 @@ const RegisterPage = () => {
     }
 
     return (
-        <div className='relative flex min-h-screen items-center justify-start bg-[url("/register.png")] bg-cover bg-fixed bg-no-repeat'>
-            {/* <div className='absolute inset-0 bg-gradient-to-r from-white/40 to-white/20' /> */}
-            <div className='mx-[10%] my-8 flex max-w-[390px] flex-col items-stretch gap-6 rounded-md border border-white bg-white/25 p-8 backdrop-blur-sm'>
+        <div className='relative flex min-h-screen items-center justify-start bg-[url("/register.jpg")] bg-cover bg-fixed bg-no-repeat'>
+            <div className='hide absolute inset-0 bg-background opacity-90 dark:block' />
+            <div className='mx-[1rem] my-8 flex max-w-[390px] flex-col items-stretch gap-6 rounded-md border border-foreground bg-background/25 p-4 backdrop-blur-sm dark:bg-background md:mx-[10%] md:p-8'>
                 <div className='flex flex-col items-center gap-4'>
                     <Logo />
-                    <h2 className='text-3xl font-bold'>Welcome to TekBlog!</h2>
-                    <p className='text-sm font-semibold'>Let create your account to have your first touch!</p>
+                    <h2 className='text-center text-3xl font-bold'>Welcome to TekBlog!</h2>
+                    <p className='text-center text-sm font-semibold'>
+                        Let create your account to have your first touch!
+                    </p>
                 </div>
                 <Form {...form}>
                     <form className='flex flex-col gap-3' onSubmit={form.handleSubmit(onSubmit)}>
@@ -110,7 +112,7 @@ const RegisterPage = () => {
                                             <Input
                                                 {...field}
                                                 placeholder='Tek de Blog'
-                                                className='bg-white'
+                                                className='bg-background'
                                                 autoFocus
                                             />
                                         </FormControl>
@@ -125,7 +127,11 @@ const RegisterPage = () => {
                                     <FormItem>
                                         <FormLabel className='text-sm font-semibold'>Email</FormLabel>
                                         <FormControl>
-                                            <Input {...field} placeholder='example@gmail.com' className='bg-white' />
+                                            <Input
+                                                {...field}
+                                                placeholder='example@gmail.com'
+                                                className='bg-background'
+                                            />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -138,7 +144,7 @@ const RegisterPage = () => {
                                     <FormItem>
                                         <FormLabel className='text-sm font-semibold'>Username</FormLabel>
                                         <FormControl>
-                                            <Input {...field} placeholder='tekblog' className='bg-white' />
+                                            <Input {...field} placeholder='tekblog' className='bg-background' />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -155,7 +161,7 @@ const RegisterPage = () => {
                                                 {...field}
                                                 placeholder='12345678aA@'
                                                 type='password'
-                                                className='bg-white'
+                                                className='bg-background'
                                             />
                                         </FormControl>
                                         <FormMessage />
@@ -173,7 +179,7 @@ const RegisterPage = () => {
                                                 {...field}
                                                 placeholder='12345678aA@'
                                                 type='password'
-                                                className='bg-white'
+                                                className='bg-background'
                                             />
                                         </FormControl>
                                         <FormMessage />
@@ -190,7 +196,7 @@ const RegisterPage = () => {
                                         <FormLabel className='text-sm font-semibold'>Major</FormLabel>
                                         <Select onValueChange={field.onChange}>
                                             <FormControl>
-                                                <SelectTrigger className='bg-white'>
+                                                <SelectTrigger className='bg-background'>
                                                     <SelectValue placeholder='Choose your major' />
                                                 </SelectTrigger>
                                             </FormControl>
@@ -217,7 +223,7 @@ const RegisterPage = () => {
                                                 {...field}
                                                 autoComplete='off'
                                                 placeholder='I love...'
-                                                className='bg-white'
+                                                className='bg-background'
                                                 type='text'
                                             />
                                         </FormControl>

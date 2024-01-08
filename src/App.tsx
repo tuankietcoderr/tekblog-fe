@@ -4,22 +4,25 @@ import { TagProvider } from "./context/TagContext"
 import { UserProvider } from "./context/UserContext"
 import router from "./route"
 import { Toaster } from "react-hot-toast"
+import ThemeProvider from "./components/theme-provider"
 
 function App() {
     return (
-        <UserProvider>
-            <PostProvider>
-                <TagProvider>
-                    <RouterProvider router={router} />
-                    <Toaster
-                        position='bottom-center'
-                        toastOptions={{
-                            duration: 2000
-                        }}
-                    />
-                </TagProvider>
-            </PostProvider>
-        </UserProvider>
+        <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
+            <UserProvider>
+                <PostProvider>
+                    <TagProvider>
+                        <RouterProvider router={router} />
+                        <Toaster
+                            position='bottom-center'
+                            toastOptions={{
+                                duration: 2000
+                            }}
+                        />
+                    </TagProvider>
+                </PostProvider>
+            </UserProvider>
+        </ThemeProvider>
     )
 }
 

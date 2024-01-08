@@ -1,9 +1,15 @@
 import { LOCAL_STORAGE_KEY } from "@/constants/local-storage-key"
 import ROUTE from "@/constants/route"
+import { useAuthContext } from "@/context/AuthContext"
 import { useUserContext } from "@/context/UserContext"
-import { useEffect, useRef } from "react"
+import { SearchType } from "@/enum"
+import { cn } from "@/lib/utils"
+import { HomeIcon, Info, LucideProps, PlusCircle, Search, Tag } from "lucide-react"
+import { useRef } from "react"
+import toast from "react-hot-toast"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import Logo from "./logo"
+import ThemeToggle from "./theme-toggle"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { Button } from "./ui/button"
 import {
@@ -15,11 +21,6 @@ import {
     DropdownMenuTrigger
 } from "./ui/dropdown-menu"
 import { Input } from "./ui/input"
-import { useAuthContext } from "@/context/AuthContext"
-import { SearchType } from "@/enum"
-import { HomeIcon, Info, LucideProps, Search, Tag } from "lucide-react"
-import { cn } from "@/lib/utils"
-import toast from "react-hot-toast"
 
 const NavigationBar = () => {
     const { pathname, ...location } = useLocation()
@@ -78,14 +79,14 @@ const NavigationBar = () => {
     }
 
     return isRendered ? (
-        <div className='sticky top-0 z-[99] flex items-center justify-between gap-4 bg-white px-[10%] py-1 shadow-md'>
+        <div className='sticky top-0 z-[99] flex items-center justify-between gap-4 border bg-white px-[1rem] py-1 shadow-md dark:border-border dark:bg-[hsl(240,10%,3.9%)] md:px-[10%]'>
             <div className='flex items-center gap-3'>
                 <Logo className='h-[36px] w-[36px]' />
                 <div className='flex items-center gap-2'>
                     <div className='relative w-full'>
                         <Input
-                            placeholder='coding, programming,...'
-                            className='w-60 bg-transparent'
+                            placeholder='coding,...'
+                            className='bg-transparent md:w-60'
                             ref={searchRef}
                             onKeyUp={(e) => e.key === "Enter" && onSearch()}
                         />
@@ -99,7 +100,7 @@ const NavigationBar = () => {
                     </div>
                 </div>
             </div>
-            <div className='flex gap-2'>
+            <div className='hidden gap-2 md:flex'>
                 {navigations.map(({ icon: Icon, path }) => (
                     <div key={path} className='relative flex flex-col gap-1'>
                         <Link
@@ -110,16 +111,52 @@ const NavigationBar = () => {
                             )}
                             key={path}
                         >
-                            <Icon className={cn(isNavActive(path) ? "text-black" : "text-gray-500")} size={24} />
+                            <Icon className={cn(isNavActive(path) ? "text-foreground" : "text-gray-500")} size={24} />
                         </Link>
                         {isNavActive(path) && (
-                            <div className={cn("absolute -bottom-1 left-0 right-0 h-[3px] rounded bg-black")} />
+                            <div className={cn("absolute -bottom-1 left-0 right-0 h-[3px] rounded bg-foreground")} />
                         )}
                     </div>
                 ))}
             </div>
+            <div className='fixed bottom-0 left-0 right-0 flex justify-center gap-2 border bg-background py-1 md:hidden'>
+                {navigations.map(({ icon: Icon, path }) => (
+                    <div key={path} className='relative flex flex-col gap-1'>
+                        <Link
+                            to={path}
+                            className={cn(
+                                "rounded-md px-6 py-2 transition-colors",
+                                !isNavActive(path) && "hover:bg-gray-100"
+                            )}
+                            key={path}
+                        >
+                            <Icon className={cn(isNavActive(path) ? "text-foreground" : "text-gray-500")} size={16} />
+                        </Link>
+                        {isNavActive(path) && (
+                            <div className={cn("absolute -bottom-1 left-0 right-0 h-[2px] rounded bg-foreground")} />
+                        )}
+                    </div>
+                ))}
+                <div className='relative flex flex-col gap-1'>
+                    <Link
+                        to={ROUTE.POST.NEW}
+                        className={cn(
+                            "rounded-md px-6 py-2 transition-colors",
+                            !isNavActive(ROUTE.POST.NEW) && "hover:bg-gray-100"
+                        )}
+                    >
+                        <PlusCircle
+                            className={cn(isNavActive(ROUTE.POST.NEW) ? "text-foreground" : "text-gray-500")}
+                            size={16}
+                        />
+                    </Link>
+                    {isNavActive(ROUTE.POST.NEW) && (
+                        <div className={cn("absolute -bottom-1 left-0 right-0 h-[2px] rounded bg-foreground")} />
+                    )}
+                </div>
+            </div>
             <div className='flex items-center gap-2'>
-                <Button className='min-w-max' onClick={onClickCreatePost}>
+                <Button className='hidden min-w-max md:inline-flex' onClick={onClickCreatePost}>
                     Create post
                 </Button>
                 {user ? (
@@ -155,6 +192,7 @@ const NavigationBar = () => {
                         <Link to={ROUTE.AUTH.SIGIN}>Sign in</Link>
                     </Button>
                 )}
+                <ThemeToggle />
             </div>
         </div>
     ) : null

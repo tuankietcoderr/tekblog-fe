@@ -12,7 +12,7 @@ const SimpleAvatarPostCard = (post: IPost) => {
             <UserLink cmpId={authorObject?._id}>
                 <Avatar>
                     <AvatarFallback>{authorObject?.name?.substring(0, 2) || "GE"}</AvatarFallback>
-                    <AvatarImage src={authorObject?.avatar} alt={authorObject?.username} />
+                    <AvatarImage src={authorObject?.avatar} alt={authorObject?.username} className='object-cover' />
                 </Avatar>
             </UserLink>
             <div>

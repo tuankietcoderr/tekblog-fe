@@ -7,6 +7,7 @@ import { usePostContext } from "@/context/PostContext"
 import { useAuthContext } from "@/context/AuthContext"
 import ReportDialog from "@/components/report-dialog"
 import { ObjectType } from "@/enum"
+import { cn } from "@/lib/utils"
 
 const LeftSideBar = () => {
     const { postId } = useParams<{ postId: string }>()
@@ -154,8 +155,7 @@ const LeftSideBar = () => {
         {
             icon: (
                 <Heart
-                    fill={like ? "black" : "transparent"}
-                    className='hover:text-slate-600'
+                    className={cn(!like && "hover:text-slate-600", like && "fill-foreground")}
                     cursor={"pointer"}
                     onClick={handleLikePost}
                 />
@@ -173,8 +173,7 @@ const LeftSideBar = () => {
         {
             icon: (
                 <Bookmark
-                    fill={save ? "black" : "transparent"}
-                    className='hover:text-slate-600'
+                    className={cn(!save && "hover:text-slate-600", save && "fill-foreground")}
                     cursor={"pointer"}
                     onClick={handleSavePost}
                 />
@@ -190,7 +189,7 @@ const LeftSideBar = () => {
     }[]
 
     return (
-        <div className='sticky top-[84px] flex flex-col gap-2 self-start'>
+        <div className='top-[84px] order-first flex justify-center gap-8 self-start md:sticky md:order-last md:flex-col md:gap-2'>
             {actions.map((action, index) => (
                 <div className='flex flex-col items-center' key={index}>
                     <div>{action.icon}</div>

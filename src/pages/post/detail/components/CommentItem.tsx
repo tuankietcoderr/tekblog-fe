@@ -83,14 +83,17 @@ const CommentItem = ({ comment, setComment }: Props) => {
             </UserLink>
             <div className='flex flex-1 rounded-md border border-border p-4'>
                 <div className='flex flex-1 flex-col gap-2'>
-                    <p>
+                    <p className='flex flex-col flex-wrap gap-1 md:flex-row md:items-center'>
                         <UserLink cmpId={author?._id} className='font-semibold'>
                             {author?.name}
                         </UserLink>{" "}
-                        <span>•</span> <span className='text-xs'>{DateUtils.getAgos(comment?.createdAt)}</span>
+                        <span className='hidden md:block'>•</span>{" "}
+                        <span className='text-xs'>
+                            {DateUtils.customFormat(comment?.createdAt, " hh:mm A, DD/MM/YYYY")}
+                        </span>
                     </p>
                     {!isEditing ? (
-                        <MDEditor.Markdown source={comment.content} />
+                        <MDEditor.Markdown source={comment.content} className='bg-background text-foreground' />
                     ) : (
                         <div className='space-y-2'>
                             <MDEditor

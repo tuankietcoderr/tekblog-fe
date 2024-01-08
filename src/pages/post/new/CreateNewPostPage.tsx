@@ -141,7 +141,7 @@ const CreateNewPostPage = () => {
             <Form {...form}>
                 <form
                     onSubmit={handleSubmit(onSubmit)}
-                    className='mx-auto flex w-full max-w-[736px] flex-col gap-4 rounded-md bg-white p-4 py-4 shadow-custom'
+                    className='mx-auto flex w-full max-w-[736px] flex-col gap-4 rounded-md bg-background p-1 shadow-custom md:p-4 md:py-4'
                 >
                     <div className='flex flex-col gap-2'>
                         {getFieldState("thumbnail").invalid ? (
@@ -167,7 +167,7 @@ const CreateNewPostPage = () => {
                                             event.target.style.height = event.target.scrollHeight + "px"
                                         }}
                                         placeholder='Title'
-                                        className='resize-none border-none px-0 text-5xl font-extrabold leading-tight shadow-none outline-none focus-visible:ring-0'
+                                        className='resize-none border-none px-0 text-2xl font-extrabold leading-tight shadow-none outline-none focus-visible:ring-0 md:text-5xl'
                                         autoFocus
                                         {...field}
                                     />

@@ -30,7 +30,7 @@ const Followers = () => {
     })
 
     return (
-        <div className='rounded-md bg-white p-4 shadow-custom'>
+        <div className='rounded-md border bg-background p-4 shadow-custom'>
             <div className='flex items-center justify-between'>
                 <h2 className='mb-2 text-lg font-bold'>Followers</h2>
                 <Link to={ROUTE.PROFILE.FOLLOW.concat(`?type=followers&userId=${userId ?? user?._id}`)}>

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 
 const Logo = ({ className }: { className?: string }) => {
     return (
-        <Link to={ROUTE.HOME}>
+        <Link to={ROUTE.HOME} className='rounded-md border border-border'>
             <img src='/tekblog.svg' alt='logo' className={cn(`h-[36px] w-[36px] object-contain`, className)} />
         </Link>
     )

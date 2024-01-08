@@ -32,7 +32,7 @@ const MoreFromAuthor = ({ author }: Props) => {
     }, [author, postId])
 
     return (
-        <div className='rounded-md bg-white shadow-custom'>
+        <div className='rounded-md border bg-background shadow-custom'>
             <div className='flex items-center justify-between p-4'>
                 <p>
                     More from{" "}

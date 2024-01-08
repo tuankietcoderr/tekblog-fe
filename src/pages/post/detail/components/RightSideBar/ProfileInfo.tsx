@@ -62,7 +62,7 @@ const ProfileInfo = ({ author }: Props) => {
     }
 
     return (
-        <div className='flex flex-col gap-3 rounded-md bg-white p-4 shadow-custom'>
+        <div className='flex flex-col gap-3 rounded-md border bg-background p-4 shadow-custom'>
             <div className='flex items-center gap-4'>
                 <UserLink cmpId={_id}>
                     <Avatar>

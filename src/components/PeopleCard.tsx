@@ -78,16 +78,16 @@ const PeopleCard = ({ _id, avatar, username, name, bio, followers, major }: IUse
     }
 
     return (
-        <div className='flex justify-between gap-4 rounded-md bg-white p-4 shadow-custom'>
-            <div className='flex gap-4'>
+        <div className='flex flex-wrap justify-between gap-4 rounded-md border bg-background p-4 shadow-custom'>
+            <div className='flex flex-wrap gap-4'>
                 <UserLink cmpId={_id} className='self-center'>
                     <Avatar className='h-16 w-16'>
                         <AvatarFallback>{name?.substring(0, 2)}</AvatarFallback>
                         <AvatarImage src={avatar} alt={username} className='object-cover' />
                     </Avatar>
                 </UserLink>
-                <div className='flex flex-col gap-2'>
-                    <div className='flex items-center gap-2'>
+                <div className='flex flex-col flex-wrap gap-2'>
+                    <div className='flex flex-wrap items-center gap-2'>
                         <UserLink cmpId={_id} className='text font-bold hover:text-blue-600'>
                             {name}
                         </UserLink>
@@ -101,7 +101,7 @@ const PeopleCard = ({ _id, avatar, username, name, bio, followers, major }: IUse
                             <span className='font-semibold'>{followCount}</span> followers
                         </p>
                         <p className='text-xs'>
-                            {bio} • {major}
+                            {bio ?? "Nothing"} • {major || "Nothing"}
                         </p>
                     </div>
                 </div>

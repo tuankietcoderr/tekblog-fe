@@ -6,7 +6,7 @@ import LeftSideBar from "./components/LeftSideBar"
 const HomePage = () => {
     const { posts, LastElement, loading, page } = usePostContext()
     return (
-        <div className='grid grid-cols-[14rem_auto] gap-5 self-start'>
+        <div className='grid grid-cols-1 gap-5 self-start md:grid-cols-[14rem_auto]'>
             <LeftSideBar />
             <ListWithLoading<IPost>
                 isLoading={loading && page === 1}

@@ -65,12 +65,12 @@ const SignInPage = () => {
 
     return (
         <div className='relative flex min-h-screen items-center justify-start bg-[url("/signin.svg")] bg-cover bg-fixed bg-no-repeat'>
-            {/* <div className='absolute inset-0 bg-gradient-to-r from-white/40 to-white/20' /> */}
-            <div className='mx-[10%] flex max-w-[390px] flex-col items-stretch gap-6 rounded-md border border-white bg-white/25 p-8 backdrop-blur-sm'>
+            <div className='hide absolute inset-0 bg-background opacity-90 dark:block' />
+            <div className='mx-[1rem] flex max-w-[390px] flex-col items-stretch gap-6 rounded-md border border-foreground bg-background/25 p-4 backdrop-blur-sm dark:bg-background md:mx-[10%] md:p-8'>
                 <div className='flex flex-col items-center gap-4'>
                     <Logo />
-                    <h2 className='text-3xl font-bold'>Welcome back</h2>
-                    <p className='text-sm font-semibold'>Sign in to write your next post</p>
+                    <h2 className='text-center text-3xl font-bold'>Welcome back</h2>
+                    <p className='text-center text-sm font-semibold'>Sign in to write your next post</p>
                 </div>
                 <Form {...form}>
                     <form className='flex flex-col gap-5' onSubmit={form.handleSubmit(onSubmit)}>
@@ -84,7 +84,7 @@ const SignInPage = () => {
                                         <Input
                                             {...field}
                                             placeholder='Enter your username or email'
-                                            className='bg-white'
+                                            className='bg-background'
                                             autoFocus
                                         />
                                     </FormControl>
@@ -103,7 +103,7 @@ const SignInPage = () => {
                                             {...field}
                                             placeholder='Enter your password'
                                             type='password'
-                                            className='bg-white'
+                                            className='bg-background'
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -111,7 +111,7 @@ const SignInPage = () => {
                             )}
                         />
                         <div className='flex justify-end'>
-                            <Button variant='link' className='w-fit p-0 text-sky-400' asChild>
+                            <Button variant='link' className='w-fit p-0 text-sky-400 dark:text-sky-700' asChild>
                                 <Link to={ROUTE.AUTH.FORGOT_PASSWORD}>Forgot password?</Link>
                             </Button>
                         </div>
@@ -119,7 +119,7 @@ const SignInPage = () => {
                         <p className='text-center text-sm text-gray-500'>
                             or becoming a member of TekBlog community by{" "}
                             <Link
-                                className='font-semibold text-sky-400 underline underline-offset-2 transition-opacity sm:hover:opacity-80'
+                                className='font-semibold text-sky-400 underline underline-offset-2 transition-opacity dark:text-sky-700 sm:hover:opacity-80'
                                 to={ROUTE.AUTH.REGISTER}
                             >
                                 Register

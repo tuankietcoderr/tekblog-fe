@@ -22,15 +22,15 @@ const SearchPage = () => {
     })
 
     return (
-        <div className='grid grid-cols-[14rem_auto] gap-5'>
-            <div className='flex flex-col gap-2 self-start rounded-md bg-white p-4 shadow-custom'>
+        <div className='grid grid-cols-1 gap-5 md:grid-cols-[14rem_auto]'>
+            <div className='flex flex-col gap-2 self-start rounded-md border bg-background p-4 shadow-custom'>
                 {Object.values(SearchType).map((t) => (
                     <Link
                         key={t}
                         to={`${ROUTE.SEARCH}?q=${search_q}&type=${t}`}
                         className={cn(
-                            "rounded-md p-2 font-semibold hover:bg-gray-100",
-                            t === search_type && "bg-gray-100"
+                            "rounded-md p-2 font-semibold hover:bg-gray-100 dark:hover:bg-slate-700",
+                            t === search_type && "bg-gray-100 dark:bg-slate-700"
                         )}
                     >
                         {t.slice(0, 1).toUpperCase() + t.slice(1) + "s"}

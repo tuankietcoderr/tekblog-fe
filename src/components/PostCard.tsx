@@ -68,7 +68,7 @@ const PostCard = ({ showThumbnail = false, showBookmark = true, showEdit = false
     }
 
     return (
-        <div className='rounded-md bg-white shadow-custom'>
+        <div className='rounded-md border border-border bg-background shadow-custom dark:shadow-none'>
             {showThumbnail && (
                 <div>
                     <img className='h-80 w-full rounded-t-md object-cover' src={thumbnail} alt={title} />
@@ -91,14 +91,16 @@ const PostCard = ({ showThumbnail = false, showBookmark = true, showEdit = false
                             <UserLink cmpId={authorObject?._id} className='text-xs font-semibold hover:text-blue-600'>
                                 {authorObject?.name}
                             </UserLink>
-                            <p className='text-xs text-gray-400'>{DateUtils.getAgos(createdAt)}</p>
+                            <p className='text-xs text-gray-400'>
+                                {DateUtils.customFormat(createdAt, "hh:mm A, DD/MM/YYYY")}
+                            </p>
                         </div>
                     </div>
                     {post?.isDraft && <p className='font-semibold text-destructive'>Draft</p>}
                 </div>
                 <Link
                     to={ROUTE.POST.DETAIL.replace(":postId", post?._id)}
-                    className='w-fit text-2xl font-bold hover:text-blue-600'
+                    className='w-fit text-2xl font-bold text-foreground hover:text-blue-600'
                 >
                     {title}
                 </Link>
@@ -109,7 +111,7 @@ const PostCard = ({ showThumbnail = false, showBookmark = true, showEdit = false
                                 unstable_viewTransition
                                 to={`${ROUTE.POST.BY_TAGS.replace(":tagId", tag?._id)}`}
                                 key={tag?._id}
-                                className='text-base text-gray-500 transition-colors hover:text-black'
+                                className='text-base text-gray-500 transition-colors hover:text-foreground'
                             >
                                 #{tag.title}
                             </Link>

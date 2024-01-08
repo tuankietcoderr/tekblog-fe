@@ -3,7 +3,7 @@ import React from "react"
 const AboutPage = () => {
     return (
         <div className='flex justify-center'>
-            <div className='prose text-justify'>
+            <div className='prose text-justify dark:prose-invert'>
                 <h1>About</h1>
                 <p className='indent-8'>
                     Tek Blog, a state-of-the-art Tech Blog Website, endeavors to create an inclusive and engaging online
