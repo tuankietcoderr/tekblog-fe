@@ -1,5 +1,6 @@
 import PostApiController from "@/api/post"
 import SimpleAvatarPostCard from "@/components/SimpleAvatarPostCard"
+import { t } from "i18next"
 import React, { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { useParams } from "react-router-dom"
@@ -24,7 +25,7 @@ const RelatedPosts = () => {
 
     return (
         <div className='mb-5 flex flex-col gap-4 rounded-md border bg-background p-4 shadow-custom'>
-            <h2 className='text-xl font-bold'>Related Posts</h2>
+            <h2 className='text-xl font-bold'>{t("common:related_posts")}</h2>
             {posts?.map((post) => <SimpleAvatarPostCard {...post} key={post?._id} />)}
         </div>
     )

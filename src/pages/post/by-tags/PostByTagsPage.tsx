@@ -5,6 +5,7 @@ import { useLocation, useParams } from "react-router-dom"
 import Tags from "./components/Tags"
 import ListWithLoading from "@/components/ListWithLoading"
 import PostCard from "@/components/PostCard"
+import { t } from "i18next"
 
 const PostByTagsPage = () => {
     const { tagId } = useParams<{
@@ -25,12 +26,12 @@ const PostByTagsPage = () => {
                     data={data}
                     isLoading={loading && page === 1}
                     renderItem={(post) => <PostCard post={post} key={post._id} />}
-                    emptyText='No posts found'
+                    emptyText={t("common:no_post")}
                     contentContainerClassName='flex flex-col gap-3'
                     listFooter={!loading && <LastElement />}
                 />
             ) : (
-                <p className='text-center'>Choose tag to view tag's posts</p>
+                <p className='text-center'>{t("common:choose_tag")}</p>
             )}
         </div>
     )

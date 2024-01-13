@@ -7,6 +7,7 @@ import ROUTE from "@/constants/route"
 import { SearchType } from "@/enum"
 import useInfiniteScroll from "@/hooks/useInfiniteScroll"
 import { cn } from "@/lib/utils"
+import { t } from "i18next"
 import React, { useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 
@@ -24,16 +25,16 @@ const SearchPage = () => {
     return (
         <div className='grid grid-cols-1 gap-5 md:grid-cols-[14rem_auto]'>
             <div className='flex flex-col gap-2 self-start rounded-md border bg-background p-4 shadow-custom'>
-                {Object.values(SearchType).map((t) => (
+                {Object.values(SearchType).map((type) => (
                     <Link
-                        key={t}
-                        to={`${ROUTE.SEARCH}?q=${search_q}&type=${t}`}
+                        key={type}
+                        to={`${ROUTE.SEARCH}?q=${search_q}&type=${type}`}
                         className={cn(
                             "rounded-md p-2 font-semibold hover:bg-gray-100 dark:hover:bg-slate-700",
-                            t === search_type && "bg-gray-100 dark:bg-slate-700"
+                            type === search_type && "bg-gray-100 dark:bg-slate-700"
                         )}
                     >
-                        {t.slice(0, 1).toUpperCase() + t.slice(1) + "s"}
+                        {t([type])}
                     </Link>
                 ))}
             </div>

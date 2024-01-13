@@ -8,6 +8,7 @@ import { Link, useLocation } from "react-router-dom"
 import ROUTE from "@/constants/route"
 import UserApiController from "@/api/user"
 import { useAuthContext } from "@/context/AuthContext"
+import { t } from "i18next"
 
 const PeopleCard = ({ _id, avatar, username, name, bio, followers, major }: IUser) => {
     const { user, setUser } = useUserContext()
@@ -86,7 +87,7 @@ const PeopleCard = ({ _id, avatar, username, name, bio, followers, major }: IUse
                         <AvatarImage src={avatar} alt={username} className='object-cover' />
                     </Avatar>
                 </UserLink>
-                <div className='flex flex-col flex-wrap gap-2'>
+                <div className='flex flex-1 flex-col flex-wrap gap-2'>
                     <div className='flex flex-wrap items-center gap-2'>
                         <UserLink cmpId={_id} className='text font-bold hover:text-blue-600'>
                             {name}
@@ -98,7 +99,7 @@ const PeopleCard = ({ _id, avatar, username, name, bio, followers, major }: IUse
                     </div>
                     <div className='flex flex-col gap-2'>
                         <p className='text-xs'>
-                            <span className='font-semibold'>{followCount}</span> followers
+                            <span className='font-semibold'>{followCount}</span> {t("common:followers")}
                         </p>
                         <p className='text-xs'>
                             {bio ?? "Nothing"} • {major || "Nothing"}
@@ -116,7 +117,13 @@ const PeopleCard = ({ _id, avatar, username, name, bio, followers, major }: IUse
                     }
                 }}
             >
-                {user?._id === _id ? <Link to={ROUTE.PROFILE.BASE}>View profile</Link> : follow ? "Unfollow" : "Follow"}
+                {user?._id === _id ? (
+                    <Link to={ROUTE.PROFILE.BASE}>{t("view_profile")}</Link>
+                ) : follow ? (
+                    t("Unfollow")
+                ) : (
+                    t("Follow")
+                )}
             </Button>
         </div>
     )

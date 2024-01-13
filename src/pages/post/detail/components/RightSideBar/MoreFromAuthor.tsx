@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator"
 import { ArrowRight } from "lucide-react"
 import React, { useEffect } from "react"
 import toast from "react-hot-toast"
+import { useTranslation } from "react-i18next"
 import { useParams } from "react-router-dom"
 
 type Props = {
@@ -31,11 +32,13 @@ const MoreFromAuthor = ({ author }: Props) => {
         }
     }, [author, postId])
 
+    const { t } = useTranslation()
+
     return (
         <div className='rounded-md border bg-background shadow-custom'>
             <div className='flex items-center justify-between p-4'>
                 <p>
-                    More from{" "}
+                    {t("common:more_from_author")}{" "}
                     <UserLink cmpId={_id} className='font-bold text-blue-400'>
                         {name}
                     </UserLink>

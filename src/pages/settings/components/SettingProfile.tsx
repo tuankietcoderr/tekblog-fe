@@ -8,6 +8,7 @@ import { useUserContext } from "@/context/UserContext"
 import { cn } from "@/lib/utils"
 import apiToast from "@/utils/toast"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { t } from "i18next"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
@@ -73,7 +74,7 @@ const SettingProfile = () => {
 
     return (
         <div className='rounded-md bg-white p-4 shadow-custom'>
-            <h2 className='text-xl font-bold'>Update profile</h2>
+            <h2 className='text-xl font-bold'>{t("update_profile")}</h2>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-3'>
                     <FormField
@@ -81,7 +82,7 @@ const SettingProfile = () => {
                         name='name'
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className='text-sm font-semibold'>Full name</FormLabel>
+                                <FormLabel className='text-sm font-semibold'>{t("full_name")}</FormLabel>
                                 <FormControl>
                                     <Input {...field} placeholder='Tek de Blog' className='bg-white' autoFocus />
                                 </FormControl>
@@ -94,7 +95,7 @@ const SettingProfile = () => {
                         name='email'
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className='text-sm font-semibold'>Email</FormLabel>
+                                <FormLabel className='text-sm font-semibold'>{t("email")}</FormLabel>
                                 <FormControl>
                                     <Input {...field} placeholder='example@gmail.com' className='bg-white' />
                                 </FormControl>
@@ -107,7 +108,7 @@ const SettingProfile = () => {
                         name='username'
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className='text-sm font-semibold'>Username</FormLabel>
+                                <FormLabel className='text-sm font-semibold'>{t("username")}</FormLabel>
                                 <FormControl>
                                     <Input {...field} placeholder='tekblog' className='bg-white' />
                                 </FormControl>
@@ -121,7 +122,7 @@ const SettingProfile = () => {
                             name='major'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className='text-sm font-semibold'>Major</FormLabel>
+                                    <FormLabel className='text-sm font-semibold'>{t("Major")}</FormLabel>
                                     <Select
                                         onValueChange={field.onChange}
                                         value={field.value}
@@ -150,7 +151,9 @@ const SettingProfile = () => {
                         name='bio'
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className='text-sm font-semibold'>Bio (optional)</FormLabel>
+                                <FormLabel className='text-sm font-semibold'>
+                                    {t("bio")} ({t("optional")})
+                                </FormLabel>
                                 <FormControl>
                                     <Input
                                         {...field}
@@ -169,7 +172,7 @@ const SettingProfile = () => {
                         name='avatar'
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className='text-sm font-semibold'>Avatar URL</FormLabel>
+                                <FormLabel className='text-sm font-semibold'>{t("avatar_url")}</FormLabel>
                                 <FormControl>
                                     <Input
                                         {...field}
@@ -183,7 +186,7 @@ const SettingProfile = () => {
                         )}
                     />
                     <Button type='submit' className={cn("self-start")}>
-                        Submit
+                        {t("update")}
                     </Button>
                 </form>
             </Form>

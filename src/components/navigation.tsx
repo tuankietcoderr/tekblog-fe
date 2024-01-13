@@ -21,6 +21,8 @@ import {
     DropdownMenuTrigger
 } from "./ui/dropdown-menu"
 import { Input } from "./ui/input"
+import { useTranslation } from "react-i18next"
+import LanguageToggle from "./language-toggle"
 
 const NavigationBar = () => {
     const { pathname, ...location } = useLocation()
@@ -77,6 +79,8 @@ const NavigationBar = () => {
         if (pathname.includes(href) && href !== "/") return true
         return false
     }
+
+    const { t } = useTranslation(["common"])
 
     return isRendered ? (
         <div className='sticky top-0 z-[99] flex items-center justify-between gap-4 border bg-white px-[1rem] py-1 shadow-md dark:border-border dark:bg-[hsl(240,10%,3.9%)] md:px-[10%]'>
@@ -157,7 +161,7 @@ const NavigationBar = () => {
             </div>
             <div className='flex items-center gap-2'>
                 <Button className='hidden min-w-max md:inline-flex' onClick={onClickCreatePost}>
-                    Create post
+                    {t("common:create_post")}
                 </Button>
                 {user ? (
                     <DropdownMenu>
@@ -173,25 +177,26 @@ const NavigationBar = () => {
                             <DropdownMenuLabel>{user?.name}</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem asChild>
-                                <Link to={ROUTE.PROFILE.BASE}>Profile</Link>
+                                <Link to={ROUTE.PROFILE.BASE}>{t("common:profile")}</Link>
                             </DropdownMenuItem>
                             <DropdownMenuItem asChild>
-                                <Link to={ROUTE.SETTINGS.concat("?tab=profile")}>Settings</Link>
+                                <Link to={ROUTE.SETTINGS.concat("?tab=profile")}>{t("common:settings")}</Link>
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                                 onClick={onLogout}
                                 className='text-destructive dark:text-destructive-foreground'
                             >
-                                Logout
+                                {t("common:logout")}
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 ) : (
                     <Button variant='secondary' className='min-w-max' asChild>
-                        <Link to={ROUTE.AUTH.SIGIN}>Sign in</Link>
+                        <Link to={ROUTE.AUTH.SIGIN}>{t("common:login")}</Link>
                     </Button>
                 )}
+                <LanguageToggle />
                 <ThemeToggle />
             </div>
         </div>

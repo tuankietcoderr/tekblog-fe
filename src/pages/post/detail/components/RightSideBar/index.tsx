@@ -10,7 +10,7 @@ type Props = {
 const RightSideBar = ({ author }: Props) => {
     return (
         <FollowProvider author={author}>
-            <div className='top-[84px] order-3 flex flex-col gap-3 self-start md:sticky md:order-first'>
+            <div className='top-[84px] order-3 flex flex-col gap-3 self-start lg:sticky lg:order-first'>
                 <ProfileInfo author={author} />
                 <MoreFromAuthor author={author} />
             </div>

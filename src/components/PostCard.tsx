@@ -9,6 +9,7 @@ import PostApiController from "@/api/post"
 import { usePostContext } from "@/context/PostContext"
 import { useAuthContext } from "@/context/AuthContext"
 import UserLink from "./UserLink"
+import { t } from "i18next"
 
 type Props = {
     showThumbnail?: boolean
@@ -18,7 +19,7 @@ type Props = {
 }
 
 const PostCard = ({ showThumbnail = false, showBookmark = true, showEdit = false, post }: Props) => {
-    const { thumbnail, author, title, createdAt, tags, likes, comments, saved, _id } = post
+    const { thumbnail, author, title, createdAt, tags, likes, commentsCount, saved, _id } = post
     const authorObject = author as IUser
     const tagsObject = tags as ITag[]
     const { user } = useUserContext()
@@ -96,7 +97,7 @@ const PostCard = ({ showThumbnail = false, showBookmark = true, showEdit = false
                             </p>
                         </div>
                     </div>
-                    {post?.isDraft && <p className='font-semibold text-destructive'>Draft</p>}
+                    {post?.isDraft && <p className='font-semibold text-destructive'>{t("draft")}</p>}
                 </div>
                 <Link
                     to={ROUTE.POST.DETAIL.replace(":postId", post?._id)}
@@ -120,10 +121,10 @@ const PostCard = ({ showThumbnail = false, showBookmark = true, showEdit = false
                 <div className='flex items-center justify-between'>
                     <div className='flex gap-3'>
                         <p>
-                            <b>{likes?.length || 0}</b> likes
+                            <b>{likes?.length || 0}</b> {t("common:likes")}
                         </p>
                         <p>
-                            <b>{comments?.length || 0}</b> comments
+                            <b>{commentsCount}</b> {t("common:comments")}
                         </p>
                     </div>
                     <div className='flex gap-2'>

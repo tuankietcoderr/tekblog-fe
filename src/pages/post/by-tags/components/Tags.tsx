@@ -5,6 +5,7 @@ import ROUTE from "@/constants/route"
 import { useTagContext } from "@/context/TagContext"
 import usePagination from "@/hooks/usePagination"
 import { cn } from "@/lib/utils"
+import { t } from "i18next"
 import React from "react"
 import { Link, useParams } from "react-router-dom"
 
@@ -15,7 +16,7 @@ const Tags = () => {
     const { tags, tagsLoading } = useTagContext()
     return (
         <div className='self-start rounded-md border border-border bg-background p-4 shadow-custom'>
-            <h2 className='mb-3 text-lg font-semibold'>All tags</h2>
+            <h2 className='mb-3 text-lg font-semibold'>{t("common:all_tags")}</h2>
             <ListWithLoading<ITag>
                 data={tags}
                 isLoading={tagsLoading}

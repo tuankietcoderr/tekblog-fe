@@ -1,6 +1,13 @@
 import moment from "moment"
+import "moment/dist/locale/vi"
+
+moment.locale(localStorage.getItem("lang") ?? "en")
 
 class DateUtils {
+    public static updateLocale(locale: string) {
+        moment.updateLocale(locale, null)
+    }
+
     public static getNow(): string {
         return moment().format("YYYY-MM-DD HH:mm:ss")
     }

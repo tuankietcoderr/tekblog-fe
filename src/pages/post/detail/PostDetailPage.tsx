@@ -22,6 +22,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle
 } from "@/components/ui/alert-dialog"
+import { useTranslation } from "react-i18next"
 
 const PostDetailPage = () => {
     const { postId } = useParams<{
@@ -39,8 +40,10 @@ const PostDetailPage = () => {
 
     const contentRef = useRef<HTMLDivElement>(null)
 
+    const { t } = useTranslation(["common"])
+
     return (
-        <div className='relative grid grid-cols-1 gap-4 self-start md:grid-cols-[18rem_auto_2rem]'>
+        <div className='relative grid grid-cols-1 gap-4 self-start lg:grid-cols-[18rem_auto_2rem]'>
             <RightSideBar author={post?.author as IUser} />
             <div className='order-2 flex flex-col gap-4 overflow-auto md:order-1'>
                 <div className='flex flex-col gap-4 rounded-md border'>

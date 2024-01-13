@@ -15,6 +15,7 @@ import { useAuthContext } from "@/context/AuthContext"
 import toast from "react-hot-toast"
 import { useUserContext } from "@/context/UserContext"
 import apiToast from "@/utils/toast"
+import { t } from "i18next"
 
 const formSchema = z
     .object({
@@ -90,14 +91,12 @@ const RegisterPage = () => {
 
     return (
         <div className='relative flex min-h-screen items-center justify-start bg-[url("/register.jpg")] bg-cover bg-fixed bg-no-repeat'>
-            <div className='hide absolute inset-0 bg-background opacity-90 dark:block' />
-            <div className='mx-[1rem] my-8 flex w-full flex-col items-stretch gap-6 rounded-md border border-foreground bg-background/25 p-4 backdrop-blur-sm dark:bg-background md:mx-[10%] md:max-w-[390px] md:p-8'>
+            <div className='absolute inset-0 hidden bg-background opacity-90 dark:block' />
+            <div className='mx-[1rem] my-8 flex w-full flex-col items-stretch gap-6 rounded-md border border-background bg-background/25 p-4 backdrop-blur-sm dark:bg-background md:mx-[10%] md:max-w-[390px] md:p-8'>
                 <div className='flex flex-col items-center gap-4'>
                     <Logo />
-                    <h2 className='text-center text-3xl font-bold'>Welcome to TekBlog!</h2>
-                    <p className='text-center text-sm font-semibold'>
-                        Let create your account to have your first touch!
-                    </p>
+                    <h2 className='text-center text-3xl font-bold'>{t("welcome")}</h2>
+                    <p className='text-center text-sm font-semibold'>{t("welcome_message")}</p>
                 </div>
                 <Form {...form}>
                     <form className='flex flex-col gap-3' onSubmit={form.handleSubmit(onSubmit)}>
@@ -107,7 +106,7 @@ const RegisterPage = () => {
                                 name='name'
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className='text-sm font-semibold'>Full name</FormLabel>
+                                        <FormLabel className='text-sm font-semibold'>{t("full_name")}</FormLabel>
                                         <FormControl>
                                             <Input
                                                 {...field}
@@ -125,7 +124,7 @@ const RegisterPage = () => {
                                 name='email'
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className='text-sm font-semibold'>Email</FormLabel>
+                                        <FormLabel className='text-sm font-semibold'>{t("email")}</FormLabel>
                                         <FormControl>
                                             <Input
                                                 {...field}
@@ -142,7 +141,7 @@ const RegisterPage = () => {
                                 name='username'
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className='text-sm font-semibold'>Username</FormLabel>
+                                        <FormLabel className='text-sm font-semibold'>{t("username")}</FormLabel>
                                         <FormControl>
                                             <Input {...field} placeholder='tekblog' className='bg-background' />
                                         </FormControl>
@@ -155,7 +154,7 @@ const RegisterPage = () => {
                                 name='password'
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className='text-sm font-semibold'>Password</FormLabel>
+                                        <FormLabel className='text-sm font-semibold'>{t("password")}</FormLabel>
                                         <FormControl>
                                             <Input
                                                 {...field}
@@ -173,7 +172,7 @@ const RegisterPage = () => {
                                 name='confirmPassword'
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className='text-sm font-semibold'>Confirm password</FormLabel>
+                                        <FormLabel className='text-sm font-semibold'>{t("confirm_password")}</FormLabel>
                                         <FormControl>
                                             <Input
                                                 {...field}
@@ -193,11 +192,11 @@ const RegisterPage = () => {
                                 name='major'
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className='text-sm font-semibold'>Major</FormLabel>
+                                        <FormLabel className='text-sm font-semibold'>{t("Major")}</FormLabel>
                                         <Select onValueChange={field.onChange}>
                                             <FormControl>
                                                 <SelectTrigger className='bg-background'>
-                                                    <SelectValue placeholder='Choose your major' />
+                                                    <SelectValue placeholder={t("choose_major")} />
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent position='item-aligned'>
@@ -217,7 +216,9 @@ const RegisterPage = () => {
                                 name='bio'
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className='text-sm font-semibold'>Bio (optional)</FormLabel>
+                                        <FormLabel className='text-sm font-semibold'>
+                                            {t("bio")} ({t("optional")})
+                                        </FormLabel>
                                         <FormControl>
                                             <Input
                                                 {...field}
@@ -232,26 +233,26 @@ const RegisterPage = () => {
                                 )}
                             />
                         </div>
-                        {step === 1 && <Button onClick={handleOnClickNext}>Next</Button>}
-                        {step === 2 && <Button type='submit'>Finish</Button>}
+                        {step === 1 && <Button onClick={handleOnClickNext}>{t("next")}</Button>}
+                        {step === 2 && <Button type='submit'>{t("finish")}</Button>}
                         {step === 2 && (
                             <Button onClick={handleOnClickBack} variant='secondary'>
-                                Go back
+                                {t("back")}
                             </Button>
                         )}
                         <p className='text-center text-sm text-gray-500'>
-                            Already have an account?{" "}
+                            {t("already_have_account")}{" "}
                             <Link
                                 className='font-semibold text-sky-600 underline underline-offset-2 transition-opacity sm:hover:opacity-80'
                                 to={ROUTE.AUTH.SIGIN}
                             >
-                                Sign in now
+                                {t("sign_in_now")}
                             </Link>
                         </p>
                     </form>
                 </Form>
                 <Link to={ROUTE.BASE} className='text-center text-sm text-gray-500 underline'>
-                    Back to home page
+                    {t("back_to_home_page")}
                 </Link>
             </div>
         </div>

@@ -11,6 +11,7 @@ import {
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { DialogClose } from "@radix-ui/react-dialog"
+import { t } from "i18next"
 import React from "react"
 import { useFormContext } from "react-hook-form"
 
@@ -20,12 +21,12 @@ const AddCoverImageDialog = () => {
         <Dialog>
             <DialogTrigger asChild>
                 <Button variant='outline' className='self-start'>
-                    Add a cover image
+                    {t("add_cover_image")}
                 </Button>
             </DialogTrigger>
             <DialogContent className='sm:max-w-md'>
                 <DialogHeader>
-                    <DialogTitle>Add a cover image</DialogTitle>
+                    <DialogTitle>{t("add_cover_image")}</DialogTitle>
                     <DialogDescription>Paste image's url to add</DialogDescription>
                 </DialogHeader>
                 <FormField

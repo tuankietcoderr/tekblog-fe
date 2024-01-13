@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import AccountEmail from "./AccountEmail"
 import apiToast from "@/utils/toast"
+import { t } from "i18next"
 
 const formSchema = z
     .object({
@@ -54,13 +55,11 @@ const SettingAccount = () => {
     return (
         <div className='flex flex-col gap-4'>
             <div className='flex flex-col gap-4 rounded-md bg-white p-4 shadow-custom'>
-                <h2 className='text-xl font-bold'>Set new password</h2>
+                <h2 className='text-xl font-bold'>{t("set_new_password")}</h2>
                 <p>
-                    If your account was created using social account authentication, you may prefer to add an email log
-                    in. If you signed up with a social media account, please reset the password for your primary email
-                    address ({user?.email}) in order to enable this. Please note that email login is in addition to
-                    social login rather than a replacement for it, so your authenticated social account will continue to
-                    be linked to your account.
+                    {t("under_set_new_password", {
+                        email: user?.email
+                    })}
                 </p>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-3'>
@@ -69,11 +68,11 @@ const SettingAccount = () => {
                             name='oldPassword'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className='text-sm font-semibold'>Current password</FormLabel>
+                                    <FormLabel className='text-sm font-semibold'>{t("current_password")}</FormLabel>
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            placeholder='Enter your current password'
+                                            placeholder={t("current_password_placeholder")}
                                             className='bg-white'
                                             type='password'
                                             autoFocus
@@ -88,11 +87,11 @@ const SettingAccount = () => {
                             name='newPassword'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className='text-sm font-semibold'>New password</FormLabel>
+                                    <FormLabel className='text-sm font-semibold'>{t("new_password")}</FormLabel>
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            placeholder='Enter your new password'
+                                            placeholder={t("new_password_placeholder")}
                                             type='password'
                                             className='bg-white'
                                         />
@@ -107,11 +106,11 @@ const SettingAccount = () => {
                             name='confirmNewPassword'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className='text-sm font-semibold'>Confirm new password</FormLabel>
+                                    <FormLabel className='text-sm font-semibold'>{t("confirm_new_password")}</FormLabel>
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            placeholder='Re-enter your new password'
+                                            placeholder={t("confirm_new_password_placeholder")}
                                             type='password'
                                             className='bg-white'
                                         />
@@ -122,7 +121,7 @@ const SettingAccount = () => {
                         />
 
                         <Button type='submit' className={cn("self-start")}>
-                            Set new password
+                            {t("update")}
                         </Button>
                     </form>
                 </Form>

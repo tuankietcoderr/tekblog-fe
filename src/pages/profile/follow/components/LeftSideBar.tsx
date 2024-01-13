@@ -1,5 +1,6 @@
 import ROUTE from "@/constants/route"
 import { cn } from "@/lib/utils"
+import { t } from "i18next"
 import { Shield, Smile } from "lucide-react"
 import { Link, useLocation } from "react-router-dom"
 
@@ -11,11 +12,11 @@ const LeftSideBar = () => {
 
     const tabs = [
         {
-            name: "Followers",
+            name: t("Followers"),
             path: ROUTE.PROFILE.FOLLOW.concat(`?type=followers&userId=${search_userId}`)
         },
         {
-            name: "Following",
+            name: t("Following"),
             path: ROUTE.PROFILE.FOLLOW.concat(`?type=following&userId=${search_userId}`)
         }
     ]

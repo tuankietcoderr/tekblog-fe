@@ -28,6 +28,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { z } from "zod"
 import AddCoverImageDialog from "./components/AddCoverImageDialog"
 import AddTags from "./components/AddTags"
+import { t } from "i18next"
 
 const formSchema = z.object({
     title: z
@@ -166,7 +167,7 @@ const CreateNewPostPage = () => {
                                             event.target.style.height = "auto"
                                             event.target.style.height = event.target.scrollHeight + "px"
                                         }}
-                                        placeholder='Title'
+                                        placeholder={t("common:title")}
                                         className='resize-none border-none px-0 text-2xl font-extrabold leading-tight shadow-none outline-none focus-visible:ring-0 md:text-5xl'
                                         autoFocus
                                         {...field}
@@ -199,30 +200,27 @@ const CreateNewPostPage = () => {
                     <div className={cn("flex gap-2", post ? "justify-between" : "justify-end")}>
                         <div>
                             <Button type='submit' onClick={() => setValue("isDraft", false)}>
-                                Submit
+                                {post ? t("update") : t("publish")}
                             </Button>
                             <Button type='submit' onClick={() => setValue("isDraft", true)} variant='ghost'>
-                                Save draft
+                                {t("save_draft")}
                             </Button>
                         </div>
                         {post && (
                             <AlertDialog>
                                 <AlertDialogTrigger asChild>
-                                    <Button variant='destructive'>Delete post</Button>
+                                    <Button variant='destructive'>{t("delete_post")}</Button>
                                 </AlertDialogTrigger>
                                 <AlertDialogContent>
                                     <AlertDialogHeader>
-                                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                                        <AlertDialogDescription>
-                                            This action cannot be undone. This will permanently delete your account and
-                                            remove your data from our servers.
-                                        </AlertDialogDescription>
+                                        <AlertDialogTitle>{t("ask_delete_post")}</AlertDialogTitle>
+                                        <AlertDialogDescription>{t("delete_post_alert")}</AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
                                         <Button variant='destructive' onClick={onClickDeletePost}>
-                                            Yes
+                                            {t("yes")}
                                         </Button>
-                                        <AlertDialogCancel>No</AlertDialogCancel>
+                                        <AlertDialogCancel>{t("no")}</AlertDialogCancel>
                                     </AlertDialogFooter>
                                 </AlertDialogContent>
                             </AlertDialog>

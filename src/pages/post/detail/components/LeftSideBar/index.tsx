@@ -14,7 +14,7 @@ const LeftSideBar = () => {
     const { user } = useUserContext()
     const { setPosts, posts } = usePostContext()
     const post = useMemo(() => posts?.find((p) => p._id === postId), [posts, postId])
-    const { saved, likes, comments, _id } = post || ({} as IPost)
+    const { saved, likes, commentsCount, _id } = post || ({} as IPost)
     const [save, setSave] = useState<boolean>(false)
     const [like, setLike] = useState<boolean>(false)
     const { onOpenDialog } = useAuthContext()
@@ -168,7 +168,7 @@ const LeftSideBar = () => {
                     <MessageCircle className='hover:text-slate-600' cursor={"pointer"} />
                 </a>
             ),
-            count: comments?.length || 0
+            count: commentsCount
         },
         {
             icon: (
@@ -189,7 +189,7 @@ const LeftSideBar = () => {
     }[]
 
     return (
-        <div className='top-[84px] order-first flex justify-center gap-8 self-start md:sticky md:order-last md:flex-col md:gap-2'>
+        <div className='top-[84px] order-first flex justify-center gap-8 self-start lg:sticky lg:order-last lg:flex-col lg:gap-2'>
             {actions.map((action, index) => (
                 <div className='flex flex-col items-center' key={index}>
                     <div>{action.icon}</div>

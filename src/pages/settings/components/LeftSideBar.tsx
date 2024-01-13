@@ -1,17 +1,18 @@
 import ROUTE from "@/constants/route"
 import { cn } from "@/lib/utils"
+import { t } from "i18next"
 import { Shield, Smile } from "lucide-react"
 import { Link, useLocation } from "react-router-dom"
 
 const LeftSideBar = () => {
     const tabs = [
         {
-            name: "Profile",
+            name: t("profile"),
             path: ROUTE.SETTINGS.concat(`?tab=profile`),
             icon: <Smile />
         },
         {
-            name: "Account",
+            name: t("account"),
             path: ROUTE.SETTINGS.concat(`?tab=account`),
             icon: <Shield />
         }

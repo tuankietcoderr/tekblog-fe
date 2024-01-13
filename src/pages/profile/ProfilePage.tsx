@@ -18,6 +18,7 @@ import UserPosts from "./components/UserPosts"
 import Followers from "./components/Followers"
 import Following from "./components/Following"
 import { FollowProvider } from "@/context/FollowContext"
+import { t } from "i18next"
 
 const ProfilePage = () => {
     const { userId } = useParams<{
@@ -42,10 +43,10 @@ const ProfilePage = () => {
                     {user && (userId === user?._id || userId === undefined) && (
                         <div className='flex flex-col space-y-2 rounded-md border bg-background p-4 shadow-custom'>
                             <Button variant='outline' asChild>
-                                <Link to={ROUTE.PROFILE.ARCHIVE.concat("?type=likes")}>Archive</Link>
+                                <Link to={ROUTE.PROFILE.ARCHIVE.concat("?type=likes")}>{t("archive")}</Link>
                             </Button>
                             <Button variant='outline' asChild>
-                                <Link to={ROUTE.POST.DRAFT}>Draft</Link>
+                                <Link to={ROUTE.POST.DRAFT}>{t("draft")}</Link>
                             </Button>
                         </div>
                     )}

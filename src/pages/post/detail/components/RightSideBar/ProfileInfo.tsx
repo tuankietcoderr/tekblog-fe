@@ -11,6 +11,8 @@ import UserApiController from "@/api/user"
 import { useAuthContext } from "@/context/AuthContext"
 import ReportDialog from "@/components/report-dialog"
 import { useFollowContext } from "@/context/FollowContext"
+import { useTranslation } from "react-i18next"
+import MAJORS, { MAJORS_VI } from "@/constants/major"
 
 type Props = {
     author: IUser
@@ -54,6 +56,8 @@ const ProfileInfo = ({ author }: Props) => {
 
     const [isOpen, setIsOpen] = useState(false)
 
+    const { t } = useTranslation()
+
     const handleReport = () => {
         if (!onOpenDialog(pathname)) {
             return
@@ -78,20 +82,20 @@ const ProfileInfo = ({ author }: Props) => {
             {!isMine && (
                 <div className='flex items-center gap-3'>
                     <Button className='w-full' onClick={onClickFollow} variant='outline'>
-                        {isFollow ? "Unfollow" : "Follow"}
+                        {isFollow ? t("Unfollow") : t("Follow")}
                     </Button>
                     <Flag size={24} cursor={"pointer"} onClick={handleReport} />
                 </div>
             )}
             <div>
-                <p>
-                    <b>MAJOR</b>
+                <p className='uppercase'>
+                    <b>{t("common:major")}</b>
                 </p>
                 <p>{major}</p>
             </div>
             <div>
-                <p>
-                    <b>JOINED</b>
+                <p className='uppercase'>
+                    <b>{t("common:joined")}</b>
                 </p>
                 <p>{DateUtils.customFormat(createdAt, "LLL")}</p>
             </div>

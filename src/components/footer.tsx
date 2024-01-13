@@ -4,6 +4,7 @@ import { Facebook, Instagram, Linkedin, LucideIcon, MapPin, Phone, Printer, Twit
 import { Separator } from "./ui/separator"
 import { Link, useLocation } from "react-router-dom"
 import ROUTE from "@/constants/route"
+import { t } from "i18next"
 
 const LogoText = ({ text, logo: Logo }: { text: string; logo: LucideIcon }) => {
     return (
@@ -32,7 +33,7 @@ const Footer = () => {
                             <LogoText text='(123) 456-7890' logo={Printer} />
                         </div>
                         <div className='mt-10 flex flex-wrap items-center gap-6'>
-                            <p className='text-gray-500'>Social Media</p>
+                            <p className='text-gray-500'>{t("common:social_media")}</p>
                             <div className='flex items-center gap-6'>
                                 <Facebook />
                                 <Twitter />
@@ -46,11 +47,17 @@ const Footer = () => {
                 <Separator />
                 <div className='mt-6 flex flex-wrap items-center justify-center gap-2 md:justify-between'>
                     <div className='flex gap-10'>
-                        <Link to={ROUTE.ABOUT}>ABOUT US</Link>
-                        <Link to={"#"}>CONTACT</Link>
-                        <Link to={"#"}>HELP</Link>
+                        <Link to={ROUTE.ABOUT} className='uppercase'>
+                            {t("common:about_us")}
+                        </Link>
+                        <Link to={"#"} className='uppercase'>
+                            {t("common:contact")}
+                        </Link>
+                        <Link to={"#"} className='uppercase'>
+                            {t("common:help")}
+                        </Link>
                     </div>
-                    <p className='text-gray-500'>Copyright © 2023 • TekBlog</p>
+                    <p className='text-gray-500'>{t("common:copyright")} © 2023 • TekBlog</p>
                 </div>
             </div>
         )

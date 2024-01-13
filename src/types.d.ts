@@ -25,7 +25,7 @@ declare interface IPost {
     author?: string | IUser
     likes?: string[] | IUser[]
     saved?: string[] | IUser[]
-    comments?: string[] | IComment[]
+    commentsCount?: number
     tags?: string[] | ITag[] | (string | ITag)[]
     createdAt?: Date
     updatedAt?: Date
@@ -35,7 +35,11 @@ declare interface IComment {
     _id?: string
     content: string
     author?: string | IUser
-    post: string | IPost
+    post?: string | IPost
+    parent?: string | IComment
+    children?: string[] | IComment[] | (string | IComment)[]
+    isLikedByMe?: boolean
+    likesCount?: number
     createdAt?: Date
     updatedAt?: Date
 }
@@ -109,7 +113,7 @@ declare interface IApi {
 declare type FailResponse<T = any> = Omit<SuccessfulResponse<T>, "data">
 
 declare type TagWithPosts = ITag & {
-    posts: Pick<IPost, "_id" | "title" | "comments">[]
+    posts: Pick<IPost, "_id" | "title" | "commentsCount">[]
 }
 
 declare type Page = {

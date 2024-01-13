@@ -21,6 +21,7 @@ import apiToast from "@/utils/toast"
 import ReportApiController from "@/api/report"
 import { ObjectType } from "@/enum"
 import { DialogClose } from "@radix-ui/react-dialog"
+import { t } from "i18next"
 
 type Props = {
     isOpen: boolean
@@ -65,10 +66,11 @@ const ReportDialog = ({ isOpen = false, setIsOpen = () => {}, type = ObjectType.
         <Dialog open={isOpen} onOpenChange={(v) => setIsOpen(v)}>
             <DialogContent className='sm:max-w-[425px]'>
                 <DialogHeader>
-                    <DialogTitle>Report abuse</DialogTitle>
+                    <DialogTitle>{t("report_abuse")}</DialogTitle>
                     <DialogDescription>
-                        If you feel this {type.toLowerCase()} is in violation of our Terms of Service, please select the
-                        reason below and submit a report.
+                        {t("report_abuse_message", {
+                            type: type.toLowerCase()
+                        })}
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
@@ -78,9 +80,9 @@ const ReportDialog = ({ isOpen = false, setIsOpen = () => {}, type = ObjectType.
                             name='title'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Title</FormLabel>
+                                    <FormLabel>{t("title")}</FormLabel>
                                     <FormControl>
-                                        <Input {...field} placeholder="Enter report's title" />
+                                        <Input {...field} placeholder={t("report_title_placeholder")} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -91,9 +93,9 @@ const ReportDialog = ({ isOpen = false, setIsOpen = () => {}, type = ObjectType.
                             name='content'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Content</FormLabel>
+                                    <FormLabel>{t("content")}</FormLabel>
                                     <FormControl>
-                                        <Textarea {...field} placeholder="Enter report's content" />
+                                        <Textarea {...field} placeholder={t("report_content_placeholder")} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -101,9 +103,9 @@ const ReportDialog = ({ isOpen = false, setIsOpen = () => {}, type = ObjectType.
                         />
                         <div className='flex space-x-2 self-end'>
                             <DialogClose asChild>
-                                <Button variant='ghost'>Cancel</Button>
+                                <Button variant='ghost'>{t("cancel")}</Button>
                             </DialogClose>
-                            <Button type='submit'>Send</Button>
+                            <Button type='submit'>{t("send")}</Button>
                         </div>
                     </form>
                 </Form>

@@ -25,7 +25,7 @@ const ListWithLoading = <T extends any>({
             ) : data?.length > 0 ? (
                 data.map((item, index) => renderItem(item, index))
             ) : (
-                <p className='text-center text-gray-400'>{emptyText || "No data"}</p>
+                <p className='text-center text-gray-400'>{emptyText ?? "No data"}</p>
             )}
             {listFooter}
         </div>

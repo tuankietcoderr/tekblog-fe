@@ -48,6 +48,15 @@ class CommentController implements IApi {
             throw error.response
         }
     }
+
+    async like(id: string): Promise<AxiosResponse<SuccessfulResponse<IComment>>> {
+        try {
+            const comment = await apiInstance.put(`${this.PATHS.ROOT}/${id}/like`)
+            return comment
+        } catch (error) {
+            throw error.response
+        }
+    }
 }
 
 const CommentApiController = new CommentController()

@@ -5,6 +5,7 @@ import { UserProvider } from "./context/UserContext"
 import router from "./route"
 import { Toaster } from "react-hot-toast"
 import ThemeProvider from "./components/theme-provider"
+import "./translations"
 
 function App() {
     return (
