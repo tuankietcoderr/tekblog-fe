@@ -111,9 +111,6 @@ const CommentItem = ({ comment }: Props) => {
 
     async function handleReply() {
         if (!user) return toast.error("You must login to reply a comment")
-        toast.loading("Replying comment...", {
-            duration: Infinity
-        })
         const {
             data: { success, message, data }
         } = await CommentApiController.create({
@@ -121,7 +118,6 @@ const CommentItem = ({ comment }: Props) => {
             post: comment.post,
             parent: comment._id
         })
-        toast.dismiss()
         if (success) {
             setComment((prev) => ({
                 ...prev,
@@ -129,6 +125,7 @@ const CommentItem = ({ comment }: Props) => {
             }))
             setIsReplying(false)
             setReplyComment("")
+            !expandReply && setExpandReply(true)
         } else {
             toast.error(message)
         }
