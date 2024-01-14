@@ -75,7 +75,7 @@ const PostDetailPage = () => {
                                     <UserLink cmpId={authorObject?._id} className='font-semibold hover:text-blue-600'>
                                         {authorObject?.name || "Anonymous"}
                                     </UserLink>
-                                    <p className='text-xs text-gray-400'>
+                                    <p className='text-base text-gray-400'>
                                         {DateUtils.customFormat(post?.createdAt!, "hh:mm A, DD/MM/YYYY")}
                                     </p>
                                 </div>

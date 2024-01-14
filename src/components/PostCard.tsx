@@ -89,7 +89,7 @@ const PostCard = ({ showThumbnail = false, showBookmark = true, showEdit = false
                             </Avatar>
                         </UserLink>
                         <div>
-                            <UserLink cmpId={authorObject?._id} className='text-xs font-semibold hover:text-blue-600'>
+                            <UserLink cmpId={authorObject?._id} className='text-base font-semibold hover:text-blue-600'>
                                 {authorObject?.name}
                             </UserLink>
                             <p className='text-xs text-gray-400'>
