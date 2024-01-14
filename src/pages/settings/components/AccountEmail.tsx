@@ -16,7 +16,7 @@ const AccountEmail = () => {
         })
     }
     return (
-        <div className='flex flex-col gap-4 rounded-md bg-white p-4 shadow-custom'>
+        <div className='flex flex-col gap-4 rounded-md border bg-background p-4 shadow-custom'>
             <h2 className='text-xl font-bold'>{t("account_email")}</h2>
             <div className='flex w-full items-center gap-4'>
                 <h4 className='font-semibold'>{t("primary_email")}</h4>

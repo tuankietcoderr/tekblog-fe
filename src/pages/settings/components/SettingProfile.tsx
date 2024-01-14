@@ -73,7 +73,7 @@ const SettingProfile = () => {
     }
 
     return (
-        <div className='rounded-md bg-white p-4 shadow-custom'>
+        <div className='rounded-md border bg-background p-4 shadow-custom'>
             <h2 className='text-xl font-bold'>{t("update_profile")}</h2>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-3'>
@@ -84,7 +84,7 @@ const SettingProfile = () => {
                             <FormItem>
                                 <FormLabel className='text-sm font-semibold'>{t("full_name")}</FormLabel>
                                 <FormControl>
-                                    <Input {...field} placeholder='Tek de Blog' className='bg-white' autoFocus />
+                                    <Input {...field} placeholder='Tek de Blog' className='' autoFocus />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -97,7 +97,7 @@ const SettingProfile = () => {
                             <FormItem>
                                 <FormLabel className='text-sm font-semibold'>{t("email")}</FormLabel>
                                 <FormControl>
-                                    <Input {...field} placeholder='example@gmail.com' className='bg-white' />
+                                    <Input {...field} placeholder='example@gmail.com' className='' />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -110,7 +110,7 @@ const SettingProfile = () => {
                             <FormItem>
                                 <FormLabel className='text-sm font-semibold'>{t("username")}</FormLabel>
                                 <FormControl>
-                                    <Input {...field} placeholder='tekblog' className='bg-white' />
+                                    <Input {...field} placeholder='tekblog' className='' />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -129,7 +129,7 @@ const SettingProfile = () => {
                                         defaultValue={field.value}
                                     >
                                         <FormControl>
-                                            <SelectTrigger className='bg-white'>
+                                            <SelectTrigger className=''>
                                                 <SelectValue placeholder='Choose your major' />
                                             </SelectTrigger>
                                         </FormControl>
@@ -159,7 +159,7 @@ const SettingProfile = () => {
                                         {...field}
                                         autoComplete='off'
                                         placeholder='I love...'
-                                        className='bg-white'
+                                        className=''
                                         type='text'
                                     />
                                 </FormControl>
@@ -177,7 +177,7 @@ const SettingProfile = () => {
                                     <Input
                                         {...field}
                                         placeholder='https://example.com/avatar.png'
-                                        className='bg-white'
+                                        className=''
                                         type='url'
                                     />
                                 </FormControl>

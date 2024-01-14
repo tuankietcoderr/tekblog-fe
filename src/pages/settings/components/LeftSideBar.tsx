@@ -21,13 +21,13 @@ const LeftSideBar = () => {
     const searchParams = new URLSearchParams(search)
     const tab = searchParams.get("tab")
     return (
-        <div className='flex flex-col gap-1 self-start rounded-md bg-white p-4 shadow-custom'>
+        <div className='flex flex-col gap-1 self-start rounded-md border bg-background p-4 shadow-custom'>
             {tabs.map(({ path, icon, name }) => (
                 <Link
                     to={path}
                     className={cn(
-                        "flex items-center gap-3 rounded-md p-2 transition-colors hover:bg-gray-100",
-                        path.includes(tab) && "bg-gray-100"
+                        "flex items-center gap-3 rounded-md p-2 transition-colors hover:bg-slate-700",
+                        path.includes(tab) && "bg-slate-700"
                     )}
                     key={name}
                 >

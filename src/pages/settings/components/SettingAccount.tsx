@@ -54,7 +54,7 @@ const SettingAccount = () => {
 
     return (
         <div className='flex flex-col gap-4'>
-            <div className='flex flex-col gap-4 rounded-md bg-white p-4 shadow-custom'>
+            <div className='flex flex-col gap-4 rounded-md border bg-background p-4 shadow-custom'>
                 <h2 className='text-xl font-bold'>{t("set_new_password")}</h2>
                 <p>
                     {t("under_set_new_password", {
@@ -73,7 +73,7 @@ const SettingAccount = () => {
                                         <Input
                                             {...field}
                                             placeholder={t("current_password_placeholder")}
-                                            className='bg-white'
+                                            className=''
                                             type='password'
                                             autoFocus
                                         />
@@ -93,7 +93,7 @@ const SettingAccount = () => {
                                             {...field}
                                             placeholder={t("new_password_placeholder")}
                                             type='password'
-                                            className='bg-white'
+                                            className=''
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -112,7 +112,7 @@ const SettingAccount = () => {
                                             {...field}
                                             placeholder={t("confirm_new_password_placeholder")}
                                             type='password'
-                                            className='bg-white'
+                                            className=''
                                         />
                                     </FormControl>
                                     <FormMessage />
