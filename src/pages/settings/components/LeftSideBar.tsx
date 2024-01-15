@@ -26,8 +26,8 @@ const LeftSideBar = () => {
                 <Link
                     to={path}
                     className={cn(
-                        "flex items-center gap-3 rounded-md p-2 transition-colors hover:bg-slate-700",
-                        path.includes(tab) && "bg-slate-700"
+                        "flex items-center gap-3 rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-slate-700",
+                        path.includes(tab) && "bg-slate-100 dark:bg-slate-700"
                     )}
                     key={name}
                 >
