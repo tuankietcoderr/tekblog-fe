@@ -25,7 +25,7 @@ const Footer = () => {
             <div className='p-4 md:px-40 md:py-24'>
                 <Separator />
                 <div className='my-4 flex flex-wrap justify-around gap-2 md:mb-20 md:mt-16'>
-                    <Logo className='h-[150px] w-[150px]' />
+                    <Logo className='h-[4rem] w-[4rem] md:h-[150px] md:w-[150px]' />
                     <div className='md:min-w-[368px]'>
                         <LogoText text='123 East, 17th Street, St. louis 10001' logo={MapPin} />
                         <div className='mt-4 flex flex-wrap justify-between gap-4'>

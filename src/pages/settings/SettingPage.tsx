@@ -19,7 +19,7 @@ const SettingPage = () => {
 
     return (
         <NeedAuthorizationPageLayout>
-            <div className='grid grid-cols-[14rem_auto] gap-5 self-start'>
+            <div className='grid grid-cols-1 gap-5 self-start md:grid-cols-[14rem_auto]'>
                 <LeftSideBar />
                 {tab === "profile" ? <SettingProfile /> : <SettingAccount />}
             </div>
