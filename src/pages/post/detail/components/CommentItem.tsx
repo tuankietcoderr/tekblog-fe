@@ -110,7 +110,9 @@ const CommentItem = ({ comment }: Props) => {
     }
 
     async function handleReply() {
-        if (!user) return toast.error("You must login to reply a comment")
+        if (!onOpenDialog(pathname)) {
+            return
+        }
         toast.loading("Replying comment...", {
             duration: Infinity
         })
